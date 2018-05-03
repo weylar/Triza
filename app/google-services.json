@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "899704405841",
+    "firebase_url": "https://triza2-87859.firebaseio.com",
+    "project_id": "triza2-87859",
+    "storage_bucket": "triza2-87859.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899704405841:android:b1cd94b6a0292fa6",
+        "android_client_info": {
+          "package_name": "com.triza.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899704405841-2332pq1p3dejc6bhvat6e6esme9hjgh0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.triza.android",
+            "certificate_hash": "5a15e0350512690644de3e0963abb647a5c4b899"
+          }
+        },
+        {
+          "client_id": "899704405841-uuo5vuacqjarv02r1gbu1srj1ugoeq25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2mMXZLo_AMW1YR5h4TTcHkCw7wmpGEUY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899704405841-uuo5vuacqjarv02r1gbu1srj1ugoeq25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
