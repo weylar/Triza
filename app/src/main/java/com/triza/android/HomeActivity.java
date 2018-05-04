@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_profile);
                     return true;
             }
-            return false;
+            return true;
         }
     };
 
@@ -48,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Toolbar toolbar = findViewById(R.id.home_toolbar);
-       // setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
     }
 
 }

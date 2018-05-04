@@ -5,29 +5,24 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home"
-        app:showAsAction="always"/>
+        android:title="" />
 
     <item
         android:id="@+id/navigation_favorite"
         android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/title_favorite"
-        app:showAsAction="always"/>
+        android:title="" />
 
     <item
         android:id="@+id/navigation_add"
         android:icon="@drawable/ic_add_box_black_24dp"
-        android:title="@string/title_add"
-        app:showAsAction="always"/>
+        android:title="" />
 
     <item
         android:id="@+id/navigation_chat"
         android:icon="@drawable/ic_chat_black_24dp"
-        android:title="@string/title_chat"
-        app:showAsAction="always"/>
+        android:title="" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/title_profile"
-        app:showAsAction="always"/>
+        android:title="" />
 </menu>
