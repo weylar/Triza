@@ -2,7 +2,8 @@
     <string name="app_name">Triza</string>
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
-    <string name="title_add">Add</string>
-    <string name="title_chat">Chat</string>
+    <string name="title_post_gig">Post Gig</string>
+    <string name="title_chats">Chats</string>
     <string name="title_profile">Profile</string>
+    <string name="categories">Categories</string>
 </resources>
