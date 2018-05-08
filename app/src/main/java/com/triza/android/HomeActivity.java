@@ -11,16 +11,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.Favorites.FavoritesFragment;
 import com.triza.android.Home.HomeFragment;
 import com.triza.android.Profile.ProfileFragment;
+import com.triza.android.Search.Search;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -117,7 +115,8 @@ public class HomeActivity extends AppCompatActivity {
 
     //    On search click method
     public void searchClick(View view) {
-        //        TODO: MOVE TO SEARCH ACTIVITY
+        Intent moveToSearch = new Intent(context, Search.class);
+        startActivity(moveToSearch);
     }
 
     //    On preference click method

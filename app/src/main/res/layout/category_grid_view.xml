@@ -11,13 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/content_description"
+        android:layout_margin="5dp"
         android:background="@drawable/round_background"
-        tools:src="@drawable/ic_categories_black_35dp"/>
+        android:src="@drawable/ic_categories_black_35dp"/>
 
     <TextView
+        android:id="@+id/cat_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="15dp"
         tools:text="Title"
         android:textColor="@color/black"/>
 

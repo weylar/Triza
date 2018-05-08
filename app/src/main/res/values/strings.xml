@@ -6,4 +6,6 @@
     <string name="title_chats">Chats</string>
     <string name="title_profile">Profile</string>
     <string name="categories">Categories</string>
+    <string name="content_description">images</string>
+    <string name="search_description">Search through database of freelance services on Triza.com</string>
 </resources>
