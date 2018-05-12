@@ -85,13 +85,9 @@ public class AddCategoryActivity extends AppCompatActivity {
                 mCatDescription = cat_desc_editText.getText().toString();
                 mCatTitle = cat_title_editText.getText().toString();
 
-//                //get a reference to store file
-//                //gets the name of the file
-//                //categories_imagess/triza.jpg will produce triza.jpg
-
                 //custom name
                 String dateStamp= new SimpleDateFormat("dd-mm-yyyy HH:mm:ss:SSS").format(new Date()).toString();
-//                photoRef = mStorageReference.child(selectedimageUrl.getLastPathSegment());
+                //photoRef = mStorageReference.child(selectedimageUrl.getLastPathSegment());
                 photoRef = mStorageReference.child("category_"+dateStamp);
                 //upload file to firebase storage
                 photoRef.putFile(selectedimageUrl).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -112,7 +108,9 @@ public class AddCategoryActivity extends AppCompatActivity {
                             mCatImageUrl = imageUrl.toString();
 
                             mCategoriesDatabaseReference.push().setValue(new Categories(mCatTitle, mCatDescription, mCatImageUrl));
+                            Toast.makeText(AddCategoryActivity.this, mCatTitle+" added to category", Toast.LENGTH_LONG).show();
 
+                            finish();
                         }
                         else{
                             //handle failure
@@ -121,10 +119,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(AddCategoryActivity.this, mCatTitle, Toast.LENGTH_LONG).show();
 
-                String urii= photoRef.getDownloadUrl().toString();
-//                finish();
             }
         });
     }
