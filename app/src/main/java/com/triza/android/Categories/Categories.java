@@ -1,19 +1,29 @@
 package com.triza.android.Categories;
 
-public class Categories {
-    String mCatTitle ;
-    String mCatImageUrl;
+import android.net.Uri;
 
-    Categories(String catTitle, String catImageUrl){
-        mCatTitle = catTitle;
-        mCatImageUrl = catImageUrl;
+public class Categories {
+    String catTitle ;
+    String catDescription;
+    String catImageUrl;
+
+    public Categories(){}
+
+    public Categories(String catTitle, String catDesc, String catImageUrl){
+        this.catTitle = catTitle;
+        this.catImageUrl = catImageUrl;
+        this.catDescription = catDesc;
     }
 
     public String getCatTitle(){
-        return mCatTitle;
+        return catTitle;
     }
 
     public String getCatImageUrl(){
-        return mCatImageUrl;
+        return catImageUrl;
+    }
+
+    public String getCatDescription(){
+        return catDescription;
     }
 }
