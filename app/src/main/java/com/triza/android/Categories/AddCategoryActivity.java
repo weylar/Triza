@@ -123,8 +123,8 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                 Toast.makeText(AddCategoryActivity.this, mCatTitle, Toast.LENGTH_LONG).show();
 
-                photoRef.getDownloadUrl();
-                finish();
+                String urii= photoRef.getDownloadUrl().toString();
+//                finish();
             }
         });
     }
