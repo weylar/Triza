@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Categories.CategoryActivity">
+    tools:context=".Home.FeaturedGigs">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/cat_toolbar"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:onClick="BackPressed"
+                android:onClick="backPressed"
                 android:src="@drawable/ic_keyboard_backspace_black_30dp" />
 
             <TextView
@@ -34,7 +34,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/categories"
+                android:text="@string/featured_gigs"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tool_bar_text_size"
                 android:textStyle="bold" />
@@ -53,13 +53,14 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <GridView
-        android:id="@+id/cat_grid_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_featured_vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/h2"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+
 
 </LinearLayout>

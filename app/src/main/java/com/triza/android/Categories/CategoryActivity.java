@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
 
+import com.triza.android.Adapters.CategoriesAdapter;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 
@@ -37,7 +38,7 @@ public class CategoryActivity extends AppCompatActivity {
         gridView.setAdapter(categoriesAdapter);
     }
     //    On back pressed method
-    public void catBackPressed(View view){
+     public void BackPressed(View view){
         finish();
     }
 

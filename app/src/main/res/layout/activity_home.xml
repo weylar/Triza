@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
 
     <android.support.v7.widget.Toolbar
@@ -60,12 +61,12 @@
 
     </android.support.v7.widget.Toolbar>
 
+
     <FrameLayout
         android:id="@+id/fragmentHolder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
+        android:layout_height="0dp"
+        android:layout_weight="7"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -76,4 +77,4 @@
         android:elevation="@dimen/elevation"
         app:menu="@menu/navigation" />
 
-</FrameLayout>
+</LinearLayout>
