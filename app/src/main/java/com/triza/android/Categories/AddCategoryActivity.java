@@ -110,7 +110,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                             mCategoriesDatabaseReference.push().setValue(new Categories(mCatTitle, mCatDescription, mCatImageUrl));
                             Toast.makeText(AddCategoryActivity.this, mCatTitle+" added to category", Toast.LENGTH_LONG).show();
 
-                            finish();
+//                            finish();
                         }
                         else{
                             //handle failure
