@@ -21,6 +21,7 @@
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
         <activity android:name=".Home.FeaturedGigs"></activity>
+        <activity android:name=".Categories.AddCategoryActivity"></activity>
     </application>
 
 </manifest>

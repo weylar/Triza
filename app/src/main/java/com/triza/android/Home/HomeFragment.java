@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
             handler.postDelayed(this, timer);
         }
     };
-g
+
 
 
     @Override

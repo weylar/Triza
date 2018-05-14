@@ -88,7 +88,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                 //custom name
                 String dateStamp= new SimpleDateFormat("dd-mm-yyyy HH:mm:ss:SSS").format(new Date()).toString();
                 //photoRef = mStorageReference.child(selectedimageUrl.getLastPathSegment());
-                photoRef = mStorageReference.child("category_"+dateStamp);
+                photoRef = mStorageReference.child("category_"+ dateStamp);
                 //upload file to firebase storage
                 photoRef.putFile(selectedimageUrl).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override

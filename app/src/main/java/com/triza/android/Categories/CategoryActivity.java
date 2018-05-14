@@ -29,8 +29,8 @@ public class CategoryActivity extends AppCompatActivity {
         GridView gridView = findViewById(R.id.cat_grid_list);
 
 //        This is a dummy hardcoded value to test!!!
-        Categories category1 = new Categories("Graphics & Design", "");
-        Categories category2 = new Categories("Programming & Tech", "");
+        Categories category1 = new Categories("Graphics & Design", "", "");
+        Categories category2 = new Categories("Programming & Tech", "", "");
         ArrayList categories = new ArrayList();
         categories.add(category1);
         categories.add(category2);
@@ -43,7 +43,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public void searchClick(View view){
-        Intent moveToSearch = new Intent(context, Search.class);
+        Intent moveToSearch = new Intent(context, AddCategoryActivity.class);
         startActivity(moveToSearch);
 
     }
