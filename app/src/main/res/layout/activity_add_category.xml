@@ -6,25 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" tools:context=".Categories.AddCategoryActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/newCatFragmentHolder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cat_title_edt"
-        android:hint="Category title" />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cat_desc_edt"
-        android:hint="Category Description" />
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/image_picker"
-        android:src="@android:drawable/ic_menu_camera"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:id="@+id/sendBtn" />
+        android:layout_gravity="center" >
+
+
+    </FrameLayout>
 
 </LinearLayout>

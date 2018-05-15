@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.triza.android.R;
 
@@ -27,6 +30,16 @@ public class AddCategoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Categories mCategory;
+    private String mCatImageUrl;
+    private String mCatTitle;
+    private String mCatDescription;
+
+    //views
+    private EditText cat_title_editText, cat_desc_editText;
+    private ImageButton imagePicker;
+    private Button sendButton;
 
     private OnAddCatFragmentContinueListener mListener;
 
@@ -58,6 +71,7 @@ public class AddCategoryFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -65,13 +79,24 @@ public class AddCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_category, container, false);
+
+        //instantiate the view variables
+        cat_desc_editText = view.findViewById(R.id.cat_desc_edt);
+        cat_title_editText = view.findViewById(R.id.cat_title_edt);
+        sendButton = view.findViewById(R.id.sendBtn);
+        imagePicker = view.findViewById(R.id.image_picker);
+
+
+        return  view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onContinueButtonPressed() {
+        mCatTitle = cat_title_editText.getText().toString();
+        mCatDescription = cat_desc_editText.getText().toString();
+        mCategory = new Categories(mCatTitle,mCatDescription);
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction(mCategory);
         }
     }
 
@@ -104,6 +129,6 @@ public class AddCategoryFragment extends Fragment {
      */
     public interface OnAddCatFragmentContinueListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Categories category);
     }
 }
