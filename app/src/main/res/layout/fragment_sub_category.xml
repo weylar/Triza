@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Categories.SubCategoryFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cat_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                />
+
+            <TextView
+                android:id="@+id/cat_title_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+        </FrameLayout>
+
+
+        <EditText
+            android:id="@+id/sub_cat_title_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sub Category"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <!--ignore the error not on the onClick-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Sub Category"
+            android:textColor="@color/black"
+            android:onClick="saveToFirebase"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+
+
+
+</FrameLayout>

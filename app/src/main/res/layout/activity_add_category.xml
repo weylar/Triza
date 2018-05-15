@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" tools:context=".Categories.AddCategoryActivity">
 
+<<<<<<< HEAD
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,3 +33,23 @@
         android:id="@+id/sendBtn" />
 
 </LinearLayout>
+=======
+
+
+    <FrameLayout
+        android:id="@+id/newCatFragmentHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" >
+
+
+    </FrameLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/cat_saving_progress_bar"
+        android:visibility="visible"/>
+
+</FrameLayout>
+>>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1

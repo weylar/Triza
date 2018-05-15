@@ -20,7 +20,11 @@
         </activity>
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
+<<<<<<< HEAD
         <activity android:name=".Home.FeaturedGigs"></activity>
+=======
+        <activity android:name=".Categories.AddCategoryActivity"></activity>
+>>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
     </application>
 
 </manifest>

@@ -44,10 +44,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_toLeftOf="@+id/ic_setting"
+                android:layout_toLeftOf="@+id/ic_add_cat"
                 android:gravity="center"
                 android:onClick="searchClick"
                 android:src="@drawable/ic_search_black_35dp" />
+
+            <!--just a temp means of adding categories: -->
+            <!--TODO: remove and relocate to appropriate place-->
+            <ImageView
+                android:id="@+id/ic_add_cat"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@+id/ic_setting"
+                android:gravity="center"
+                android:onClick="addCategory"
+                android:src="@drawable/ic_add_box_black_24dp" />
 
             <ImageView
                 android:id="@+id/ic_setting"
