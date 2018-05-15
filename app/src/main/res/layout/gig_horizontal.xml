@@ -6,7 +6,7 @@
     android:layout_width="@dimen/gig_horizontal_width"
     android:layout_height="@dimen/gig_horizontal_height"
     android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
+    android:layout_marginRight="5dp"
     android:layout_marginBottom="5dp"
     android:background="@color/white"
     app:cardCornerRadius="@dimen/card_corner_radius"
@@ -35,8 +35,8 @@
                 android:id="@+id/gig_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_alignParentRight="true"
-                android:layout_margin="5dp"
                 tools:src="@drawable/ic_more_vert_white_30dp" />
         </RelativeLayout>
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/ic_star_half_black_24dp" />
+                    android:src="@drawable/ic_star_half_yellow_24dp" />
 
                 <TextView
                     android:id="@+id/gig_rating"
@@ -93,7 +93,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/view_height"
-            android:background="@color/black" />
+            android:background="@color/grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
             android:layout_margin="@dimen/h2"
             android:gravity="center"
             android:layout_weight="0.5"
-            android:weightSum="3.5"
+            android:weightSum="5"
             android:orientation="horizontal">
 
             <ImageView
@@ -111,25 +111,20 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_favorite_border_black_25dp" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/gig_image"
-                android:src="@drawable/ic_share_black_25dp" />
+
 
             <TextView
                 android:id="@+id/gig_price"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:textStyle="bold"
                 android:gravity="center"
+                android:fontFamily="sans-serif"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/red"
-                android:textSize="12dp"
-                tools:text="Min Price: N300" />
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp"
+                tools:text="Min Price: N30000" />
         </LinearLayout>
     </LinearLayout>
 

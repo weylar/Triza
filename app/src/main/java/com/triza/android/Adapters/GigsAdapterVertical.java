@@ -48,7 +48,7 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
 
     @Override
     public GigsAdapterVertical.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_horizontal, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
 
         return new GigsAdapterVertical.MyViewHolder(itemView);
     }
@@ -60,7 +60,7 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
         holder.gigRating.setText(gigs.getGigRating() + "");
         holder.gigNoReview.setText("(" + gigs.getGigNoReview() + " reviews)");
         holder.gigPrice.setText("Min Price: " + gigs.getPrice());
-        holder.gigOption.setImageResource(R.drawable.ic_more_vert_white_30dp);
+        holder.gigOption.setImageResource(R.drawable.ic_more_vert_black_30dp);
 
 //        This checks if is true and place the right resources
         if (gigs.isFav()) {
@@ -69,7 +69,7 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
             holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
         }
         // loading image using Glide library
-        Glide.with(mContext).load(gigs.getGigImageUrl()).into(holder.gigImage);
+        Glide.with(mContext).load(R.drawable.e/*gigs.getGigImageUrl()*/).into(holder.gigImage);
 
         holder.gigOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,10 +102,13 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.seller_profle:
+                case R.id.seller_profile:
                     Toast.makeText(mContext, "Seller's profle", Toast.LENGTH_SHORT).show();
                     return true;
-                case R.id.report_gig:
+                case R.id.share_gig:
+                    Toast.makeText(mContext, "Share gig", Toast.LENGTH_SHORT).show();
+                    return true;
+                    case R.id.report_gig:
                     Toast.makeText(mContext, "Report gig", Toast.LENGTH_SHORT).show();
                     return true;
                 default:

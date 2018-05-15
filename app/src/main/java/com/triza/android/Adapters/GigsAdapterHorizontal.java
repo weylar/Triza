@@ -59,7 +59,7 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
         holder.gigTitle.setText(gigs.getGigTitle());
         holder.gigRating.setText(gigs.getGigRating() + "");
         holder.gigNoReview.setText("(" + gigs.getGigNoReview() + " reviews)");
-        holder.gigPrice.setText("Min Price: \nN" + gigs.getPrice() );
+        holder.gigPrice.setText("Min Price: N" + gigs.getPrice() );
         holder.gigOption.setImageResource(R.drawable.ic_more_vert_white_30dp);
 
 //        This checks if is true and place the right resources
@@ -69,7 +69,7 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
             holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
         }
         // loading image using Glide library
-        Glide.with(mContext).load(R.drawable.desert/*gigs.getGigImageUrl()*/).into(holder.gigImage);
+        Glide.with(mContext).load(R.drawable.c/*gigs.getGigImageUrl()*/).into(holder.gigImage);
 
         holder.gigOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +102,11 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.seller_profle:
-                    Toast.makeText(mContext, "Seller's profle", Toast.LENGTH_SHORT).show();
+                case R.id.seller_profile:
+                    Toast.makeText(mContext, "Seller's profile", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.share_gig:
+                    Toast.makeText(mContext, "Share gig", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.report_gig:
                     Toast.makeText(mContext, "Report gig", Toast.LENGTH_SHORT).show();
