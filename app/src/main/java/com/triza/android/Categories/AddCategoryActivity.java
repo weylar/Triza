@@ -229,6 +229,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
 
     public void saveCategoryToFirebase(){
+
         //instantiate the firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");

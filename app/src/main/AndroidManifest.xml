@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
-        <activity android:name=".Categories.AddCategoryActivity"></activity>
+        <activity android:name=".Categories.AddCategoryActivity" />
+        <activity android:name=".Gigs.AddGigActivity"></activity>
     </application>
 
 </manifest>

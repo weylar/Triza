@@ -1,4 +1,4 @@
-package com.triza.android.data;
+package com.triza.android.Categories.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import static com.triza.android.data.CategoriesContract.CategoriesEntry.TABLE_NAME;
+import static com.triza.android.Categories.data.CategoriesContract.CategoriesEntry.TABLE_NAME;
 
 public class CategoriesContentProvider extends ContentProvider {
 
@@ -44,7 +44,7 @@ public class CategoriesContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-    // Member variable for a CategoriesDbHelper that's initialized in the onCreate() method
+    // Member variable for a GigsDbHelper that's initialized in the onCreate() method
     private CategoriesDbHelper mCategoriesDbHelper;
 
     /* onCreate() is where you should initialize anything you’ll need to setup

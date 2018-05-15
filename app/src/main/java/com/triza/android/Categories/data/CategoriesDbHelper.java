@@ -1,10 +1,10 @@
-package com.triza.android.data;
+package com.triza.android.Categories.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.triza.android.data.CategoriesContract.CategoriesEntry;
+import com.triza.android.Categories.data.CategoriesContract.CategoriesEntry;
 
 public class CategoriesDbHelper extends SQLiteOpenHelper {
 
