@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -35,7 +36,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     private  Categories mCategory;
     private  SubCategories mSubCategory;
 
-
+    private ProgressBar cat_saving_prgBr;
 
     private  Uri mSelectedImageUrl;
 
@@ -57,6 +58,8 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
+
+        cat_saving_prgBr = findViewById(R.id.cat_saving_progress_bar);
 
 
         // Check whether the activity is using the layout version with
@@ -100,6 +103,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     }
     //saveToFirebase button on fragment_sub_category clicked
     public  void saveToFirebase(View view){
+        cat_saving_prgBr.setVisibility(View.VISIBLE);
         subCategoryFragment.onSaveButtonPressed();
     }
 
@@ -240,6 +244,9 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if(!task.isSuccessful()){
+                    cat_saving_prgBr.setVisibility(View.GONE);
+                    Toast.makeText(AddCategoryActivity.this, "Something went wrong. Please try again!", Toast.LENGTH_LONG).show();
+
                     throw task.getException();
                 }
 
@@ -273,11 +280,12 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                     //save sub_category
                     mSubCategoriesDatabaseReference.push().setValue(mSubCategory);
                     Toast.makeText(AddCategoryActivity.this, mCategory.getCatTitle()+" added to category", Toast.LENGTH_LONG).show();
-
+                    cat_saving_prgBr.setVisibility(View.GONE);
                             finish();
                 }
                 else{
                     //handle failure
+                    cat_saving_prgBr.setVisibility(View.GONE);
                     Toast.makeText(AddCategoryActivity.this, "Something went wrong. Please try again!", Toast.LENGTH_LONG).show();
 
                 }
