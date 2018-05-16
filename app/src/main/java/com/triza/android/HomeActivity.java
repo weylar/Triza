@@ -17,6 +17,7 @@ import android.view.View;
 import com.triza.android.Categories.AddCategoryActivity;
 import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.Favorites.FavoritesFragment;
+import com.triza.android.Gigs.AddGigActivity;
 import com.triza.android.Home.HomeFragment;
 import com.triza.android.Profile.ProfileFragment;
 import com.triza.android.Search.Search;
@@ -58,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
                     fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
                     return true;
                 case R.id.navigation_add:
+                    Intent intent = new Intent(context, AddGigActivity.class);
+                    startActivity(intent);
 
                     return true;
                 case R.id.navigation_chat:
@@ -106,4 +109,29 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    //    On category click method
+    public void categoriesClick(View view) {
+        Intent intent = new Intent(context, CategoryActivity.class);
+        startActivity(intent);
+    }
+
+    //    On search click method
+    public void searchClick(View view) {
+        Intent moveToSearch = new Intent(context, Search.class);
+        startActivity(moveToSearch);
+    }
+
+    //    On preference click method
+    public void preferenceClick(View view) {
+        Snackbar snackbar = Snackbar.make(view, "You clicked prefernce icon", Snackbar.LENGTH_LONG);
+        snackbar.show();
+//        TODO: MOVE TO PREFERENCE ACTIVITY
+    }
+
+    //handle the temp addcategory image/button on d tool bar
+    public void addCategory(View view) {
+        Intent addCategoryIntent = new Intent(context, AddCategoryActivity.class);
+        startActivity(addCategoryIntent);
+    }
 }

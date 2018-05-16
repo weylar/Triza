@@ -20,8 +20,13 @@
         </activity>
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
+<<<<<<< HEAD
         <activity android:name=".Home.FeaturedGigs"></activity>
         <activity android:name=".Categories.AddCategoryActivity"></activity>
+=======
+        <activity android:name=".Categories.AddCategoryActivity" />
+        <activity android:name=".Gigs.AddGigActivity"></activity>
+>>>>>>> add_gig
     </application>
 
 </manifest>

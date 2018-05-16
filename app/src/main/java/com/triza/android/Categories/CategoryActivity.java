@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.triza.android.Adapters.CategoriesAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 
@@ -16,6 +21,13 @@ import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
     Context context = CategoryActivity.this;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mCategoriesDatabaseReference;
+    private ChildEventListener mChildEventListener;
+
+
+    CategoriesAdapter categoriesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +40,51 @@ public class CategoryActivity extends AppCompatActivity {
 
         GridView gridView = findViewById(R.id.cat_grid_list);
 
-//        This is a dummy hardcoded value to test!!!
-        Categories category1 = new Categories("Graphics & Design", "", "");
-        Categories category2 = new Categories("Programming & Tech", "", "");
-        ArrayList categories = new ArrayList();
-        categories.add(category1);
-        categories.add(category2);
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this, categories);
-        gridView.setAdapter(categoriesAdapter);
+
+        //Instanciate firebase variables
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");
+
+          ArrayList categories = new ArrayList();
+
+        categoriesAdapter = new CategoriesAdapter(this, categories);
+
+
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                //TODO: add to db
+                Categories category = dataSnapshot.getValue(Categories.class);
+                categoriesAdapter.add(category);
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mCategoriesDatabaseReference.addChildEventListener(mChildEventListener);
+
+       gridView.setAdapter(categoriesAdapter);
     }
     //    On back pressed method
      public void BackPressed(View view){

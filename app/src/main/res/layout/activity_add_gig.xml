@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" tools:context=".Categories.AddCategoryActivity">
-
+    tools:context=".Gigs.AddGigActivity">
     <FrameLayout
-        android:id="@+id/newCatFragmentHolder"
+        android:id="@+id/newGigFragmentHolder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" >
@@ -19,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:id="@+id/cat_saving_progress_bar"
+        android:id="@+id/gig_saving_progress_bar"
         android:visibility="gone"/>
 
 </FrameLayout>

@@ -14,4 +14,7 @@
     <string name="seller_profile">Seller\'s profile</string>
     <string name="content_description">images</string>
     <string name="search_description">Search through database of freelance services on Triza.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
