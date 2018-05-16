@@ -1,4 +1,4 @@
-package com.triza.android.Categories;
+package com.triza.android.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.triza.android.Categories.Categories;
 import com.triza.android.R;
 
 import java.util.List;

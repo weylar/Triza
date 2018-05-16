@@ -1,71 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/home_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tool_bar_height"
-        android:layout_gravity="top"
-        android:background="@color/white"
-        android:elevation="@dimen/elevation">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/ic_categories"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:onClick="categoriesClick"
-                android:src="@drawable/ic_categories_black_35dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:layout_toRightOf="@+id/ic_categories"
-                android:gravity="center"
-                android:text="@string/title_home"
-                android:textColor="@color/black"
-                android:textSize="@dimen/tool_bar_text_size"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/ic_search"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_toLeftOf="@+id/ic_setting"
-                android:gravity="center"
-                android:onClick="searchClick"
-                android:src="@drawable/ic_search_black_35dp" />
-
-            <ImageView
-                android:id="@+id/ic_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:onClick="preferenceClick"
-                android:src="@drawable/ic_settings_black_35dp" />
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/fragmentHolder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
+        android:layout_height="0dp"
+        android:layout_weight="7"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -76,4 +24,4 @@
         android:elevation="@dimen/elevation"
         app:menu="@menu/navigation" />
 
-</FrameLayout>
+</LinearLayout>

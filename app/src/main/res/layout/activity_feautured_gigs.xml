@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Home.FeaturedGigs">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/cat_toolbar"
@@ -16,38 +20,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/ic_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:onClick="backPressed"
+                android:src="@drawable/ic_keyboard_backspace_black_30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
+                android:layout_margin="15dp"
+                android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/title_favorite"
+                android:text="@string/featured_gigs"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tool_bar_text_size"
                 android:textStyle="bold" />
 
-
-            <TextView
-                android:id="@+id/delete_all"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/ic_search_fav"
-                android:gravity="center"
-                android:layout_margin="10dp"
-                android:text="@string/action_delete_all"
-                android:textColor="@color/colorAccent"
-                android:textSize="15dp" />
-
-
             <ImageView
-                android:id="@+id/ic_search_fav"
+                android:id="@+id/ic_search"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-
+                android:onClick="searchClick"
                 android:src="@drawable/ic_search_black_35dp" />
 
         </RelativeLayout>
@@ -55,10 +54,13 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_favorites"
+        android:id="@+id/recycler_view_featured_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/h2"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
-        android:clipToPadding="false" />
+
 
 </LinearLayout>

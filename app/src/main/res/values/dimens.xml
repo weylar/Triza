@@ -4,5 +4,17 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="tool_bar_height">55dp</dimen>
     <dimen name="elevation">5dp</dimen>
-    <dimen name="tool_bar_text_size">15dp</dimen>
+    <dimen name="frame_layout_height">320dp</dimen>
+    <dimen name="h1">15dp</dimen>
+    <dimen name="h2">10dp</dimen>
+    <dimen name="gig_horizontal_height">250dp</dimen>
+    <dimen name="gig_horizontal_width">200dp</dimen>
+    <dimen name="gig_vertical_height">150dp</dimen>
+    <dimen name="card_corner_radius">5dp</dimen>
+    <dimen name="card_content_padding">10dp</dimen>
+    <dimen name="tool_bar_home_text_size">15dp</dimen>
+    <dimen name="tool_bar_text_size">20dp</dimen>
+    <dimen name="view_height">1dp</dimen>
+    <dimen name="h0">20dp</dimen>
+    <dimen name="view_pager_height">200dp</dimen>
 </resources>

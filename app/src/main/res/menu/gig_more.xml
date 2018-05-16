@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/seller_profile"
+        android:orderInCategory="100"
+        android:title="@string/seller_profile" />
+
+    <item
+        android:id="@+id/share_gig"
+        android:orderInCategory="101"
+        android:title="@string/share_gig" />
+
+    <item
+        android:id="@+id/report_gig"
+        android:orderInCategory="102"
+        android:title="@string/report_gig" />
+</menu>

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.triza.android.Categories.AddCategoryActivity;
 import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.Favorites.FavoritesFragment;
 import com.triza.android.Home.HomeFragment;
@@ -89,8 +90,6 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Toolbar toolbar = findViewById(R.id.home_toolbar);
-        setSupportActionBar(toolbar);
 
 
     }
@@ -107,22 +106,4 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    //    On category click method
-    public void categoriesClick(View view) {
-        Intent intent = new Intent(context, CategoryActivity.class);
-        startActivity(intent);
-    }
-
-    //    On search click method
-    public void searchClick(View view) {
-        Intent moveToSearch = new Intent(context, Search.class);
-        startActivity(moveToSearch);
-    }
-
-    //    On preference click method
-    public void preferenceClick(View view) {
-        Snackbar snackbar = Snackbar.make(view, "You clicked prefernce icon", Snackbar.LENGTH_LONG);
-        snackbar.show();
-//        TODO: MOVE TO PREFERENCE ACTIVITY
-    }
 }

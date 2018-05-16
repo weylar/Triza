@@ -18,8 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Categories.CategoryActivity"></activity>
-        <activity android:name=".Search.Search"></activity>
+        <activity android:name=".Categories.CategoryActivity" />
+        <activity android:name=".Search.Search" />
+        <activity android:name=".Home.FeaturedGigs"></activity>
+        <activity android:name=".Categories.AddCategoryActivity"></activity>
     </application>
 
 </manifest>
