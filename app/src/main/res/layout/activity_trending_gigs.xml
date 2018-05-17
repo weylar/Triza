@@ -34,7 +34,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/featured_gigs"
+                android:text="@string/trending_gigs"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tool_bar_text_size"
                 android:textStyle="bold" />
@@ -54,7 +54,7 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_featured_vertical"
+        android:id="@+id/recycler_view_trending_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false" />

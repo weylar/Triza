@@ -2,9 +2,11 @@ package com.triza.android.Home;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +15,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.triza.android.Adapters.GigsAdapterHorizontal;
+import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.R;
+import com.triza.android.RecyclerItemClickListeners;
+import com.triza.android.Search.Search;
 
 import java.util.ArrayList;
 
@@ -31,21 +37,24 @@ public class HomeFragment extends Fragment {
     MyViewPagerAdapter myvpAdapter;
     int[] image;
     String[] imageDesc;
-    TextView allCat;
+    TextView allCat, featuredViewAll, trendingViewAll;
     TextView prog;
     TextView video;
     TextView music;
     TextView buss;
     TextView imageDescription;
     TextView imageDescrptionExtra;
+    ImageView category, search, preference;
     Context context = getActivity();
     int timer = 5000; //in milliseconds
     int page = 0;
     Handler handler;
-    RecyclerView recyclerView;
-    ArrayList<Gigs> gigList;
+    RecyclerView recyclerViewFeatured;
+    RecyclerView recyclerViewTrending;
+   public static  ArrayList<Gigs> gigList;
     GigsAdapterHorizontal gigAdapter;
-    LinearLayoutManager linearLayoutManager;
+    LinearLayoutManager linearLayoutManagerTrending;
+    LinearLayoutManager linearLayoutManagerFeatured;
     DividerItemDecoration itemDecoration;
 
     // Runnable to help auto swtch my pageviewer
@@ -62,7 +71,6 @@ public class HomeFragment extends Fragment {
             handler.postDelayed(this, timer);
         }
     };
-g
 
 
     @Override
@@ -83,12 +91,12 @@ g
 
         gigList = new ArrayList<>(); //Ths is where i instanciated my custom class and recycler adapter
 
-        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false); //Layout manager in charge of horizontal recycler view
-
+        linearLayoutManagerFeatured = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false); //Layout manager in charge of horizontal recycler view
+        linearLayoutManagerTrending = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);//Layout manager in charge of horizontal recycler view
         dummyData(); //Method that holds my dummyDatas for development purpose
     }
 
-    private void dummyData() {
+    public static void dummyData() {
         gigList.add(new Gigs("url", "I can develop android application from scratch", 3.5, 20, 7000, true));
         gigList.add(new Gigs("url", "Hoola me for SEO, amma dig it deep for you", 4, 70, 800, false));
         gigList.add(new Gigs("url", "I create mind blowing graphc logos", 2.5, 20000, 5000, true));
@@ -101,6 +109,9 @@ g
         View view = inflater.inflate(R.layout.home_fragment_layout, container, false);
 
         //Referencing all objects from xml
+        category = view.findViewById(R.id.ic_categories);
+        search = view.findViewById(R.id.ic_search);
+        preference = view.findViewById(R.id.ic_preference);
         allCat = view.findViewById(R.id.all_cat);
         allCat.setText("All Categories");
         prog = view.findViewById(R.id.prog);
@@ -121,18 +132,91 @@ g
         imageDescription.setText("PROGRAMMING & TECH");// A DEFAULT TEXT BEFORE CHANGELISTENER IS CALLED
         imageDescrptionExtra = view.findViewById(R.id.image_desc_extra); //Referncing image decs extra here
         imageDescrptionExtra.setText("Make it work for you on triza");
+        featuredViewAll = view.findViewById(R.id.featured_view_all);
+        featuredViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), FeaturedGigs.class);
+                startActivity(intent);
+            }
+        });
+        trendingViewAll = view.findViewById(R.id.trending_view_all);
+        trendingViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), TrendingGigs.class);
+                startActivity(intent);
+            }
+        });
+
 
         //Wiring up the recyclerview to populate
-        recyclerView = view.findViewById(R.id.recycler_view_featured);
-        recyclerView.setLayoutManager(linearLayoutManager);  //I set manager for recycler here
-        recyclerView.setItemAnimator(new DefaultItemAnimator()); //Anmator for recycler view
+        recyclerViewFeatured = view.findViewById(R.id.recycler_view_featured);
+        recyclerViewTrending = view.findViewById(R.id.recycler_view_trending);
+
+        recyclerViewFeatured.setLayoutManager(linearLayoutManagerFeatured);  //I set manager for recycler here
+        recyclerViewTrending.setLayoutManager(linearLayoutManagerTrending);  //I set manager for recycler here
+
+        recyclerViewFeatured.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
+        recyclerViewTrending.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
+
         //itemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
-        gigAdapter = new GigsAdapterHorizontal(getActivity(), gigList); //My adapter in charge of recycler view
         //recyclerView.addItemDecoration(itemDecoration);
+        gigAdapter = new GigsAdapterHorizontal(getActivity(), gigList); //My adapter in charge of recycler view
 
-        recyclerView.setAdapter(gigAdapter); //i set the adapter on recycler here
+
+        recyclerViewFeatured.setAdapter(gigAdapter); //i set the adapter on recycler here
+        recyclerViewTrending.setAdapter(gigAdapter); //i set the adapter on recycler here
+
+        /*Assingns on click listerner*/
+        recyclerViewFeatured.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerViewFeatured, new RecyclerItemClickListeners.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
 
 
+            }
+        }));
+        recyclerViewTrending.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerViewTrending, new RecyclerItemClickListeners.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+
+            }
+        }));
+
+        /*Making the views functional*/
+        category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent moveToSearch = new Intent(getActivity(), Search.class);
+                startActivity(moveToSearch);
+            }
+        });
+        preference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar snackbar = Snackbar.make(view, "You clicked prefernce icon", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
         return view;
     }
 
@@ -204,4 +288,6 @@ g
         super.onPause();
         handler.removeCallbacks(runnable);
     }
+
+
 }

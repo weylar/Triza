@@ -14,23 +14,24 @@ import com.triza.android.R;
 import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.Search.Search;
 
-public class FeaturedGigs extends AppCompatActivity {
+public class TrendingGigs extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     GigsAdapterVertical gigsAdapterVertical;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feautured_gigs);
+        setContentView(R.layout.activity_trending_gigs);
 
-        recyclerView = findViewById(R.id.recycler_view_featured_vertical);
+        recyclerView = findViewById(R.id.recycler_view_trending_vertical);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false); //Layout manager in charge of horizontal recycler view
-        gigsAdapterVertical = new GigsAdapterVertical(FeaturedGigs.this, HomeFragment.gigList);
+        gigsAdapterVertical = new GigsAdapterVertical(TrendingGigs.this, HomeFragment.gigList);
 
         recyclerView.setLayoutManager(linearLayoutManager);  //I set manager for recycler here
         recyclerView.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
         recyclerView.setAdapter(gigsAdapterVertical);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(FeaturedGigs.this, recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(TrendingGigs.this, recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();

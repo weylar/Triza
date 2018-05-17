@@ -1,11 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+<LinearLayout
+    android:id="@+id/favorite_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cat_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FAVORITES"
-        android:textColor="@color/black"
-        android:textSize="50dp"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="@dimen/tool_bar_height"
+        android:layout_gravity="top"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:text="@string/title_favorite"
+                android:textColor="@color/black"
+                android:textSize="@dimen/tool_bar_text_size"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/delete_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/ic_search_fav"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:text="@string/action_delete_all"
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp" />
+
+
+            <ImageView
+                android:id="@+id/ic_search_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+
+                android:src="@drawable/ic_search_black_35dp" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false" />
+
+</LinearLayout>

@@ -6,12 +6,9 @@ public class Categories {
     String catTitle ;
     String catDescription;
     String catImageUrl;
-<<<<<<< HEAD
-=======
     String catId;
     long catDateAdded;
     int noOfSubCategories;
->>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
 
     public Categories(){}
 
@@ -21,10 +18,7 @@ public class Categories {
         this.catDescription = catDesc;
     }
 
-<<<<<<< HEAD
-    public String getCatTitle(){
-        return catTitle;
-=======
+
     public Categories(String catTitle, String catDesc){
         this.catTitle = catTitle;
         this.catDescription = catDesc;
@@ -41,7 +35,6 @@ public class Categories {
     }
     public void setNoOfSubCategories(int noOfSubCategories){
         this.noOfSubCategories = noOfSubCategories;
->>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
     }
 
     public String getCatTitle(){
@@ -59,10 +52,7 @@ public class Categories {
     public String getCatImageUrl(){
         return catImageUrl;
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
     public String getCatDescription(){
         return catDescription;
     }

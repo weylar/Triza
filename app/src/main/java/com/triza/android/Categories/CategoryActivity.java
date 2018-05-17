@@ -8,15 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
 
-<<<<<<< HEAD
 import com.triza.android.Adapters.CategoriesAdapter;
-=======
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
->>>>>>> 235670ba79965fed05ce24f1363e1a34d39bf0a1
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 
@@ -42,7 +39,6 @@ public class CategoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         GridView gridView = findViewById(R.id.cat_grid_list);
-
 
 
         //Instanciate firebase variables
@@ -96,7 +92,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public void searchClick(View view){
-        Intent moveToSearch = new Intent(context, Search.class);
+        Intent moveToSearch = new Intent(context, AddCategoryActivity.class);
         startActivity(moveToSearch);
 
     }

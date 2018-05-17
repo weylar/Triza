@@ -17,6 +17,7 @@ import android.view.View;
 import com.triza.android.Categories.AddCategoryActivity;
 import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.Favorites.FavoritesFragment;
+import com.triza.android.Gigs.AddGigActivity;
 import com.triza.android.Home.HomeFragment;
 import com.triza.android.Profile.ProfileFragment;
 import com.triza.android.Search.Search;
@@ -58,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
                     fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
                     return true;
                 case R.id.navigation_add:
+                    Intent intent = new Intent(context, AddGigActivity.class);
+                    startActivity(intent);
 
                     return true;
                 case R.id.navigation_chat:
@@ -90,8 +93,6 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Toolbar toolbar = findViewById(R.id.home_toolbar);
-        setSupportActionBar(toolbar);
 
 
     }
@@ -107,6 +108,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
+
 
     //    On category click method
     public void categoriesClick(View view) {
