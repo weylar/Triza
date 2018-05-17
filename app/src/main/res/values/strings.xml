@@ -10,6 +10,9 @@
     <string name="trending_gigs">Trending Gigs</string>
     <string name="action_delete_all">Delete All</string>
     <string name="action_delete">Delete</string>
+    <string name="empty_favorites_short">Your Favorites are empty</string>
+    <string name="empty_favorites_long">Favorite Gigs help you keep track of the Gigs that you find interesting so that you can
+    access them again at a later time.</string>
     <string name="gig_image">Gig image</string>
     <string name="report_gig">Report gig</string>
     <string name="share_gig">Share gig</string>

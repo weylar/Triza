@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/favorite_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -34,9 +33,10 @@
                 android:id="@+id/delete_all"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_toLeftOf="@+id/ic_search_fav"
                 android:gravity="center"
-                android:layout_margin="10dp"
+                android:textAllCaps="true"
                 android:text="@string/action_delete_all"
                 android:textColor="@color/colorAccent"
                 android:textSize="15dp" />
@@ -46,8 +46,8 @@
                 android:id="@+id/ic_search_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
                 android:gravity="center"
 
                 android:src="@drawable/ic_search_black_35dp" />
@@ -56,10 +56,48 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_favorites"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/empty_favorites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bubble_chart_black_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/empty_favorites_short" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="10dp"
+                android:layout_margin="10dp"
+                android:text="@string/empty_favorites_long" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_favorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false" />
+
+    </FrameLayout>
+
 
 </LinearLayout>

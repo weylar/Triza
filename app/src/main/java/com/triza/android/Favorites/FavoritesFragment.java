@@ -35,7 +35,7 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     GigsAdapterVertical gigsAdapterVertical;
-    LinearLayout favoriteLayout;
+    LinearLayout favoriteLayout, emptyFavorites;
     TextView deleteAll;
 
 
@@ -48,6 +48,8 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorites_fragment_layout, container, false);
+
+        emptyFavorites = view.findViewById(R.id.empty_favorites);
 
         deleteAll = view.findViewById(R.id.delete_all);
         deleteAll.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +101,8 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
 
+        /*Condition to check if to display empty fav or recycler fav*/
+
         return view;
     }
 
@@ -132,6 +136,7 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     @Override
     public void deleteAll() {
         /*This removes the all item from the recycler view*/
-        gigsAdapterVertical.removeAllItem();
+        gigsAdapterVertical.removeAllItem(emptyFavorites, deleteAll);
+
     }
 }
