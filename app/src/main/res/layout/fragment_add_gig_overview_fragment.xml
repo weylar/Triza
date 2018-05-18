@@ -1,45 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Gigs.AddGigOverviewFragment">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/gig_title_editText"
-            android:hint="Gig Title" />
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/category_spinener">
+        android:orientation="vertical"
+        tools:context=".Gigs.AddGigOverviewFragment">
 
-        </Spinner>
 
-        <Spinner
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sub_cat_spinener">
-        </Spinner>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/search_tag_editText"
-            android:hint="Service Title" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continue"
-            android:id="@+id/sendBtn"
-            android:onClick="saveOverview"/>
+                <LinearLayout
+                    android:id="@+id/gig_title_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/gig_title"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h1" />
+
+                    <EditText
+                        android:id="@+id/gig_title_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rectangle_bg"
+                        android:hint="@string/gig_title_hint"
+                        android:inputType="none|textCapSentences|textMultiLine"
+                        android:padding="5dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/title_text_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/colorAccent"
+                    android:layout_below="@id/gig_title_linear"
+                    android:layout_marginRight="15dp"
+                    tools:text="0/70 max" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/gig_cat_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_folder_open_black_24dp"
+                    android:drawablePadding="2dp"
+                    android:text="@string/category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/h1" />
+
+                <Spinner
+                    android:id="@+id/category_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rectangle_bg"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gig_sub_cat_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_folder_black_24dp"
+                    android:drawablePadding="2dp"
+                    android:text="@string/sub_category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/h1" />
+
+                <Spinner
+                    android:id="@+id/sub_cat_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/rectangle_bg"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <LinearLayout
+                    android:id="@+id/gig_tag_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+                        android:drawablePadding="2dp"
+                        android:layout_gravity="center"
+                        android:text="@string/search_tags"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/h1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="1dp"
+                        android:src="@drawable/ic_info_black_24dp" />
+
+                    <EditText
+                        android:id="@+id/search_tag_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rectangle_bg"
+                        android:hint="@string/gig_tag_hint"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:padding="5dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tag_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/gig_tag_linear"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/_5_tags_max" />
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/sendBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                android:background="@drawable/rectangle_button_bg"
+                android:text="@string/continue_button"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</FrameLayout>
+</ScrollView>

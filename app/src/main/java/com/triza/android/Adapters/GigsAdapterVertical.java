@@ -136,8 +136,12 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
         return gigsList.size();
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position, View view, View v){
         gigsList.remove(position);
+        if(gigsList.size() == 0){
+            view.setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        }
         notifyItemRemoved(position);
 
     }

@@ -97,7 +97,7 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         }));
 
         /*This implement the swipe fuction of recycler viewer*/
-        ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this);
+        ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
 
@@ -116,7 +116,7 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         final int deletedIndex = viewHolder.getAdapterPosition();
 
         /*This removes the item from the recycler view*/
-        gigsAdapterVertical.removeItem(viewHolder.getAdapterPosition());
+        gigsAdapterVertical.removeItem(viewHolder.getAdapterPosition(), emptyFavorites, deleteAll);
 
 
         Snackbar snackbar = Snackbar.make(favoriteLayout, itemName + "deleted from favorites!", Snackbar.LENGTH_LONG);

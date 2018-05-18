@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Gigs.AddGigActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cat_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tool_bar_height"
+        android:layout_gravity="top"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ic_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_keyboard_backspace_black_30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:text="@string/create_gig"
+                android:textColor="@color/black"
+                android:textSize="@dimen/tool_bar_text_size" />
+
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/newGigFragmentHolder"
         android:layout_width="match_parent"
@@ -20,4 +58,4 @@
         android:id="@+id/gig_saving_progress_bar"
         android:visibility="gone"/>
 
-</FrameLayout>
+</LinearLayout>

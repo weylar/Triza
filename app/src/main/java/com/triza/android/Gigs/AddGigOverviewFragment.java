@@ -1,13 +1,17 @@
 package com.triza.android.Gigs;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.triza.android.R;
 
@@ -25,10 +29,11 @@ public class AddGigOverviewFragment extends Fragment {
 //    private static final String ARG_PARAM1 = "param1";
 //    private static final String ARG_PARAM2 = "param2";
 
-    private String gig_title, gig_desc = "", category_id="", sub_cat_id="", search_tag = "";
+    private String gig_title, gig_desc = "", category_id = "", sub_cat_id = "", search_tag = "";
 
     private EditText gigTitle_editText;
     private OnAddGigOverviewListener mListener;
+    TextView titleTextCount;
 
     public AddGigOverviewFragment() {
         // Required empty public constructor
@@ -48,7 +53,6 @@ public class AddGigOverviewFragment extends Fragment {
 //        fragment.setArguments(args);
 //        return fragment;
 //    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +67,36 @@ public class AddGigOverviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_gig_overview_fragment, container, false);
-
+        titleTextCount = view.findViewById(R.id.title_text_count);
         gigTitle_editText = view.findViewById(R.id.gig_title_editText);
+
+        //programatically i set the text counter by using text watcher and attached to editetxt
+        titleTextCount.setText(0 + "/70 max");
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String titleListener = gigTitle_editText.getText().toString();
+                titleTextCount.setText(titleListener.length() + "/70 max");
+                if (titleListener.length() > 60){
+                    titleTextCount.setTextColor(Color.parseColor("RED"));
+                }
+                if (titleListener.length() > 70){
+                    titleTextCount.setText(70 - titleListener.length() + "/70 max");
+                }
+            }
+        };
+        gigTitle_editText.addTextChangedListener(textWatcher);
 
         return view;
     }

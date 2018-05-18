@@ -5,11 +5,21 @@
     <string name="title_post_gig">Post Gig</string>
     <string name="title_chats">Chats</string>
     <string name="title_profile">Profile</string>
+    <string name="category">Category</string>
     <string name="categories">Categories</string>
+    <string name="sub_category">Sub \nCategory</string>
     <string name="featured_gigs">Featured Gigs</string>
+    <string name="create_gig">Create a new gig</string>
     <string name="trending_gigs">Trending Gigs</string>
     <string name="action_delete_all">Delete All</string>
     <string name="action_delete">Delete</string>
+    <string name="continue_button">Continue</string>
+    <string name="gig_tag_hint">Separate each tags with \",\"</string>
+    <string name="gig_title">Gig Title</string>
+    <string name="search_tags">Search \nTags</string>
+    <string name="gig_title_hint">Try making your title short, descriptive and catchy</string>
+
+    <string name="overview">Overview</string>
     <string name="empty_favorites_short">Your Favorites are empty</string>
     <string name="empty_favorites_long">Favorite Gigs help you keep track of the Gigs that you find interesting so that you can
     access them again at a later time.</string>
@@ -22,4 +32,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_5_tags_max">5 tags max</string>
 </resources>
