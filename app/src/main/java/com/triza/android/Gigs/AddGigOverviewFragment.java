@@ -1,7 +1,9 @@
 package com.triza.android.Gigs;
 
+
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +12,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ryanpope.tagedittext.TagEditText;
 import com.triza.android.R;
 
 
@@ -34,6 +40,9 @@ public class AddGigOverviewFragment extends Fragment {
     private EditText gigTitle_editText;
     private OnAddGigOverviewListener mListener;
     TextView titleTextCount;
+    TagEditText searchTagEditText;
+
+
 
     public AddGigOverviewFragment() {
         // Required empty public constructor
@@ -63,15 +72,30 @@ public class AddGigOverviewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_gig_overview_fragment, container, false);
         titleTextCount = view.findViewById(R.id.title_text_count);
         gigTitle_editText = view.findViewById(R.id.gig_title_editText);
+        searchTagEditText = view.findViewById(R.id.search_tag_editText);
+        searchTagEditText.getText().toString();
+        titleTextCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), searchTagEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        //Toast.makeText(getActivity(), searchTagEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+
+
+
 
         //programatically i set the text counter by using text watcher and attached to editetxt
         titleTextCount.setText(0 + "/70 max");
+        titleTextCount.setTextColor(Color.rgb(0, 150, 136));
+
+
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -86,14 +110,24 @@ public class AddGigOverviewFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String titleListener = gigTitle_editText.getText().toString();
-                titleTextCount.setText(titleListener.length() + "/70 max");
-                if (titleListener.length() > 60){
-                    titleTextCount.setTextColor(Color.parseColor("RED"));
+               String titleListener = gigTitle_editText.getText().toString();
+                Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.blinking);
+                if (titleListener.length() <= 60) {
+                    titleTextCount.setText(titleListener.length() + "/70 max");
+                    titleTextCount.setTextColor(Color.rgb(0, 150, 136));
+
                 }
-                if (titleListener.length() > 70){
+
+                if (titleListener.length() > 60) {
+                    titleTextCount.setText(titleListener.length() + "/70 max");
+                    titleTextCount.setTextColor(Color.rgb(29, 36, 228));
+                }
+                if (titleListener.length() > 70) {
                     titleTextCount.setText(70 - titleListener.length() + "/70 max");
+                    titleTextCount.setTextColor(Color.parseColor("RED"));
+                    titleTextCount.startAnimation(anim);
                 }
+
             }
         };
         gigTitle_editText.addTextChangedListener(textWatcher);
@@ -134,4 +168,9 @@ public class AddGigOverviewFragment extends Fragment {
     public interface OnAddGigOverviewListener {
         void onAddGigOverview(String gig_title, String gig_desc, String category_id, String sub_cat_id, String search_tag);
     }
+
+
+
+
+
 }

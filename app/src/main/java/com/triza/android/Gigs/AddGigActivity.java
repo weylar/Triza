@@ -1,50 +1,61 @@
 package com.triza.android.Gigs;
 
+
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.triza.android.Gigs.data.GigsContract;
+import com.triza.android.HomeActivity;
 import com.triza.android.R;
 
-public class AddGigActivity extends AppCompatActivity implements AddGigOverviewFragment.OnAddGigOverviewListener, AddGigScopeFragment.OnSaveGigScopeListener{
+public class AddGigActivity extends AppCompatActivity implements AddGigOverviewFragment.OnAddGigOverviewListener, AddGigScopeFragment.OnSaveGigScopeListener {
 
     private Gigs mGig;
     private AddGigOverviewFragment addGigOverviewFragment;
     private AddGigScopeFragment addGigScopeFragment;
+    FrameLayout one, two, three, four;
+    View oneFocus, twoFocus, threeFocus, fourFocus;
+    FragmentTransaction fragmentTransaction;
+    FragmentManager fragmentManager;
+    Fragment fragmentOld;
+    Fragment fragmentOverview;
+    Fragment fragmentScope;
+    int fragCount = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gig);
 
-        // Check whether the activity is using the layout version with
-        // the fragment_container FrameLayout. If so, we must add the first fragment
-        if (findViewById(R.id.newGigFragmentHolder) != null) {
+        one = findViewById(R.id.one);
+        two = findViewById(R.id.two);
+        three = findViewById(R.id.three);
+        four = findViewById(R.id.four);
+        oneFocus = findViewById(R.id.one_focus);
+        twoFocus = findViewById(R.id.two_focus);
+        threeFocus = findViewById(R.id.three_focus);
+        fourFocus = findViewById(R.id.four_focus);
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
+        fragmentManager = getSupportFragmentManager();
+        fragmentOverview = new AddGigOverviewFragment();
+        fragmentScope = new AddGigScopeFragment();
 
-            // Create an instance of AddCategoryFragment
-            addGigOverviewFragment = new AddGigOverviewFragment();
 
-            // In case this activity was started with special instructions from an Intent,
-            // pass the Intent's extras to the fragment as arguments
-            addGigOverviewFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'newCatFragmentHolder' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.newGigFragmentHolder, addGigOverviewFragment).commit();
-        }
+        /*This method sets my overview fragment by activity launch*/
+        setUpFragment(savedInstanceState, fragmentOverview, oneFocus);
 
     }
+
 
     @Override
     public void onAddGigOverview(String gig_title, String gig_desc, String category_id, String sub_cat_id, String search_tag) {
@@ -65,33 +76,104 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
 
         // Display the URI that's returned with a Toast
         // [Hint] Don't forget to call finish() to return to MainActivity after this insert is complete
-        if(uri != null) {
+        if (uri != null) {
             //ifisertion is successfull continue to the next fragment
-            addGigScopeFragment = new AddGigScopeFragment();
+
 //        Bundle args = new Bundle();
 //        args.putString(AddGigScopeFragment.ARG_CAT_TITLE, category.getCatTitle());
 //        args.putString(AddGigScopeFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());//get the local image
 //        addGigScopeFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentOld = fragmentManager.findFragmentById(R.id.fragmentHolder);
+            fragmentScope = new AddGigScopeFragment();
 
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.newGigFragmentHolder, addGigScopeFragment);
-            transaction.addToBackStack(null);
+            if (fragmentOld != null) {
+                fragmentTransaction.remove(fragmentOld);
+            }
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.add(R.id.fragmentHolder, fragmentScope).commit();
 
-            // Commit the transaction
-            transaction.commit();
+            fragmentTransaction.addToBackStack(null);
+
 
         }
 
     }
 
-    public void saveOverview(View view) {
-        addGigOverviewFragment.onSaveOverviewButtonPressed();
+    public void onSaveAndContinueButton(View view) {
+        fragCount += 1;
+
+        if (fragCount == 1) {
+            setUpFragment(fragmentScope, twoFocus);
+        } else if (fragCount == 2) {
+            Toast.makeText(this, "im two now", Toast.LENGTH_SHORT).show();
+        } else if (fragCount == 3) {
+            Toast.makeText(this, "im three now", Toast.LENGTH_SHORT).show();
+        }
+
+        //addGigOverviewFragment.onSaveOverviewButtonPressed();
     }
+
 
     @Override
     public void onSaveGigScope(Uri uri) {
 
     }
+
+    public void backPressed(View v) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View view) {
+        // However, if we're being restored from a previous state,
+        // then we don't need to do anything and should return or else
+        // we could end up with overlapping fragments.
+        if (savedInstanceState != null) {
+            return;
+        }
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentOld = fragmentManager.findFragmentById(R.id.newGigFragmentHolder);
+        fragmentNew.setArguments(getIntent().getExtras());
+
+        if (fragmentOld != null) {
+            fragmentTransaction.remove(fragmentOld);
+        }
+        fragmentTransaction.add(R.id.newGigFragmentHolder, fragmentNew).commit();
+
+        view.setVisibility(View.VISIBLE);
+
+
+    } //with bundle
+
+    /*Lol, my first trial of method overridden. Calling the same method name with diff parameters*/
+    public void setUpFragment(Fragment fragmentNew, View view1) {
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentNew.setArguments(getIntent().getExtras());
+        fragmentTransaction.replace(R.id.newGigFragmentHolder, fragmentNew).commit();
+        fragmentTransaction.addToBackStack(null);
+        view1.setVisibility(View.VISIBLE);
+
+
+    }//without bundle
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        fragCount -=1;
+        if (fragCount < 0){
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
 }
