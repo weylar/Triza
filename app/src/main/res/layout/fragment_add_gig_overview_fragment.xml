@@ -17,22 +17,22 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/category_spinener">
+            android:id="@+id/category_spinner"
+            android:contentDescription="Select Category">
 
         </Spinner>
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sub_cat_spinener">
+            android:id="@+id/sub_cat_spinner">
         </Spinner>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search_tag_editText"
-            android:hint="Service Title" />
-
+            android:hint="Separate each tags with comma(,)" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

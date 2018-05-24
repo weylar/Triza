@@ -44,7 +44,7 @@ public class CategoriesContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-    // Member variable for a GigsDbHelper that's initialized in the onCreate() method
+    // Member variable for a TrizaDbHelper that's initialized in the onCreate() method
     private CategoriesDbHelper mCategoriesDbHelper;
 
     /* onCreate() is where you should initialize anything you’ll need to setup

@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -26,9 +25,12 @@ public class HomeActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    Fragment fragmentOld;
+    final String HOME_FRAGMENT = "home-fragment";
     Fragment fragmentNew;
     Context context = HomeActivity.this;
+    final String FAVOURITES_FRAGMENT = "favourites-fragment";
+    final String PROFILE_FRAGMENT = "profile-fragment";
+    Fragment fragmentReference;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -37,26 +39,13 @@ public class HomeActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
 
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentOld = fragmentManager.findFragmentById(R.id.fragmentHolder);
-                    fragmentNew = new HomeFragment();
-
-                    if (fragmentOld != null) {
-                        fragmentTransaction.remove(fragmentOld);
-                    }
-                    fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
+                    displaySelectedFragment(HOME_FRAGMENT);
 
                     return true;
                 case R.id.navigation_favorite:
 
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentOld = fragmentManager.findFragmentById(R.id.fragmentHolder);
-                    fragmentNew = new FavoritesFragment();
+                    displaySelectedFragment(FAVOURITES_FRAGMENT);
 
-                    if (fragmentOld != null) {
-                        fragmentTransaction.remove(fragmentOld);
-                    }
-                    fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
                     return true;
                 case R.id.navigation_add:
                     Intent intent = new Intent(context, AddGigActivity.class);
@@ -67,14 +56,8 @@ public class HomeActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_profile:
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentOld = fragmentManager.findFragmentById(R.id.fragmentHolder);
-                    fragmentNew = new ProfileFragment();
+                    displaySelectedFragment(PROFILE_FRAGMENT);
 
-                    if (fragmentOld != null) {
-                        fragmentTransaction.remove(fragmentOld);
-                    }
-                    fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
                     return true;
             }
             return true;
@@ -87,7 +70,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         fragmentManager = getFragmentManager(); //Initializing the fragment manaager in onCreate
-        displayHomeFragment(); //calling method that displays home fragment automatically
 
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -97,15 +79,39 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displaySelectedFragment(HOME_FRAGMENT); //calling method that displays home fragment automatically
+
+    }
+
     /*This function displays home fragment automatically on oncreate */
-    private void displayHomeFragment() {
+    private void displaySelectedFragment(String fragmentKind) {
         fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragmentReference = fragmentManager.findFragmentById(R.id.fragmentHolder);
+        fragmentReference = fragmentManager.findFragmentById(R.id.fragmentHolder);
 //        Check if layout is emty or not
-        if (fragmentReference == null) {
-            Fragment fragment = new HomeFragment();
-            fragmentTransaction.add(R.id.fragmentHolder, fragment).commit();
+        if (fragmentReference != null) {
+            fragmentTransaction.remove(fragmentReference);
         }
+
+
+        switch (fragmentKind) {
+            case HOME_FRAGMENT:
+                fragmentNew = new HomeFragment();
+                break;
+            case FAVOURITES_FRAGMENT:
+                fragmentNew = new FavoritesFragment();
+                break;
+            case PROFILE_FRAGMENT:
+                fragmentNew = new ProfileFragment();
+                break;
+            default:
+                fragmentNew = new Fragment();
+                break;
+        }
+        fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
+
 
     }
 

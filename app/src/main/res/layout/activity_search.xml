@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,20 +26,30 @@
                 android:onClick="onBackClick"
                 android:src="@drawable/ic_keyboard_backspace_black_30dp" />
 
-            <EditText
-                android:id="@+id/editText_search"
+            <!--<EditText-->
+            <!--android:id="@+id/editText_search"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="2"-->
+            <!--android:hapticFeedbackEnabled="true"-->
+            <!--android:hint="What are you looking for?" />-->
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hapticFeedbackEnabled="true"
-                android:hint="What are you looking for?" />
+                android:hint="What are you looking for?">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:onClick="searchClick"
-                android:src="@drawable/ic_search_black_35dp" />
+            </android.support.v7.widget.SearchView>
+
+
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:onClick="searchClick"-->
+            <!--android:src="@drawable/ic_search_black_35dp" />-->
 
 
         </LinearLayout>
@@ -71,6 +79,7 @@
             android:layout_alignParentRight="true"
             android:onClick="onClearRecentSearch"
             android:text="Clear history"
+            android:id="@+id/clear_history"
             android:textColor="@color/red"/>
 
     </RelativeLayout>

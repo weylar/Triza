@@ -8,22 +8,26 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.GigsAdapterHorizontal;
 import com.triza.android.Categories.CategoryActivity;
+import com.triza.android.Gigs.Gigs;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 
@@ -50,11 +54,19 @@ public class HomeFragment extends Fragment {
     Handler handler;
     RecyclerView recyclerViewFeatured;
     RecyclerView recyclerViewTrending;
-   public static  ArrayList<Gigs> gigList;
+    public static ArrayList<Gigs> gigList, favouriteGigs;
     GigsAdapterHorizontal gigAdapter;
     LinearLayoutManager linearLayoutManagerTrending;
     LinearLayoutManager linearLayoutManagerFeatured;
     DividerItemDecoration itemDecoration;
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mGigsDatabaseReference;
+    private DatabaseReference mFavouritesDatabaseReference;
+    private DataSnapshot favouritesDataSnapshots;
+
+    private String user_id = "muilat";
+
 
     // Runnable to help auto swtch my pageviewer
 
@@ -76,6 +88,11 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Instanciate firebase variables
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
+        mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
+
 
         handler = new Handler(); //Initializing the handler
 
@@ -89,19 +106,49 @@ public class HomeFragment extends Fragment {
 
 
         gigList = new ArrayList<>(); //Ths is where i instanciated my custom class and recycler adapter
-
+        favouriteGigs = new ArrayList<>();
         linearLayoutManagerFeatured = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false); //Layout manager in charge of horizontal recycler view
         linearLayoutManagerTrending = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);//Layout manager in charge of horizontal recycler view
-        dummyData(); //Method that holds my dummyDatas for development purpose
+
+        //fetch gigs from firebase
+        mGigsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot gigSnapshot : dataSnapshot.getChildren()) {
+                    Gigs gig = gigSnapshot.getValue(Gigs.class);
+                    gigList.add(gig);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //get favourite gigs mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
+        //
+        mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                favouritesDataSnapshots = dataSnapshot;
+                for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                    Gigs gig = favGigSnapshot.getValue(Gigs.class);
+                    favouriteGigs.add(gig);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
-    public static void dummyData() {
-        gigList.add(new Gigs("url", "I can develop android application from scratch", 3.5, 20, 7000, true));
-        gigList.add(new Gigs("url", "Hoola me for SEO, amma dig it deep for you", 4, 70, 800, false));
-        gigList.add(new Gigs("url", "I create mind blowing graphc logos", 2.5, 20000, 5000, true));
-        gigList.add(new Gigs("url", "I can develop android application from scratch", 3.5, 20, 7000, false));
-        gigList.add(new Gigs("url", "I develop create material contents ", 0, 40, 10000, true));
-    } // Adding a dummy value to my custom class
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

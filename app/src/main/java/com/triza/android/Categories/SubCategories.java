@@ -1,7 +1,5 @@
 package com.triza.android.Categories;
 
-import android.net.Uri;
-
 public class SubCategories {
     String subCatTitle ;
     String catId;
@@ -10,9 +8,9 @@ public class SubCategories {
 
     public SubCategories(){}
 
-    public SubCategories(String subCatTitle, String catUid){
+    public SubCategories(String subCatTitle, String catId) {
         this.subCatTitle = subCatTitle;
-        this.catId = catUid;
+        this.catId = catId;
     }
 
     public SubCategories(String subCatTitle){
@@ -33,5 +31,11 @@ public class SubCategories {
     public void setCatId(String catUid){
         this.catId = catUid;
     }
+
+    @Override
+    public String toString() {
+        return this.subCatTitle;// What to display in the Spinner list.
+    }
+
 
 }
