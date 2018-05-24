@@ -15,10 +15,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ryanpope.tagedittext.TagEditText;
+import com.triza.android.Dialogs.TagEntryInfo;
 import com.triza.android.R;
 
 
@@ -41,6 +43,7 @@ public class AddGigOverviewFragment extends Fragment {
     private OnAddGigOverviewListener mListener;
     TextView titleTextCount;
     TagEditText searchTagEditText;
+    ImageView tagInfo;
 
 
 
@@ -79,16 +82,19 @@ public class AddGigOverviewFragment extends Fragment {
         gigTitle_editText = view.findViewById(R.id.gig_title_editText);
         searchTagEditText = view.findViewById(R.id.search_tag_editText);
         searchTagEditText.getText().toString();
-        titleTextCount.setOnClickListener(new View.OnClickListener() {
+        tagInfo = view.findViewById(R.id.tag_info);
+        tagInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), searchTagEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+               TagEntryInfo dialog = new TagEntryInfo();
 
+                /*this help to target this particular fragment in  the main activity*/
+                dialog.setTargetFragment(AddGigOverviewFragment.this, 0);
+
+
+                dialog.show(getFragmentManager(), "123");
             }
         });
-        //Toast.makeText(getActivity(), searchTagEditText.getText().toString(), Toast.LENGTH_SHORT).show();
-
-
 
 
         //programatically i set the text counter by using text watcher and attached to editetxt

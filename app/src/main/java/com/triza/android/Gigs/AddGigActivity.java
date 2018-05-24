@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.triza.android.Gigs.data.GigsContract;
@@ -29,7 +30,10 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
     Fragment fragmentOld;
     Fragment fragmentOverview;
     Fragment fragmentScope;
+    Fragment fragmentDescription;
+    Fragment fragmentGallery;
     int fragCount = 0;
+    TextView fragName;
 
 
     @Override
@@ -45,14 +49,17 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         twoFocus = findViewById(R.id.two_focus);
         threeFocus = findViewById(R.id.three_focus);
         fourFocus = findViewById(R.id.four_focus);
+        fragName = findViewById(R.id.frag_name);
 
         fragmentManager = getSupportFragmentManager();
         fragmentOverview = new AddGigOverviewFragment();
         fragmentScope = new AddGigScopeFragment();
+        fragmentDescription = new AddGigDescriptionFragment();
+        fragmentGallery = new AddGigGalleryFragment();
 
 
         /*This method sets my overview fragment by activity launch*/
-        setUpFragment(savedInstanceState, fragmentOverview, oneFocus);
+        setUpFragment(savedInstanceState, fragmentOverview, oneFocus, fragName, "Overview");
 
     }
 
@@ -101,14 +108,14 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
     }
 
     public void onSaveAndContinueButton(View view) {
-        fragCount += 1;
+        fragCount += 1; //This increments by 1
 
         if (fragCount == 1) {
-            setUpFragment(fragmentScope, twoFocus);
+            setUpFragment(fragmentScope, twoFocus, fragName, "Scope & Pricing");
         } else if (fragCount == 2) {
-            Toast.makeText(this, "im two now", Toast.LENGTH_SHORT).show();
+            setUpFragment(fragmentDescription, threeFocus, fragName, "Description");
         } else if (fragCount == 3) {
-            Toast.makeText(this, "im three now", Toast.LENGTH_SHORT).show();
+            setUpFragment(fragmentGallery, fourFocus, fragName, "Gallery");
         }
 
         //addGigOverviewFragment.onSaveOverviewButtonPressed();
@@ -123,9 +130,10 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
     public void backPressed(View v) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 
-    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View view) {
+    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View view, TextView fragName, String fragNameVal) {
         // However, if we're being restored from a previous state,
         // then we don't need to do anything and should return or else
         // we could end up with overlapping fragments.
@@ -142,18 +150,20 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         fragmentTransaction.add(R.id.newGigFragmentHolder, fragmentNew).commit();
 
         view.setVisibility(View.VISIBLE);
+        fragName.setText(fragNameVal);
 
 
     } //with bundle
 
     /*Lol, my first trial of method overridden. Calling the same method name with diff parameters*/
-    public void setUpFragment(Fragment fragmentNew, View view1) {
+    public void setUpFragment(Fragment fragmentNew, View view1, TextView fragName, String fragNameVal) {
 
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentNew.setArguments(getIntent().getExtras());
         fragmentTransaction.replace(R.id.newGigFragmentHolder, fragmentNew).commit();
         fragmentTransaction.addToBackStack(null);
         view1.setVisibility(View.VISIBLE);
+        fragName.setText(fragNameVal);
 
 
     }//without bundle
@@ -166,6 +176,26 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
+        }
+        if (fragCount == 0){
+            oneFocus.setVisibility(View.VISIBLE);
+            twoFocus.setVisibility(View.GONE);
+            threeFocus.setVisibility(View.GONE);
+            fourFocus.setVisibility(View.GONE);
+            fragName.setText("Overview");
+        }if (fragCount == 1){
+            oneFocus.setVisibility(View.VISIBLE);
+            twoFocus.setVisibility(View.VISIBLE);
+            threeFocus.setVisibility(View.GONE);
+            fourFocus.setVisibility(View.GONE);
+            fragName.setText("Scope & Pricing");
+        }if (fragCount == 2){
+            oneFocus.setVisibility(View.VISIBLE);
+            twoFocus.setVisibility(View.VISIBLE);
+            threeFocus.setVisibility(View.VISIBLE);
+            fourFocus.setVisibility(View.GONE);
+            fragName.setText("Description");
+
         }
 
     }

@@ -1,196 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Gigs.AddGigActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/cat_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tool_bar_height"
-        android:layout_gravity="top"
-        android:background="@color/white"
-        android:elevation="@dimen/elevation">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/ic_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:onClick="backPressed"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_close_black_24dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
-                android:text="@string/create_gig"
-                android:textColor="@color/black"
-                android:textSize="@dimen/tool_bar_text_size" />
-
-            <ImageView
-                android:id="@+id/ic_help"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_help_outline_black_24dp" />
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <FrameLayout
-            android:id="@+id/one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <View
-                android:id="@+id/one_focus"
-                android:layout_width="35dp"
-                android:visibility="gone"
-                android:layout_height="35dp"
-                android:background="@drawable/round_background_yellow"/>
-            <View
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:background="@drawable/round_background_add_gig"/>
-            <TextView
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/cat_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tool_bar_height"
+            android:layout_gravity="top"
+            android:background="@color/white"
+            android:elevation="@dimen/elevation">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:onClick="backPressed"
+                    android:src="@drawable/ic_close_black_24dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:layout_margin="2dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/create_gig"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/tool_bar_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/frag_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Overview"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/h1" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ic_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_help_outline_black_24dp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/one"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                />
-        </FrameLayout>
-        <View
-            android:layout_width="40dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:background="@color/grey"/>
-        <FrameLayout
-            android:id="@+id/two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/one_focus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/round_background_yellow"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_background_add_gig" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
             <View
-                android:id="@+id/two_focus"
-                android:layout_width="35dp"
-                android:visibility="gone"
-                android:layout_height="35dp"
-                android:background="@drawable/round_background_yellow"/>
-            <View
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:background="@drawable/round_background_add_gig"/>
-            <TextView
+                android:background="@color/grey" />
+
+            <FrameLayout
+                android:id="@+id/two"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </FrameLayout>
-        <View
-            android:layout_width="40dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:background="@color/grey"/>
-        <FrameLayout
-            android:id="@+id/three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/two_focus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/round_background_yellow"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_background_add_gig" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
             <View
-                android:id="@+id/three_focus"
-                android:layout_width="35dp"
-                android:visibility="gone"
-                android:layout_height="35dp"
-                android:background="@drawable/round_background_yellow"/>
-            <View
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:background="@drawable/round_background_add_gig"/>
-            <TextView
+                android:background="@color/grey" />
+
+            <FrameLayout
+                android:id="@+id/three"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </FrameLayout>
-        <View
-            android:layout_width="40dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:background="@color/grey"/>
-        <FrameLayout
-            android:id="@+id/four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/three_focus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/round_background_yellow"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_background_add_gig" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
             <View
-                android:id="@+id/four_focus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:visibility="gone"
-                android:background="@drawable/round_background_yellow"/>
-            <View
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:background="@drawable/round_background_add_gig"/>
-            <TextView
+                android:background="@color/grey" />
+
+            <FrameLayout
+                android:id="@+id/four"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/four_focus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/round_background_yellow"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/round_background_add_gig" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="4"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/newGigFragmentHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
         </FrameLayout>
 
+        <ProgressBar
+            android:id="@+id/gig_saving_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/sendBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/rectangle_button_bg"
+            android:onClick="onSaveAndContinueButton"
+            android:text="@string/continue_button"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/newGigFragmentHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" >
-
-    </FrameLayout>
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/gig_saving_progress_bar"
-        android:visibility="gone"/>
-    <Button
-        android:id="@+id/sendBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:onClick="onSaveAndContinueButton"
-        android:background="@drawable/rectangle_button_bg"
-        android:text="@string/continue_button"
-        android:textColor="@color/white" />
-
-</LinearLayout>
+</ScrollView>
