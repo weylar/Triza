@@ -24,6 +24,14 @@
         <activity android:name=".Categories.AddCategoryActivity" />
         <activity android:name=".Gigs.AddGigActivity" />
         <activity android:name=".Home.TrendingGigs"></activity>
+
+        <!-- Register the TaskContentProvider -->
+        <!-- Set name, authorities, and exported attributes -->
+        <!-- exported = false limits access to this ContentProvider to only this app -->
+        <provider
+            android:name="com.triza.android.Gigs.data.GigsContentProvider"
+            android:authorities="com.triza.android"
+            android:exported="false" />
     </application>
 
 </manifest>

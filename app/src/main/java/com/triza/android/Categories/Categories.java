@@ -1,7 +1,5 @@
 package com.triza.android.Categories;
 
-import android.net.Uri;
-
 public class Categories {
     String catTitle ;
     String catDescription;
@@ -55,5 +53,10 @@ public class Categories {
 
     public String getCatDescription(){
         return catDescription;
+    }
+
+    @Override
+    public String toString() {
+        return this.catTitle;// What to display in the Spinner list.
     }
 }

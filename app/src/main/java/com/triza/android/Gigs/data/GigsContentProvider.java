@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.triza.android.data.TrizaDbHelper;
+
 import static com.triza.android.Gigs.data.GigsContract.GigsEntry.TABLE_NAME;
 
 public class GigsContentProvider extends ContentProvider {
@@ -44,8 +46,8 @@ public class GigsContentProvider extends ContentProvider {
         return uriMatcher;
     }
 
-    // Member variable for a GigsDbHelper that's initialized in the onCreate() method
-    private GigsDbHelper mGigsDbHelper;
+    // Member variable for a TrizaDbHelper that's initialized in the onCreate() method
+    private TrizaDbHelper mGigsDbHelper;
 
     /* onCreate() is where you should initialize anything you’ll need to setup
     your underlying data source.
@@ -58,7 +60,7 @@ public class GigsContentProvider extends ContentProvider {
         // [Hint] Declare the DbHelper as a global variable
 
         Context context = getContext();
-        mGigsDbHelper = new GigsDbHelper(context);
+        mGigsDbHelper = new TrizaDbHelper(context);
         return true;
     }
 
@@ -76,7 +78,7 @@ public class GigsContentProvider extends ContentProvider {
         switch (match) {
             case GIGS:
                 // Insert new values into the database
-                // Inserting values into medications table
+                // Inserting values into gigs table
                 long id = db.insert(TABLE_NAME, null, values);
                 if ( id > 0 ) {
                     returnUri = ContentUris.withAppendedId(GigsContract.GigsEntry.CONTENT_URI, id);

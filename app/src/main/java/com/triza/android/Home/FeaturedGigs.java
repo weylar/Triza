@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.triza.android.Adapters.GigsAdapterVertical;
+import com.triza.android.HomeActivity;
 import com.triza.android.R;
 import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.Search.Search;
@@ -25,7 +26,7 @@ public class FeaturedGigs extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view_featured_vertical);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false); //Layout manager in charge of horizontal recycler view
-        gigsAdapterVertical = new GigsAdapterVertical(FeaturedGigs.this, HomeFragment.gigList);
+        gigsAdapterVertical = new GigsAdapterVertical(FeaturedGigs.this, HomeActivity.gigList);
 
         recyclerView.setLayoutManager(linearLayoutManager);  //I set manager for recycler here
         recyclerView.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view

@@ -21,7 +21,23 @@ import android.widget.Toast;
 
 import com.ryanpope.tagedittext.TagEditText;
 import com.triza.android.Dialogs.TagEntryInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.triza.android.Categories.Categories;
+import com.triza.android.Categories.SubCategories;
 import com.triza.android.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,32 +61,26 @@ public class AddGigOverviewFragment extends Fragment {
     TagEditText searchTagEditText;
     ImageView tagInfo;
 
+    ArrayAdapter<Categories> categoryAdapter;
+    ArrayAdapter<SubCategories> subCategoryAdapter;
+    private Spinner catSpinner;
+    private Spinner subCatSpinner;
+    //firebase variable
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mCategoriesDatabaseReference;
+    private DatabaseReference mSubCategoriesDatabaseReference;
 
 
     public AddGigOverviewFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment AddGigOverviewFragment.
-     */
-//    public static AddGigOverviewFragment newInstance(String param1, String param2) {
-//        AddGigOverviewFragment fragment = new AddGigOverviewFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -138,13 +148,109 @@ public class AddGigOverviewFragment extends Fragment {
         };
         gigTitle_editText.addTextChangedListener(textWatcher);
 
-        return view;
+        final View viewHome = inflater.inflate(R.layout.fragment_add_gig_overview_fragment, container, false);
+
+//        cat_spinner = view.findViewById(R.id.sub_cat_spinener);
+        //instantiate the firebase variables
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");
+        mSubCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("sub_categories");
+
+//        final ArrayList categories = new ArrayList();
+        mCategoriesDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Is better to use a List, because you don't know the size
+                // of the iterator returned by dataSnapshot.getChildren() to
+                // initialize the array
+                final List<Categories> categories = new ArrayList<Categories>();
+
+                for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
+                    Categories areaName = areaSnapshot.getValue(Categories.class);
+                    categories.add(areaName);
+                }
+
+                catSpinner = (Spinner) viewHome.findViewById(R.id.category_spinner);
+                categoryAdapter = new ArrayAdapter<Categories>(getActivity(), android.R.layout.simple_spinner_item, categories);
+                categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                catSpinner.setAdapter(categoryAdapter);
+
+                catSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view,
+                                               int position, long id) {
+                        // Here you get the current item (a Categories object) that is selected by its position
+                        Categories category = categoryAdapter.getItem(position);
+                        // Here you can do the action you want to...
+                        category_id = category.getCatId();
+
+                        getSubCategories(category_id, viewHome);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapter) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        gigTitle_editText = viewHome.findViewById(R.id.gig_title_editText);
+
+
+        return viewHome;
+    }
+
+    public void getSubCategories(String category_id, final View viewHome) {
+        mSubCategoriesDatabaseReference.orderByChild("catId").equalTo(category_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<SubCategories> subCategories = new ArrayList<SubCategories>();
+
+                for (DataSnapshot subCatSnapshot : dataSnapshot.getChildren()) {
+                    SubCategories subCategory = subCatSnapshot.getValue(SubCategories.class);
+                    subCategories.add(subCategory);
+                }
+
+                Spinner subCatSpinner = (Spinner) viewHome.findViewById(R.id.sub_cat_spinner);
+                final ArrayAdapter<SubCategories> subCategoryAdapter = new ArrayAdapter<SubCategories>(getActivity(), android.R.layout.simple_spinner_item, subCategories);
+                subCategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                subCatSpinner.setAdapter(subCategoryAdapter);
+
+                subCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view,
+                                               int position, long id) {
+                        SubCategories subCategory = subCategoryAdapter.getItem(position);
+                        sub_cat_id = subCategory.getCatId();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapter) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void onSaveOverviewButtonPressed() {
         gig_title = gigTitle_editText.getText().toString();
         if (mListener != null) {
-            mListener.onAddGigOverview(gig_title, gig_desc, category_id, sub_cat_id, search_tag);
+            mListener.onAddGigOverview(gig_title, category_id, sub_cat_id, search_tag);
         }
     }
 
@@ -172,7 +278,7 @@ public class AddGigOverviewFragment extends Fragment {
      * activity.
      */
     public interface OnAddGigOverviewListener {
-        void onAddGigOverview(String gig_title, String gig_desc, String category_id, String sub_cat_id, String search_tag);
+        void onAddGigOverview(String gig_title, String category_id, String sub_cat_id, String search_tag);
     }
 
 

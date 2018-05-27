@@ -14,9 +14,16 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.triza.android.Gigs.data.GigsContract;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddGigActivity extends AppCompatActivity implements AddGigOverviewFragment.OnAddGigOverviewListener, AddGigScopeFragment.OnSaveGigScopeListener {
 
@@ -35,6 +42,11 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
     int fragCount = 0;
     TextView fragName;
 
+    //firebase variable
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mGigsDatabaseReference;
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mGigsImageStorageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,39 +63,52 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         fourFocus = findViewById(R.id.four_focus);
         fragName = findViewById(R.id.frag_name);
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentOverview = new AddGigOverviewFragment();
-        fragmentScope = new AddGigScopeFragment();
-        fragmentDescription = new AddGigDescriptionFragment();
-        fragmentGallery = new AddGigGalleryFragment();
+        List<Gigs> gigs = new ArrayList<>();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
 
 
-        /*This method sets my overview fragment by activity launch*/
-        setUpFragment(savedInstanceState, fragmentOverview, oneFocus, fragName, "Overview");
 
+
+
+        // Check whether the activity is using the layout version with
+        // the fragment_container FrameLayout. If so, we must add the first fragment
+        if (findViewById(R.id.newGigFragmentHolder) != null) {
+
+                    fragmentManager = getSupportFragmentManager();
+            fragmentOverview = new AddGigOverviewFragment();
+            fragmentScope = new AddGigScopeFragment();
+            fragmentDescription = new AddGigDescriptionFragment();
+            fragmentGallery = new AddGigGalleryFragment();
+
+
+            /*This method sets my overview fragment by activity launch*/
+            setUpFragment(savedInstanceState, fragmentOverview, oneFocus, fragName, "Overview");
+
+        }
     }
 
 
     @Override
-    public void onAddGigOverview(String gig_title, String gig_desc, String category_id, String sub_cat_id, String search_tag) {
-        mGig = new Gigs(gig_title, gig_desc, category_id, sub_cat_id, search_tag);
+    public void onAddGigOverview(String gig_title, String category_id, String sub_cat_id, String search_tag) {
+        mGig = new Gigs(gig_title, category_id, sub_cat_id, search_tag);
 
         // Insert new gig data via a ContentResolver
         // Create new empty ContentValues object
         ContentValues contentValues = new ContentValues();
         // Put the data into the ContentValues
         contentValues.put(GigsContract.GigsEntry.COLUMN_GIG_TITLE, gig_title);
-        contentValues.put(GigsContract.GigsEntry.COLUMN_GIG_DESC, gig_desc);
+        //contentValues.put(GigsContract.GigsEntry.COLUMN_GIG_DESC, gig_desc);
         contentValues.put(GigsContract.GigsEntry.COLUMN_CATEGORY_ID, category_id);
         contentValues.put(GigsContract.GigsEntry.COLUMN_SUB_CAT_ID, sub_cat_id);
         contentValues.put(GigsContract.GigsEntry.COLUMN_SEARCH_TAG, search_tag);
 
         // Insert the content values via a ContentResolver
-        Uri uri = getContentResolver().insert(GigsContract.GigsEntry.CONTENT_URI, contentValues);
+        //Uri uri = getContentResolver().insert(GigsContract.GigsEntry.CONTENT_URI, contentValues);
 
         // Display the URI that's returned with a Toast
         // [Hint] Don't forget to call finish() to return to MainActivity after this insert is complete
-        if (uri != null) {
+//        if (uri != null) {
             //ifisertion is successfull continue to the next fragment
 
 //        Bundle args = new Bundle();
@@ -103,7 +128,7 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
             fragmentTransaction.addToBackStack(null);
 
 
-        }
+        //}
 
     }
 
