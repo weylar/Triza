@@ -21,19 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.GigsAdapterHorizontal;
 import com.triza.android.Categories.CategoryActivity;
-import com.triza.android.Gigs.Gigs;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
-import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.Search.Search;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
@@ -174,33 +168,7 @@ public class HomeFragment extends Fragment {
         recyclerViewTrending.setAdapter(gigAdapter); //i set the adapter on recycler here
 
         /*Assingns on click listerner*/
-        recyclerViewFeatured.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerViewFeatured, new RecyclerItemClickListeners.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //TODO: go to gig details revome snackbar
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-
-            }
-        }));
-        recyclerViewTrending.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerViewTrending, new RecyclerItemClickListeners.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //TODO: go to gig details revome snackbar
-
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-
-
-            }
-        }));
 
         /*Making the views functional*/
         category.setOnClickListener(new View.OnClickListener() {

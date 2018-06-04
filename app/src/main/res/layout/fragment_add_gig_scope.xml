@@ -1,14 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".Gigs.AddGigScopeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/tv_package_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_local_mall_black_24dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="@string/add_your_package_name"
+        android:textSize="15dp" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <EditText
+            android:id="@+id/ed_package_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:padding="2dp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_package_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:drawableLeft="@drawable/ic_local_mall_black_24dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="Add your package description"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+
+        <EditText
+            android:id="@+id/ed_package_desc"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:padding="2dp" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_deliver_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:drawablePadding="2dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="@string/service_time"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:drawablePadding="2dp"
+            android:text="@string/delivery_time"
+            android:textColor="@color/black"
+            android:textSize="@dimen/h1" />
+
+
+        <Spinner
+            android:id="@+id/spinner_deliver_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:drawablePadding="2dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="@string/enter_price"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:id="@+id/gig_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_monetization_on_black_24dp"
+            android:drawablePadding="2dp"
+            android:text="@string/price"
+            android:textColor="@color/black"
+            android:textSize="@dimen/h1" />
+
+
+        <EditText
+            android:id="@+id/price_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:inputType="number"
+            android:padding="2dp"
+            android:text="$" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_extra_offers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:drawablePadding="2dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:gravity="center_vertical"
+        android:text="@string/extra_offers"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/extra_fast_delivery"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/additional_revision"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linear_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/tv_add_extra_offer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/ic_add_box_grey_24dp"
+                android:drawablePadding="5dp"
+                android:text="@string/add_custom_offer"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rel_add_custom_offer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/ed_add_extra_offer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/hint_custom_extra"
+            android:background="@drawable/rectangle_bg"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:id="@+id/control_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_cancel_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/rectangle_button_bg"
+                android:text="cancel"
+                android:textColor="@color/white" />
+
+
+            <Button
+                android:id="@+id/bt_add_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/rectangle_button_bg"
+                android:text="add"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

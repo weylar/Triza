@@ -188,7 +188,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                     SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
                     f.setLenient(false);
                     try {
-                        mCategory.catDateAdded = f.parse(f.format(new Date())).getTime();
+                        mCategory.setCatDateAdded(f.parse(f.format(new Date())).getTime());
 
                     } catch (ParseException e) {
                         e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.triza.android.Adapters;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,10 +75,18 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
     }
 
     @Override
-    public FavouritesAdapterVertical.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
+        final MyViewHolder viewHolder = new MyViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, viewHolder.getAdapterPosition() + "", Snackbar.LENGTH_SHORT).show();
 
-        return new FavouritesAdapterVertical.MyViewHolder(itemView);
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -89,14 +98,11 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
         holder.gigNoReview.setText("(" + gigs.getGigNoReview() + " reviews)");
         holder.gigPrice.setText("Min Price: " + gigs.getMinPrice());
         holder.gigOption.setImageResource(R.drawable.ic_more_vert_black_25dp);
+        holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
 
-        //create favourites
-        //search favourites first tgo see if the gig is already liked or not
         //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
-
-       holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
 
 
         // loading image using Glide library
@@ -109,42 +115,44 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
             }
         });
 
+        setFav(holder, position, gigs);
+    }
+
+    private void setFav(MyViewHolder holder, final int position, final Gigs gigs) {
         holder.gigFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + gigs.getGigId())
                         .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
 
-                            //user already add the gigs to favourites, so delete it from favourites
-                            mFavouritesDatabaseReference.removeValue();
+                                    //user already add the gigs to favourites, so delete it from favourites
+                                    mFavouritesDatabaseReference.removeValue();
 
-                            //remove from adapter
-                            removeItem(position, FavoritesFragment.emptyFavorites, FavoritesFragment.deleteAll);
+                                    //remove from adapter
+                                    removeItem(position, FavoritesFragment.emptyFavorites, FavoritesFragment.deleteAll);
 
-                            Toast.makeText(mContext, "Gig removed from favourites", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "Gig removed from favourites", Toast.LENGTH_SHORT).show();
 
-                        }
+                                }
 
-                    }
+                            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                            }
+                        });
 
 
             }
         });
     }
 
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
+
     private void showPopupMenu(View view) {
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
@@ -184,19 +192,20 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
         return gigsList.size();
     }
 
-    public void removeItem(int position, View view, View v){
+    public void removeItem(int position, View view, View v) {
         gigsList.remove(position);
-        if(gigsList.size() == 0){
+        if (gigsList.size() == 0) {
             view.setVisibility(View.VISIBLE);
             v.setVisibility(View.GONE);
         }
         notifyItemRemoved(position);
 
     }
-    public void restoreItem(Gigs gigs, int position){
+
+    public void restoreItem(Gigs gigs, int position, View emptyView, View deleteAll) {
         gigsList.add(position, gigs);
-//        view.setVisibility(View.VISIBLE);
-//        v.setVisibility(View.GONE);
+        emptyView.setVisibility(View.INVISIBLE);
+        deleteAll.setVisibility(View.VISIBLE);
         notifyItemInserted(position);
     }
 

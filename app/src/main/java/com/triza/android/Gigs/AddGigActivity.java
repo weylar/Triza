@@ -25,22 +25,22 @@ import com.triza.android.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddGigActivity extends AppCompatActivity implements AddGigOverviewFragment.OnAddGigOverviewListener, AddGigScopeFragment.OnSaveGigScopeListener {
+public class AddGigActivity extends AppCompatActivity {
 
     private Gigs mGig;
     private AddGigOverviewFragment addGigOverviewFragment;
     private AddGigScopeFragment addGigScopeFragment;
-    FrameLayout one, two, three, four;
-    View oneFocus, twoFocus, threeFocus, fourFocus;
-    FragmentTransaction fragmentTransaction;
-    FragmentManager fragmentManager;
-    Fragment fragmentOld;
-    Fragment fragmentOverview;
-    Fragment fragmentScope;
-    Fragment fragmentDescription;
+    private FrameLayout one, two, three, four;
+    private View oneFocus, twoFocus, threeFocus, fourFocus, oneFocusee, twoFocusee, threeFocusee, fourFocusee;
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
+    private Fragment fragmentOld;
+    private Fragment fragmentOverview;
+    private Fragment fragmentScope;
+    private Fragment fragmentDescription;
     Fragment fragmentGallery;
-    int fragCount = 0;
-    TextView fragName;
+    private int fragCount = 0;
+    private TextView fragName;
 
     //firebase variable
     private FirebaseDatabase mFirebaseDatabase;
@@ -62,20 +62,21 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         threeFocus = findViewById(R.id.three_focus);
         fourFocus = findViewById(R.id.four_focus);
         fragName = findViewById(R.id.frag_name);
+        oneFocusee = findViewById(R.id.one_focusee);
+        twoFocusee = findViewById(R.id.two_focusee);
+        threeFocusee = findViewById(R.id.three_focusee);
+        fourFocusee = findViewById(R.id.four_focusee);
 
         List<Gigs> gigs = new ArrayList<>();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
 
 
-
-
-
         // Check whether the activity is using the layout version with
         // the fragment_container FrameLayout. If so, we must add the first fragment
         if (findViewById(R.id.newGigFragmentHolder) != null) {
 
-                    fragmentManager = getSupportFragmentManager();
+            fragmentManager = getSupportFragmentManager();
             fragmentOverview = new AddGigOverviewFragment();
             fragmentScope = new AddGigScopeFragment();
             fragmentDescription = new AddGigDescriptionFragment();
@@ -83,74 +84,29 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
 
 
             /*This method sets my overview fragment by activity launch*/
-            setUpFragment(savedInstanceState, fragmentOverview, oneFocus, fragName, "Overview");
+            setUpFragment(savedInstanceState, fragmentOverview, oneFocus,oneFocusee, fragName, "Overview");
 
         }
     }
 
 
-    @Override
-    public void onAddGigOverview(String gig_title, String category_id, String sub_cat_id, String search_tag) {
-        mGig = new Gigs(gig_title, category_id, sub_cat_id, search_tag);
-
-        // Insert new gig data via a ContentResolver
-        // Create new empty ContentValues object
-        ContentValues contentValues = new ContentValues();
-        // Put the data into the ContentValues
-        contentValues.put(GigsContract.GigsEntry.COLUMN_GIG_TITLE, gig_title);
-        //contentValues.put(GigsContract.GigsEntry.COLUMN_GIG_DESC, gig_desc);
-        contentValues.put(GigsContract.GigsEntry.COLUMN_CATEGORY_ID, category_id);
-        contentValues.put(GigsContract.GigsEntry.COLUMN_SUB_CAT_ID, sub_cat_id);
-        contentValues.put(GigsContract.GigsEntry.COLUMN_SEARCH_TAG, search_tag);
-
-        // Insert the content values via a ContentResolver
-        //Uri uri = getContentResolver().insert(GigsContract.GigsEntry.CONTENT_URI, contentValues);
-
-        // Display the URI that's returned with a Toast
-        // [Hint] Don't forget to call finish() to return to MainActivity after this insert is complete
-//        if (uri != null) {
-            //ifisertion is successfull continue to the next fragment
-
-//        Bundle args = new Bundle();
-//        args.putString(AddGigScopeFragment.ARG_CAT_TITLE, category.getCatTitle());
-//        args.putString(AddGigScopeFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());//get the local image
-//        addGigScopeFragment.setArguments(args);
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentOld = fragmentManager.findFragmentById(R.id.fragmentHolder);
-            fragmentScope = new AddGigScopeFragment();
-
-            if (fragmentOld != null) {
-                fragmentTransaction.remove(fragmentOld);
-            }
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.add(R.id.fragmentHolder, fragmentScope).commit();
-
-            fragmentTransaction.addToBackStack(null);
-
-
-        //}
-
-    }
-
     public void onSaveAndContinueButton(View view) {
-        fragCount += 1; //This increments by 1
-
+        if (fragCount == 3) {
+            return;
+        } else {
+            fragCount += 1; //This increments by 1
+        }
         if (fragCount == 1) {
-            setUpFragment(fragmentScope, twoFocus, fragName, "Scope & Pricing");
+            setUpFragment(fragmentScope, twoFocus,twoFocusee, fragName, "Scope & Pricing");
         } else if (fragCount == 2) {
-            setUpFragment(fragmentDescription, threeFocus, fragName, "Description");
+            setUpFragment(fragmentDescription, threeFocus,threeFocusee, fragName, "Description");
         } else if (fragCount == 3) {
-            setUpFragment(fragmentGallery, fourFocus, fragName, "Gallery");
+            setUpFragment(fragmentGallery, fourFocus, fourFocusee, fragName, "Gallery");
         }
 
         //addGigOverviewFragment.onSaveOverviewButtonPressed();
     }
 
-
-    @Override
-    public void onSaveGigScope(Uri uri) {
-
-    }
 
     public void backPressed(View v) {
         Intent intent = new Intent(this, HomeActivity.class);
@@ -158,7 +114,7 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         finish();
     }
 
-    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View view, TextView fragName, String fragNameVal) {
+    private void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View viewYellow, View viewBlue, TextView fragName, String fragNameVal) {
         // However, if we're being restored from a previous state,
         // then we don't need to do anything and should return or else
         // we could end up with overlapping fragments.
@@ -174,20 +130,22 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         }
         fragmentTransaction.add(R.id.newGigFragmentHolder, fragmentNew).commit();
 
-        view.setVisibility(View.VISIBLE);
+        viewYellow.setVisibility(View.VISIBLE);
+        viewBlue.setVisibility(View.VISIBLE);
         fragName.setText(fragNameVal);
 
 
     } //with bundle
 
     /*Lol, my first trial of method overridden. Calling the same method name with diff parameters*/
-    public void setUpFragment(Fragment fragmentNew, View view1, TextView fragName, String fragNameVal) {
+    private void setUpFragment(Fragment fragmentNew, View viewYellow, View viewBlue, TextView fragName, String fragNameVal) {
 
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentNew.setArguments(getIntent().getExtras());
         fragmentTransaction.replace(R.id.newGigFragmentHolder, fragmentNew).commit();
         fragmentTransaction.addToBackStack(null);
-        view1.setVisibility(View.VISIBLE);
+        viewYellow.setVisibility(View.VISIBLE);
+        viewBlue.setVisibility(View.VISIBLE);
         fragName.setText(fragNameVal);
 
 
@@ -196,29 +154,37 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        fragCount -=1;
-        if (fragCount < 0){
+        fragCount -= 1;
+        if (fragCount < 0) {
             Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
         }
-        if (fragCount == 0){
+        if (fragCount == 0) {
             oneFocus.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.GONE);
+            twoFocusee.setVisibility(View.GONE);
             threeFocus.setVisibility(View.GONE);
+            threeFocusee.setVisibility(View.GONE);
             fourFocus.setVisibility(View.GONE);
+            fourFocusee.setVisibility(View.GONE);
             fragName.setText("Overview");
-        }if (fragCount == 1){
+        }
+        if (fragCount == 1) {
             oneFocus.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.VISIBLE);
             threeFocus.setVisibility(View.GONE);
+            threeFocusee.setVisibility(View.GONE);
             fourFocus.setVisibility(View.GONE);
+            fourFocusee.setVisibility(View.GONE);
             fragName.setText("Scope & Pricing");
-        }if (fragCount == 2){
+        }
+        if (fragCount == 2) {
             oneFocus.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.VISIBLE);
             threeFocus.setVisibility(View.VISIBLE);
             fourFocus.setVisibility(View.GONE);
+            fourFocusee.setVisibility(View.GONE);
             fragName.setText("Description");
 
         }

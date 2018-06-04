@@ -17,19 +17,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.FavouritesAdapterVertical;
-import com.triza.android.Dialogs.ConfirmDeleteAllFav;
 import com.triza.android.Gigs.Gigs;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
-import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.RecyclerItemTouchHelper;
 import com.triza.android.Search.Search;
 
@@ -38,13 +37,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, ConfirmDeleteAllFav.DeleteAll{
-    ImageView  search;
+
+public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+    ImageView search;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     FavouritesAdapterVertical favouritesAdapterVertical;
     public static LinearLayout favoriteLayout, emptyFavorites;
-    public static TextView deleteAll;
+    public  static TextView deleteAll;
 
     List<Gigs> favouriteGigs = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
@@ -57,13 +57,13 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
 //    String favId;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //get the favourite gigs loaded from the HomeActivity
         favouriteGigs = HomeActivity.favouriteGigs;
+
         //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
@@ -79,23 +79,58 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         deleteAll = view.findViewById(R.id.delete_all);
 
 
-
-
         deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ConfirmDeleteAllFav dialog = new ConfirmDeleteAllFav();
+                final NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(getActivity());
+                niftyDialogBuilder.withTitle("Action Confirmation!")
+                        .withTitleColor("#000000")
+                        .withMessage("Are you sure you want to delete?\nThis action can't be undone")
+                        .withMessageColor("#000000")
+                        .withDividerColor("#000000")
+                        .withIcon(getResources().getDrawable(R.drawable.ic_warning_24dp))
+                        .withEffect(Effectstype.SlideBottom)
+                        .withDialogColor("#009688")
+                        .withButton1Text("Cancel")
+                        .withButton2Text("Yes, delete all!")
+                        .isCancelableOnTouchOutside(true)
+                        .setButton1Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                niftyDialogBuilder.cancel();
+                            }
+                        })
+                        .setButton2Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                favouritesAdapterVertical.removeAllItem(emptyFavorites, deleteAll);
 
-                /*this help to taget this particular fragment in  the main activity*/
-                dialog.setTargetFragment(FavoritesFragment.this, 0);
+                                mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                                            Favourites favGig = favGigSnapshot.getValue(Favourites.class);
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put("/" + favGig.getFavouriteId() + "/", null);
+                                            mFavouritesDatabaseReference.updateChildren(map);
 
-                dialog.show(getFragmentManager(), "123");
-                dialog.show(getFragmentManager(), "123");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+                                niftyDialogBuilder.cancel();
+
+                            }
+                        })
+                        .show();
             }
         });
 
         favoriteLayout = view.findViewById(R.id.favorite_layout);
-
 
 
         search = view.findViewById(R.id.ic_search_fav);
@@ -114,52 +149,22 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         recyclerView.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
         recyclerView.setAdapter(favouritesAdapterVertical);
 
-//        /*This set my custom clickclass to recyclerview*/
-//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                //TODO: go to gig details, remove the snackbar
-//                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onLongItemClick(View view, int position) {
-//                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-//
-//            }
-//        }));
 
         /*This implement the swipe fuction of recycler viewer*/
-        ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+        ItemTouchHelper.SimpleCallback simpleCallback =
+                new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(simpleCallback)
+                .attachToRecyclerView(recyclerView);
 
-        /*Condition to check if to display empty fav or recycler fav*/
-        //hide delete_all if there is no favouriteGigs
-        if (favouriteGigs == null){
-            deleteAll.setVisibility(View.GONE);
-            emptyFavorites.setVisibility(View.VISIBLE);
-        }
-
-        return view;
-    }
-
-    @Override
-    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof FavouritesAdapterVertical.MyViewHolder){
-            String itemName = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition()).getGigTitle();// a dummy way of getting the gig title to display on snackbar whenm swipped
-
-        /*Backup of removed item for undo purpose*/
-        final Gigs deletedGigs = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition());
-        final int deletedIndex = viewHolder.getAdapterPosition();
-
-        //ref where filter_index = muilat_123-kbdhd-61yddn-
-        mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + deletedGigs.getGigId())
+        /*Condition to check if to display empty fav or recycler fav hide delete_all if there is no favouriteGigs*/
+        mFavouritesDatabaseReference.orderByChild("userId")
+                .equalTo(user_id)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-
-                            mFavouritesDatabaseReference.removeValue();
+                        if (!dataSnapshot.exists()) {
+                            deleteAll.setVisibility(View.GONE);
+                            emptyFavorites.setVisibility(View.VISIBLE);
                         }
 
                     }
@@ -171,51 +176,62 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
                 });
 
 
-        /*This removes the item from the recycler view*/
-        favouritesAdapterVertical.removeItem(viewHolder.getAdapterPosition(), emptyFavorites, deleteAll);
-
-
-        Snackbar snackbar = Snackbar.make(favoriteLayout, itemName + "deleted from favorites!", Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //TODO:resave the item to db
-                mFavouritesDatabaseReference.push().setValue(new Favourites(user_id, deletedGigs.getGigId(), user_id + "_" + deletedGigs.getGigId()));
-
-
-                /*undo by restoring gig*/
-                favouritesAdapterVertical.restoreItem(deletedGigs, deletedIndex);
-            }
-        });
-        snackbar.setActionTextColor(Color.YELLOW);
-        snackbar.show();
-        }
+        return view;
     }
 
     @Override
-    public void deleteAll() {
-        favouritesAdapterVertical.removeAllItem(emptyFavorites, deleteAll);
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof FavouritesAdapterVertical.MyViewHolder) {
+            String itemName = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition()).getGigTitle();// a dummy way of getting the gig title to display on snackbar whenm swipped
 
-        mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-                    Favourites favGig = favGigSnapshot.getValue(Favourites.class);
-//                    favouriteGigs.add(gig);
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("/" + favGig.getFavouriteId()+ "/",null);
-                    mFavouritesDatabaseReference.updateChildren(map);
+            /*Backup of removed item for undo purpose*/
+            final Gigs deletedGigs = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition());
+            final int deletedIndex = viewHolder.getAdapterPosition();
 
+            //ref where filter_index = muilat_123-kbdhd-61yddn-
+            mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + deletedGigs.getGigId())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+
+                                mFavouritesDatabaseReference.removeValue();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+            /*This removes the item from the recycler view*/
+            favouritesAdapterVertical.removeItem(viewHolder.getAdapterPosition(), emptyFavorites, deleteAll);
+
+
+            Snackbar snackbar = Snackbar.make(favoriteLayout, itemName + "deleted from favorites!", Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //TODO:resave the item to db
+                    mFavouritesDatabaseReference.push()
+                            .setValue(new Favourites(user_id, deletedGigs.getGigId(), user_id + "_" + deletedGigs.getGigId()));
+
+
+                    /*undo by restoring gig*/
+                    favouritesAdapterVertical.restoreItem(deletedGigs, deletedIndex, emptyFavorites, deleteAll);
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+            });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();
+        }
     }
+
+
 }
+
+
+

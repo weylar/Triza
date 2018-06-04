@@ -49,7 +49,9 @@ dependencies {
     implementation 'com.android.support:cardview-v7:26.1.0' //cardview dependency
     implementation 'com.android.support:recyclerview-v7:26.1.0' //recyclerview dependency
 
-    implementation 'com.github.RyPope:TagEditText:1.0.4'
+
+    implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
