@@ -16,41 +16,38 @@ import com.bumptech.glide.Glide;
 import com.triza.android.R;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SubCategoryFragment.OnAddSubCatFragmentInteractionListener} interface
+ * {@link AddSubCategoryFragment.OnAddSubCatFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SubCategoryFragment#newInstance} factory method to
+ * Use the {@link AddSubCategoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SubCategoryFragment extends Fragment {
+public class AddSubCategoryFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_CAT_TITLE
+    // the fragment initialization parameters
     public static String ARG_CAT_TITLE = "catTitle";
     public static String ARG_CAT_IMAGE_URL = "catImageUrl";
 
     private String mCatTitle;
     private String mCatImageUrl;
-    public static List<SubCategories> mSubCategories = new ArrayList<>();
-    String mSubCatTitle;
+    //interface
+    public static OnAddSubCatFragmentInteractionListener mListener;
+    private List<SubCategories> mSubCategories;
 
-//    static int numbOfSub = 0;
 
     //views
     private TextView catTitleTextView;
     private ImageView catImageView;
-    public static List<EditText> subCatEditTexts = new ArrayList<>();
+    private String mSubCatTitle;
     ImageView addMore;
     View mView;
+    private List<EditText> subCatEditTexts = new ArrayList<>();
 
-    //interface
-    private OnAddSubCatFragmentInteractionListener mListener;
-
-    public SubCategoryFragment() {
+    public AddSubCategoryFragment() {
         // Required empty public constructor
     }
 
@@ -60,10 +57,10 @@ public class SubCategoryFragment extends Fragment {
      *
      * @param catTitle Parameter 1.
      * @param catImageUrl Parameter 2.
-     * @return A new instance of fragment SubCategoryFragment.
+     * @return A new instance of fragment AddSubCategoryFragment.
      */
-    public static SubCategoryFragment newInstance(String catTitle, String catImageUrl) {
-        SubCategoryFragment fragment = new SubCategoryFragment();
+    public static AddSubCategoryFragment newInstance(String catTitle, String catImageUrl) {
+        AddSubCategoryFragment fragment = new AddSubCategoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CAT_TITLE, catTitle);
         args.putString(ARG_CAT_IMAGE_URL, catImageUrl);
@@ -78,6 +75,9 @@ public class SubCategoryFragment extends Fragment {
             mCatTitle = getArguments().getString(ARG_CAT_TITLE);
             mCatImageUrl = getArguments().getString(ARG_CAT_IMAGE_URL);
         }
+
+        //instantiate the list
+        mSubCategories = new ArrayList<>();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class SubCategoryFragment extends Fragment {
         catTitleTextView.setText(mCatTitle);
 
         //add the first edittext
-//        addEditText(view);
+        addEditText(view);
 
         addMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,46 +115,40 @@ public class SubCategoryFragment extends Fragment {
     }
 
     private void addEditText(View view) {
-//        numbOfSub++;
         EditText new_sub_cat_title_editText = new EditText(getActivity());
         LinearLayout ll = view.findViewById(R.id.sub_cat_holder);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         new_sub_cat_title_editText.setLayoutParams(p);
-//        new_sub_cat_title_editText.setId(numbOfSub);
         new_sub_cat_title_editText.setFocusable(true);
         new_sub_cat_title_editText.setTextSize(24);
         subCatEditTexts.add(new_sub_cat_title_editText);
         ll.addView(new_sub_cat_title_editText);
 
-
     }
 
 
     public void onSaveButtonPressed() {
-//        Toast.makeText(getContext(),"here",Toast.LENGTH_SHORT).show();
 
-
-        for (Iterator iterator = subCatEditTexts.iterator(); iterator.hasNext(); ) {
-            EditText sub = (EditText) iterator.next();
+        for (EditText sub : subCatEditTexts) {
             mSubCatTitle = sub.getText().toString();
-            Log.e("onSaveButtonPressed", " numbSub");
+            Log.e("onSaveButtonPressed", mSubCatTitle);
 
-//            Toast.makeText(getActivity(),mSubCatTitle,Toast.LENGTH_SHORT).show();
-            if (mSubCatTitle == "")
+            if (mSubCatTitle.equals(""))
                 continue;
-            SubCategories subCategory = new SubCategories(mSubCatTitle);
-            mSubCategories.add(subCategory);
+            mSubCategories.add(new SubCategories(mSubCatTitle));
         }
-
-////        for(int i = 1; i<=numbOfSub; i++){
-////            EditText sub = mView.findViewById(1);
-//            mSubCatTitle = new_sub_cat_title_editText.getText().toString();
-//            Toast.makeText(getActivity(),mSubCatTitle,Toast.LENGTH_SHORT).show();
-////            if(mSubCatTitle == "")
-////                continue;
+//        for (Iterator iterator = subCatEditTexts.iterator(); iterator.hasNext(); ) {
+//            EditText sub = (EditText) iterator.next();
+//            mSubCatTitle = sub.getText().toString();
+//            Log.e("onSaveButtonPressed", mSubCatTitle);
+//
+////            Toast.makeText(getActivity(),mSubCatTitle,Toast.LENGTH_SHORT).show();
+//            if (mSubCatTitle == "")
+//                continue;
 //            SubCategories subCategory = new SubCategories(mSubCatTitle);
 //            mSubCategories.add(subCategory);
-////        }
+//        }
+
 
 
         if (mListener != null) {

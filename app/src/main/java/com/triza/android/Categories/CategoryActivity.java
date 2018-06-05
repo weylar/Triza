@@ -25,7 +25,7 @@ public class CategoryActivity extends AppCompatActivity {
     private DatabaseReference mCategoriesDatabaseReference;
 
 
-    CategoriesAdapter categoriesAdapter;
+    public static CategoriesAdapter categoriesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class CategoryActivity extends AppCompatActivity {
 
           ArrayList categories = new ArrayList();
 
-        categoriesAdapter = new CategoriesAdapter(this, categories, CategoriesAdapter.CATEGORY_VIEW);
+        categoriesAdapter = new CategoriesAdapter(this, categories);
 
         mCategoriesDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override

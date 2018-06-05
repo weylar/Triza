@@ -1,7 +1,6 @@
 package com.triza.android.Adapters;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,11 @@ import java.util.List;
 
 public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
-    public static final String CATEGORY_VIEW = "category-view";
-    public static final String SPINNER_VIEW = "spinner-view";
-    String type;
+
 
     //the type is just so we can use the same adapter for both CATEGORIESACTIVITY and the Spinner
-    public CategoriesAdapter(Activity context, List<Categories> categories, String type) {
+    public CategoriesAdapter(Activity context, List<Categories> categories) {
         super(context, 0, categories);
-        this.type = type;
     }
 
     @Override
@@ -40,7 +36,6 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
         ImageView catImage = convertView.findViewById(R.id.cat_image);
 
         catTitle.setText(categories.getCatTitle());
-        if (type == CATEGORY_VIEW) {
 
 
             Glide.with(getContext())
@@ -48,12 +43,6 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
                     .into(catImage);
 
 
-        } else if (type == SPINNER_VIEW) {
-            catImage.setVisibility(View.GONE);
-            catTitle.setTextColor(Color.BLACK);
-
-
-        }
 
         return convertView;
 

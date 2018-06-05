@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddCategoryActivity extends AppCompatActivity implements AddCategoryFragment.OnAddCatFragmentContinueListener, SubCategoryFragment.OnAddSubCatFragmentInteractionListener{
+public class AddCategoryActivity extends AppCompatActivity implements AddCategoryFragment.OnAddCatFragmentContinueListener, AddSubCategoryFragment.OnAddSubCatFragmentInteractionListener {
 
 
     public static Categories mCategory;
@@ -50,12 +50,12 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 	private StorageReference mStorageReference;
 
 	AddCategoryFragment addCategoryFragment;
-	SubCategoryFragment subCategoryFragment;
+    public static List<SubCategories> mSubCategories = new ArrayList<>();
     FragmentManager fragmentManager;
     Fragment fragmentOld;
     int fragCount = 0;
     TextView fragName;
-    private List<SubCategories> mSubCategories = new ArrayList<>();
+    AddSubCategoryFragment addSubCategoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
             fragmentManager = getSupportFragmentManager();
             addCategoryFragment = new AddCategoryFragment();
-            subCategoryFragment = new SubCategoryFragment();
+            addSubCategoryFragment = new AddSubCategoryFragment();
 
             /*This method sets my overview fragment by activity launch*/
             setUpFragment(savedInstanceState, addCategoryFragment, fragName, "Overview");
@@ -112,11 +112,20 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
             //go get the data entered from AddCategoryfragment then move to SubCatFragment
             addCategoryFragment.onContinueButtonPressed();
 
-            setUpFragment(subCategoryFragment, fragName, "Sub Categories");
-        } else if (fragCount == 2) {
-            //go get the dat entered in subCatFragment and then save to firebase
-            subCategoryFragment.onSaveButtonPressed();
+            //pass arguments to AddSubCategoryFragment
+            Bundle args = new Bundle();
+            args.putString(AddSubCategoryFragment.ARG_CAT_TITLE, mCategory.getCatTitle());
+            args.putString(AddSubCategoryFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());
+            addSubCategoryFragment.setArguments(args);
 
+            setUpFragment(addSubCategoryFragment, fragName, "Sub Categories");
+        } else if (fragCount == 2) {
+
+
+            //go get the dat entered in subCatFragment and then save to firebase
+            addSubCategoryFragment.onSaveButtonPressed();
+
+            view.setEnabled(false);
             // save the data to firebase
             saveCategoryToFirebase();
 
@@ -132,8 +141,6 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     }
 
     public void backPressed(View v) {
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        startActivity(intent);
         finish();
     }
 
@@ -142,8 +149,6 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
         super.onBackPressed();
         fragCount -= 1;
         if (fragCount < 0) {
-//            Intent intent = new Intent(this, HomeActivity.class);
-//            startActivity(intent);
             finish();
         }
         if (fragCount == 0) {
@@ -165,13 +170,6 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
     public void setUpFragment(Fragment fragmentNew, TextView fragName, String fragNameVal) {
 
-        if (fragNameVal == "Sub Categories") {
-            fragmentNew = new SubCategoryFragment();
-            Bundle args = new Bundle();
-            args.putString(SubCategoryFragment.ARG_CAT_TITLE, mCategory.getCatTitle());
-            args.putString(SubCategoryFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());
-            fragmentNew.setArguments(args);
-        }
 
         fragmentTransaction = fragmentManager.beginTransaction();
 //        fragmentNew.setArguments(getIntent().getExtras());
@@ -207,10 +205,6 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
     } //with bundle
 
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -227,8 +221,13 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
     }
 
+    @Override
+    public void onAddSubCatFragmentInteraction(List<SubCategories> subCategories) {
+        mSubCategories = subCategories;
 
-    public void saveCategoryToFirebase(){
+    }
+
+    public void saveCategoryToFirebase() {
 
         //instantiate the firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -238,14 +237,14 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
         mFirebaseStorage = FirebaseStorage.getInstance();
         mStorageReference = mFirebaseStorage.getReference().child("categories_images");
         //custom name
-        String dateStamp= new SimpleDateFormat("dd-mm-yyyy HH:mm:ss:SSS").format(new Date()).toString();
+        String dateStamp = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss:SSS").format(new Date()).toString();
         //photoRef = mStorageReference.child(selectedimageUrl.getLastPathSegment());
-        photoRef = mStorageReference.child("category_"+dateStamp);
+        photoRef = mStorageReference.child("category_" + dateStamp);
         //upload file to firebase storage
         photoRef.putFile(mSelectedImageUrl).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     cat_saving_prgBr.setVisibility(View.GONE);
                     Toast.makeText(AddCategoryActivity.this, "Something went wrong. Please try again!", Toast.LENGTH_LONG).show();
 
@@ -253,12 +252,12 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                 }
 
                 //continue with the task to get the download url
-                return  photoRef.getDownloadUrl();
+                return photoRef.getDownloadUrl();
             }
         }).addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Uri imageUrl = task.getResult();
                     mCategory.setCatImageUrl(imageUrl.toString());
 
@@ -271,10 +270,11 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                         e.printStackTrace();
                     }
 
-                   // mCategoriesDatabaseReference.push().setValue(mCategory);
+                    // mCategoriesDatabaseReference.push().setValue(mCategory);
                     //add empty data and get the pushId/key
                     String catId = mCategoriesDatabaseReference.push().getKey();
                     mCategory.setCatId(catId);
+                    mCategory.setNoOfSubCategories(mSubCategories.size());
                     //creat a child using the created/gotten (pushId) key of the empty data created
                     mCategoriesDatabaseReference.child(catId).setValue(mCategory);
 
@@ -286,12 +286,10 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                     }
 
 
-
-                    Toast.makeText(AddCategoryActivity.this, mCategory.getCatTitle()+" added to category", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCategoryActivity.this, mCategory.getCatTitle() + " added to category", Toast.LENGTH_LONG).show();
                     cat_saving_prgBr.setVisibility(View.GONE);
-                            finish();
-                }
-                else{
+                    finish();
+                } else {
                     //handle failure
                     cat_saving_prgBr.setVisibility(View.GONE);
                     Toast.makeText(AddCategoryActivity.this, "Something went wrong. Please try again!", Toast.LENGTH_LONG).show();
@@ -301,12 +299,4 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
         });
     }
 
-    @Override
-    public void onAddSubCatFragmentInteraction(List<SubCategories> subCategories) {
-        mSubCategories = subCategories;
-
-        //save to database
-//        saveCategoryToFirebase();
-
-    }
 }
