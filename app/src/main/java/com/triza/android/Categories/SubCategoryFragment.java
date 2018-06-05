@@ -1,18 +1,23 @@
 package com.triza.android.Categories;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.triza.android.R;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,14 +35,19 @@ public class SubCategoryFragment extends Fragment {
 
     private String mCatTitle;
     private String mCatImageUrl;
-    SubCategories mSubCategory;
+    public static List<SubCategories> mSubCategories = new ArrayList<>();
     String mSubCatTitle;
 
+//    static int numbOfSub = 0;
+
     //views
-    private EditText sub_cat_title_editText;
     private TextView catTitleTextView;
     private ImageView catImageView;
+    public static List<EditText> subCatEditTexts = new ArrayList<>();
+    ImageView addMore;
+    View mView;
 
+    //interface
     private OnAddSubCatFragmentInteractionListener mListener;
 
     public SubCategoryFragment() {
@@ -74,10 +84,12 @@ public class SubCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sub_category, container, false);
+        final View view = inflater.inflate(R.layout.fragment_sub_category, container, false);
 
         catTitleTextView = view.findViewById(R.id.cat_title_textView);
         catImageView = view.findViewById(R.id.cat_imageView);
+        addMore = view.findViewById(R.id.ic_add_more);
+
 
         Glide.with(getActivity())
                 .load(mCatImageUrl)
@@ -85,20 +97,71 @@ public class SubCategoryFragment extends Fragment {
 
         catTitleTextView.setText(mCatTitle);
 
-        sub_cat_title_editText = view.findViewById(R.id.sub_cat_title_edt);
+        //add the first edittext
+//        addEditText(view);
+
+        addMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEditText(mView);
+            }
+        });
+
+        mView = view;
+
 
         return view;
 
     }
 
+    private void addEditText(View view) {
+//        numbOfSub++;
+        EditText new_sub_cat_title_editText = new EditText(getActivity());
+        LinearLayout ll = view.findViewById(R.id.sub_cat_holder);
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        new_sub_cat_title_editText.setLayoutParams(p);
+//        new_sub_cat_title_editText.setId(numbOfSub);
+        new_sub_cat_title_editText.setFocusable(true);
+        new_sub_cat_title_editText.setTextSize(24);
+        subCatEditTexts.add(new_sub_cat_title_editText);
+        ll.addView(new_sub_cat_title_editText);
+
+
+    }
+
 
     public void onSaveButtonPressed() {
-        mSubCatTitle = sub_cat_title_editText.getText().toString();
-        mSubCategory = new SubCategories(mSubCatTitle);
+//        Toast.makeText(getContext(),"here",Toast.LENGTH_SHORT).show();
+
+
+        for (Iterator iterator = subCatEditTexts.iterator(); iterator.hasNext(); ) {
+            EditText sub = (EditText) iterator.next();
+            mSubCatTitle = sub.getText().toString();
+            Log.e("onSaveButtonPressed", " numbSub");
+
+//            Toast.makeText(getActivity(),mSubCatTitle,Toast.LENGTH_SHORT).show();
+            if (mSubCatTitle == "")
+                continue;
+            SubCategories subCategory = new SubCategories(mSubCatTitle);
+            mSubCategories.add(subCategory);
+        }
+
+////        for(int i = 1; i<=numbOfSub; i++){
+////            EditText sub = mView.findViewById(1);
+//            mSubCatTitle = new_sub_cat_title_editText.getText().toString();
+//            Toast.makeText(getActivity(),mSubCatTitle,Toast.LENGTH_SHORT).show();
+////            if(mSubCatTitle == "")
+////                continue;
+//            SubCategories subCategory = new SubCategories(mSubCatTitle);
+//            mSubCategories.add(subCategory);
+////        }
+
+
         if (mListener != null) {
-            mListener.onAddSubCatFragmentInteraction(mSubCategory);
+            mListener.onAddSubCatFragmentInteraction(mSubCategories);
         }
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -117,18 +180,8 @@ public class SubCategoryFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnAddSubCatFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onAddSubCatFragmentInteraction(SubCategories subCategory);
+        void onAddSubCatFragmentInteraction(List<SubCategories> subCategories);
     }
 }

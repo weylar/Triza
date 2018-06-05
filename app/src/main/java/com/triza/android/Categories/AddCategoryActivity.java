@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -22,14 +25,15 @@ import com.triza.android.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddCategoryActivity extends AppCompatActivity implements AddCategoryFragment.OnAddCatFragmentContinueListener, SubCategoryFragment.OnAddSubCatFragmentInteractionListener{
 
 
-
-    private  Categories mCategory;
-    private  SubCategories mSubCategory;
+    public static Categories mCategory;
+    FragmentTransaction fragmentTransaction;
 
     private ProgressBar cat_saving_prgBr;
 
@@ -47,8 +51,11 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
 	AddCategoryFragment addCategoryFragment;
 	SubCategoryFragment subCategoryFragment;
-
-
+    FragmentManager fragmentManager;
+    Fragment fragmentOld;
+    int fragCount = 0;
+    TextView fragName;
+    private List<SubCategories> mSubCategories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,32 +63,64 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
         setContentView(R.layout.activity_add_category);
 
         cat_saving_prgBr = findViewById(R.id.cat_saving_progress_bar);
-
+        fragName = findViewById(R.id.frag_name);
 
         // Check whether the activity is using the layout version with
         // the fragment_container FrameLayout. If so, we must add the first fragment
         if (findViewById(R.id.newCatFragmentHolder) != null) {
 
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            // Create an instance of AddCategoryFragment
+            fragmentManager = getSupportFragmentManager();
             addCategoryFragment = new AddCategoryFragment();
+            subCategoryFragment = new SubCategoryFragment();
 
-            // In case this activity was started with special instructions from an Intent,
-            // pass the Intent's extras to the fragment as arguments
-            addCategoryFragment.setArguments(getIntent().getExtras());
+            /*This method sets my overview fragment by activity launch*/
+            setUpFragment(savedInstanceState, addCategoryFragment, fragName, "Overview");
 
-            // Add the fragment to the 'newCatFragmentHolder' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.newCatFragmentHolder, addCategoryFragment).commit();
         }
 
 
+//        // Check whether the activity is using the layout version with
+//        // the fragment_container FrameLayout. If so, we must add the first fragment
+//        if (findViewById(R.id.newCatFragmentHolder) != null) {
+//
+//            // However, if we're being restored from a previous state,
+//            // then we don't need to do anything and should return or else
+//            // we could end up with overlapping fragments.
+//            if (savedInstanceState != null) {
+//                return;
+//            }
+//
+//            // Create an instance of AddCategoryFragment
+//            addCategoryFragment = new AddCategoryFragment();
+//
+//            // In case this activity was started with special instructions from an Intent,
+//            // pass the Intent's extras to the fragment as arguments
+//            addCategoryFragment.setArguments(getIntent().getExtras());
+//
+//            // Add the fragment to the 'newCatFragmentHolder' FrameLayout
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.newCatFragmentHolder, addCategoryFragment).commit();
+//        }
+
+
+    }
+
+    public void onSaveAndContinueButton(View view) {
+        fragCount += 1; //This increments by 1
+
+        if (fragCount == 1) {
+            //go get the data entered from AddCategoryfragment then move to SubCatFragment
+            addCategoryFragment.onContinueButtonPressed();
+
+            setUpFragment(subCategoryFragment, fragName, "Sub Categories");
+        } else if (fragCount == 2) {
+            //go get the dat entered in subCatFragment and then save to firebase
+            subCategoryFragment.onSaveButtonPressed();
+
+            // save the data to firebase
+            saveCategoryToFirebase();
+
+        }
     }
 
     public  void imagePicker(View view){
@@ -92,15 +131,84 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
     }
 
-    //addNewCaegory button on fragment_add_category clicked
-    public  void addNewCategory(View view){
-        addCategoryFragment.onContinueButtonPressed();
+    public void backPressed(View v) {
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        startActivity(intent);
+        finish();
     }
-    //saveToFirebase button on fragment_sub_category clicked
-    public  void saveToFirebase(View view){
-        cat_saving_prgBr.setVisibility(View.VISIBLE);
-        subCategoryFragment.onSaveButtonPressed();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        fragCount -= 1;
+        if (fragCount < 0) {
+//            Intent intent = new Intent(this, HomeActivity.class);
+//            startActivity(intent);
+            finish();
+        }
+        if (fragCount == 0) {
+
+            fragName.setText("Overview");
+        }
+        if (fragCount == 1) {
+
+            fragName.setText("Sub Categories");
+        }
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    public void setUpFragment(Fragment fragmentNew, TextView fragName, String fragNameVal) {
+
+        if (fragNameVal == "Sub Categories") {
+            fragmentNew = new SubCategoryFragment();
+            Bundle args = new Bundle();
+            args.putString(SubCategoryFragment.ARG_CAT_TITLE, mCategory.getCatTitle());
+            args.putString(SubCategoryFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());
+            fragmentNew.setArguments(args);
+        }
+
+        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentNew.setArguments(getIntent().getExtras());
+        fragmentTransaction.replace(R.id.newCatFragmentHolder, fragmentNew);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        fragName.setText(fragNameVal);
+
+
+    }//without bundle
+
+    //with bundle
+    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, TextView fragName, String fragNameVal) {
+        // However, if we're being restored from a previous state,
+        // then we don't need to do anything and should return or else
+        // we could end up with overlapping fragments.
+        if (savedInstanceState != null) {
+            return;
+        }
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentOld = fragmentManager.findFragmentById(R.id.newCatFragmentHolder);
+
+
+        fragmentNew.setArguments(getIntent().getExtras());
+
+        if (fragmentOld != null) {
+            fragmentTransaction.remove(fragmentOld);
+        }
+        fragmentTransaction.add(R.id.newCatFragmentHolder, fragmentNew).commit();
+
+        fragName.setText(fragNameVal);
+
+
+    } //with bundle
+
+
+
 
 
     @Override
@@ -114,39 +222,8 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     }
 
     @Override
-    public void onFragmentInteraction(Categories category) {
+    public void onAddCatFragmentInteraction(Categories category) {
         mCategory =  category;
-
-        //TODO:start sub category fragment
-
-//         subCategoryFragment = getSupportFragmentManager().findFragmentById(R.id.sub_category_fragment);
-
-//        if (subCategoryFragment != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
-//            subCategoryFragment.updateArticleView(position);
-
-//        } else {
-            // If the frag is not available, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected article
-            subCategoryFragment = new SubCategoryFragment();
-            Bundle args = new Bundle();
-            args.putString(SubCategoryFragment.ARG_CAT_TITLE, category.getCatTitle());
-            args.putString(SubCategoryFragment.ARG_CAT_IMAGE_URL, mSelectedImageUrl.toString());//get the local image
-			subCategoryFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.newCatFragmentHolder, subCategoryFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-//        }
-
 
     }
 
@@ -197,14 +274,19 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                    // mCategoriesDatabaseReference.push().setValue(mCategory);
                     //add empty data and get the pushId/key
                     String catId = mCategoriesDatabaseReference.push().getKey();
-                    mSubCategory.setCatId(catId);
                     mCategory.setCatId(catId);
                     //creat a child using the created/gotten (pushId) key of the empty data created
                     mCategoriesDatabaseReference.child(catId).setValue(mCategory);
 
+                    for (SubCategories subCategory : mSubCategories) {
+                        subCategory.setCatId(catId);
+                        //save sub_category
+                        mSubCategoriesDatabaseReference.push().setValue(subCategory);
 
-                    //save sub_category
-                    mSubCategoriesDatabaseReference.push().setValue(mSubCategory);
+                    }
+
+
+
                     Toast.makeText(AddCategoryActivity.this, mCategory.getCatTitle()+" added to category", Toast.LENGTH_LONG).show();
                     cat_saving_prgBr.setVisibility(View.GONE);
                             finish();
@@ -220,11 +302,11 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
     }
 
     @Override
-    public void onAddSubCatFragmentInteraction(SubCategories subCategory) {
-        mSubCategory = subCategory;
+    public void onAddSubCatFragmentInteraction(List<SubCategories> subCategories) {
+        mSubCategories = subCategories;
 
         //save to database
-        saveCategoryToFirebase();
+//        saveCategoryToFirebase();
 
     }
 }

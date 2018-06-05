@@ -26,17 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.FavouritesAdapterVertical;
 import com.triza.android.Dialogs.ConfirmDeleteAllFav;
-import com.triza.android.Gigs.Gigs;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
-import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.RecyclerItemTouchHelper;
 import com.triza.android.Search.Search;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, ConfirmDeleteAllFav.DeleteAll{
     ImageView  search;
@@ -46,27 +42,21 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     public static LinearLayout favoriteLayout, emptyFavorites;
     public static TextView deleteAll;
 
-    List<Gigs> favouriteGigs = new ArrayList<>();
+    public List<Favourites> favouriteGigs = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFavouritesDatabaseReference;
+    private DatabaseReference mGigsDatabaseReference;
     private DataSnapshot favouritesDataSnapshots;
 
-    private String user_id = "muilat";
-
-//    //needed to backup the id of the swap-removed fav
-//    String favId;
-
+    private String user_id = "muib";
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //get the favourite gigs loaded from the HomeActivity
         favouriteGigs = HomeActivity.favouriteGigs;
-        //Instanciate firebase variables
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
+
 
     }
 
@@ -74,11 +64,15 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorites_fragment_layout, container, false);
 
+        //Instanciate firebase variables
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
+        mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
+
+
         emptyFavorites = view.findViewById(R.id.empty_favorites);
 
         deleteAll = view.findViewById(R.id.delete_all);
-
-
 
 
         deleteAll.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +89,6 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
         });
 
         favoriteLayout = view.findViewById(R.id.favorite_layout);
-
 
 
         search = view.findViewById(R.id.ic_search_fav);
@@ -146,20 +139,22 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     @Override
     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof FavouritesAdapterVertical.MyViewHolder){
-            String itemName = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition()).getGigTitle();// a dummy way of getting the gig title to display on snackbar whenm swipped
+            String itemName = FavouritesAdapterVertical.favList.get(viewHolder.getAdapterPosition()).getGig().getGigTitle();// a dummy way of getting the gig title to display on snackbar whenm swipped
 
         /*Backup of removed item for undo purpose*/
-        final Gigs deletedGigs = FavouritesAdapterVertical.gigsList.get(viewHolder.getAdapterPosition());
+            final Favourites deletedFav = FavouritesAdapterVertical.favList.get(viewHolder.getAdapterPosition());
         final int deletedIndex = viewHolder.getAdapterPosition();
 
         //ref where filter_index = muilat_123-kbdhd-61yddn-
-        mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + deletedGigs.getGigId())
+            mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + deletedFav.getGigId())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
+                            for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                                favGigSnapshot.getRef().removeValue();
+                            }
 
-                            mFavouritesDatabaseReference.removeValue();
                         }
 
                     }
@@ -181,11 +176,12 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
             public void onClick(View view) {
 
                 //TODO:resave the item to db
-                mFavouritesDatabaseReference.push().setValue(new Favourites(user_id, deletedGigs.getGigId(), user_id + "_" + deletedGigs.getGigId()));
+                mFavouritesDatabaseReference.push().setValue(new Favourites(user_id, deletedFav.getGigId(), user_id + "_" + deletedFav.getGigId()));
 
 
                 /*undo by restoring gig*/
-                favouritesAdapterVertical.restoreItem(deletedGigs, deletedIndex);
+                favouritesAdapterVertical.restoreItem(deletedFav, deletedIndex);
+                emptyFavorites.setVisibility(View.GONE);
             }
         });
         snackbar.setActionTextColor(Color.YELLOW);
@@ -201,18 +197,13 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-                    Favourites favGig = favGigSnapshot.getValue(Favourites.class);
-//                    favouriteGigs.add(gig);
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("/" + favGig.getFavouriteId()+ "/",null);
-                    mFavouritesDatabaseReference.updateChildren(map);
-
+                    favGigSnapshot.getRef().removeValue();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getActivity(), databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
