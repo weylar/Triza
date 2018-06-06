@@ -198,8 +198,8 @@ public class AddGigActivity extends AppCompatActivity implements AddGigOverviewF
         super.onBackPressed();
         fragCount -=1;
         if (fragCount < 0){
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, HomeActivity.class);
+//            startActivity(intent);
             finish();
         }
         if (fragCount == 0){

@@ -34,6 +34,7 @@
                 android:layout_margin="15dp"
                 android:layout_centerInParent="true"
                 android:gravity="center"
+                android:id="@+id/frag_name"
                 android:text="@string/categories"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tool_bar_text_size"
@@ -53,13 +54,11 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <GridView
-        android:id="@+id/cat_grid_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" />
+        android:id="@+id/catFragmentHolder">
+
+    </FrameLayout>
 
 </LinearLayout>

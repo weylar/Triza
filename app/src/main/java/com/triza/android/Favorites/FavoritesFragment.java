@@ -84,7 +84,6 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
                 dialog.setTargetFragment(FavoritesFragment.this, 0);
 
                 dialog.show(getFragmentManager(), "123");
-                dialog.show(getFragmentManager(), "123");
             }
         });
 

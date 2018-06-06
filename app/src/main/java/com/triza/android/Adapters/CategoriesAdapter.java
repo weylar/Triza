@@ -18,7 +18,6 @@ import java.util.List;
 public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
 
-
     //the type is just so we can use the same adapter for both CATEGORIESACTIVITY and the Spinner
     public CategoriesAdapter(Activity context, List<Categories> categories) {
         super(context, 0, categories);
@@ -49,17 +48,5 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
     }
 
-//    // And here is when the "chooser" is popped up
-//    // Normally is the same view, but you can customize it if you want
-//    @Override
-//    public View getDropDownView(int position, View convertView,
-//                                ViewGroup parent) {
-//        TextView label = (TextView) super.getDropDownView(position, convertView, parent);
-//        label.setTextColor(Color.BLACK);
-//        Categories category = getItem(position);
-//
-//        label.setText(category.getCatTitle());
-//
-//        return label;
-//    }
+
 }

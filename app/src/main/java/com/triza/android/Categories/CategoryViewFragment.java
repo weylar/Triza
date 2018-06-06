@@ -7,8 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.triza.android.Adapters.CategoriesAdapter;
 import com.triza.android.R;
 
@@ -16,6 +20,10 @@ import com.triza.android.R;
 public class CategoryViewFragment extends Fragment {
 
     CategoriesAdapter categoriesAdapter;
+
+    Categories selectedCategory;
+
+
 
     private OnCategorySelectedInteractionListener mListener;
 
@@ -41,19 +49,29 @@ public class CategoryViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_category_view, container, false);
 
-        GridView gridView = view.findViewById(R.id.cat_grid_list);
+        final GridView gridView = view.findViewById(R.id.cat_grid_list);
 
         gridView.setAdapter(categoriesAdapter);
 
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedCategory = (Categories)adapterView.getItemAtPosition(position);
 
+                if (mListener != null) {
+                    //call the overriden method in the implemented interface(in CategoryActivity)
+                    mListener.onCategorySelectedInteraction(selectedCategory);
+                }
+            }
+        });
         return view;
     }
 
-    public void onCategorySelected(Uri uri) {
-        if (mListener != null) {
-            mListener.onCategorySelectedInteraction(uri);
-        }
-    }
+//    public void onCategorySelected(Categories category) {
+//        if (mListener != null) {
+//            mListener.onCategorySelectedInteraction(selectedCategory);
+//        }
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -75,6 +93,6 @@ public class CategoryViewFragment extends Fragment {
 
     public interface OnCategorySelectedInteractionListener {
         // TODO: Update argument type and name
-        void onCategorySelectedInteraction(Uri uri);
+        void onCategorySelectedInteraction(Categories category);
     }
 }

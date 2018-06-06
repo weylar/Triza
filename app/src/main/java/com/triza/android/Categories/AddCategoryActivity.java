@@ -50,7 +50,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 	private StorageReference mStorageReference;
 
 	AddCategoryFragment addCategoryFragment;
-    public static List<SubCategories> mSubCategories = new ArrayList<>();
+    List<SubCategories> mSubCategories = new ArrayList<>();
     FragmentManager fragmentManager;
     Fragment fragmentOld;
     int fragCount = 0;
@@ -66,7 +66,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
         fragName = findViewById(R.id.frag_name);
 
         // Check whether the activity is using the layout version with
-        // the fragment_container FrameLayout. If so, we must add the first fragment
+        // the newCatFragmentHolder FrameLayout. If so, we must add the first fragment
         if (findViewById(R.id.newCatFragmentHolder) != null) {
 
             fragmentManager = getSupportFragmentManager();
@@ -280,8 +280,13 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
 
                     for (SubCategories subCategory : mSubCategories) {
                         subCategory.setCatId(catId);
+
+                        //add empty data and get the pushId/key
+                        String subCatId = mSubCategoriesDatabaseReference.push().getKey();
+                        subCategory.setSubCatId(subCatId);
+
                         //save sub_category
-                        mSubCategoriesDatabaseReference.push().setValue(subCategory);
+                        mSubCategoriesDatabaseReference.child(subCatId).setValue(subCategory);
 
                     }
 

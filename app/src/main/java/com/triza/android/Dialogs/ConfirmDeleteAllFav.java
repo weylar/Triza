@@ -35,7 +35,7 @@ public class ConfirmDeleteAllFav extends DialogFragment {
                 .setTitle("Action confirmation!")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-//                        mListener.deleteAll();
+                        mListener.deleteAll();
                     }
                 })
                 .setIcon(R.drawable.ic_warning_24dp)
