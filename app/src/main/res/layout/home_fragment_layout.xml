@@ -24,7 +24,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:padding="5dp"
-                android:src="@drawable/categories_black_50px" />
+                android:src="@drawable/ic_dashboard_black_35dp" />
 
             <TextView
                 android:layout_width="wrap_content"

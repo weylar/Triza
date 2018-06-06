@@ -50,7 +50,7 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
 
 
             Glide.with(getContext())
-                    .load(R.drawable.audio_black_50px)
+                    .load(R.drawable.programming_grey_50px)
                     .into(catImage);
 
 

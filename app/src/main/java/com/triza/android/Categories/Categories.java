@@ -65,7 +65,7 @@ public class Categories {
         return catDescription;
     }
     public int getGigCount() {
-        return gigCount;
+        return gigCount ;
     }
 
     @Override
