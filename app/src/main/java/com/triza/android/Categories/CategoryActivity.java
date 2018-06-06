@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +37,7 @@ public class CategoryActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.cat_toolbar);
         setSupportActionBar(toolbar);
 
-        GridView gridView = findViewById(R.id.cat_grid_list);
+        ListView listView = findViewById(R.id.cat_grid_list);
 
 
         //Instanciate firebase variables
@@ -44,6 +45,10 @@ public class CategoryActivity extends AppCompatActivity {
         mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");
 
           ArrayList categories = new ArrayList();
+          categories.add(new Categories("Programming & Tech", "Android, Web, Bots", "", 2345));
+          categories.add(new Categories("Business & Accounting", "Account statement, bank records", "", 2345));
+          categories.add(new Categories("Graphic & Design", "Flyers, business cards", "", 2345));
+          categories.add(new Categories("Fun & Lifestyle", "Sing, acts, play", "", 2345));
 
         categoriesAdapter = new CategoriesAdapter(this, categories, CategoriesAdapter.CATEGORY_VIEW);
 
@@ -53,7 +58,7 @@ public class CategoryActivity extends AppCompatActivity {
 
                 for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
                     Categories category = categorySnapshot.getValue(Categories.class);
-                    categoriesAdapter.add(category);
+                   // categoriesAdapter.add(category);
                 }
 
 
@@ -65,7 +70,7 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
-        gridView.setAdapter(categoriesAdapter);
+        listView.setAdapter(categoriesAdapter);
     }
     //    On back pressed method
      public void BackPressed(View view){

@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.triza.android.Categories.Categories;
 import com.triza.android.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 
@@ -34,17 +36,21 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
         // Gets the Categories object from the ArrayAdapter at the appropriate position
         Categories categories = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_grid_view, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_list_view, parent, false);
         }
         TextView catTitle = convertView.findViewById(R.id.cat_title);
+        TextView catDesc = convertView.findViewById(R.id.cat_desc);
         ImageView catImage = convertView.findViewById(R.id.cat_image);
+        TextView gigCount = convertView.findViewById(R.id.gig_count);
 
         catTitle.setText(categories.getCatTitle());
+        catDesc.setText(categories.getCatDescription());
+        gigCount.setText(categories.getGigCount() + "");
         if (type == CATEGORY_VIEW) {
 
 
             Glide.with(getContext())
-                    .load(categories.getCatImageUrl())
+                    .load(R.drawable.audio_black_50px)
                     .into(catImage);
 
 

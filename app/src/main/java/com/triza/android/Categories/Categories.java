@@ -7,14 +7,16 @@ public class Categories {
     private String catId;
     private long catDateAdded;
     private int noOfSubCategories;
+    private int gigCount;
 
     public Categories() {
     }
 
-    public Categories(String catTitle, String catDesc, String catImageUrl) {
+    public Categories(String catTitle, String catDesc, String catImageUrl, int gigCount) {
         this.catTitle = catTitle;
         this.catImageUrl = catImageUrl;
         this.catDescription = catDesc;
+        this.gigCount = gigCount;
     }
 
 
@@ -61,6 +63,9 @@ public class Categories {
 
     public String getCatDescription() {
         return catDescription;
+    }
+    public int getGigCount() {
+        return gigCount;
     }
 
     @Override

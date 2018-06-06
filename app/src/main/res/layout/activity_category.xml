@@ -53,13 +53,10 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <GridView
+    <ListView
         android:id="@+id/cat_grid_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" />
+        android:dividerHeight="2dp"/>
 
 </LinearLayout>
