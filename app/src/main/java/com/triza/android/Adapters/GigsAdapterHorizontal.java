@@ -2,6 +2,7 @@ package com.triza.android.Adapters;
 /*Created by weylar on 23/05/18*/
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,9 +61,17 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_horizontal, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_horizontal, parent, false);
+        final MyViewHolder viewHolder = new MyViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, viewHolder.getAdapterPosition() + "", Snackbar.LENGTH_SHORT).show();
 
-        return new MyViewHolder(itemView);
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -79,36 +88,9 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
         //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
+        checkFav(holder, gigs);
+        setFav(holder, gigs);
 
-        //TODO: replace the "muilat" in equalTo to loggedin user id
-        mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + gigs.getGigId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    favouritesDataSnapShot = dataSnapshot;
-                    holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
-
-                } else {
-                    holder.gigFavorite.setImageResource(R.drawable.ic_favorite_border_black_25dp);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-//        This checks if is true and place the right resources
-//        if (gigs.isFav()) {
-//            holder.gigFavorite.setImageResource(R.drawable.ic_favorite_border_black_25dp);
-//        } else {
-//            holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
-//        }
         // loading image using Glide library
         Glide.with(mContext).load(gigs.getGigImageUrl()).into(holder.gigImage);
 
@@ -119,6 +101,10 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
             }
         });
 
+
+    }
+
+    private void setFav(final MyViewHolder holder, final Gigs gigs) {
         holder.gigFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,7 +126,7 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
                         } else {
                             //user yet to add this gig, so add to favourites
                             String favId = mFavouritesDatabaseReference.push().getKey();
-                            mFavouritesDatabaseReference.child(favId).setValue(new Favourites(user_id, gigs.getGigId(), user_id + "_" + gigs.getGigId(),favId));
+                            mFavouritesDatabaseReference.child(favId).setValue(new Favourites(user_id, gigs.getGigId(), user_id + "_" + gigs.getGigId(), favId));
                             holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
                             Toast.makeText(mContext, "Gig added to favourites", Toast.LENGTH_SHORT).show();
 
@@ -159,9 +145,30 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
         });
     }
 
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
+    private void checkFav(final MyViewHolder holder, Gigs gigs) {
+        //TODO: replace the "muilat" in equalTo to loggedin user id
+        mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + gigs.getGigId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    favouritesDataSnapShot = dataSnapshot;
+                    holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
+
+                } else {
+                    holder.gigFavorite.setImageResource(R.drawable.ic_favorite_border_black_25dp);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void showPopupMenu(View view) {
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
@@ -171,9 +178,11 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
         popup.show();
     }
 
-    /**
-     * Click listener for popup menu items
-     */
+    @Override
+    public int getItemCount() {
+        return gigsList.size();
+    }
+
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         public MyMenuItemClickListener() {
@@ -198,8 +207,5 @@ public class GigsAdapterHorizontal extends RecyclerView.Adapter<GigsAdapterHoriz
 
     }
 
-    @Override
-    public int getItemCount() {
-        return gigsList.size();
-    }
+
 }

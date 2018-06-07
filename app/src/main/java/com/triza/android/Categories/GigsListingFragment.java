@@ -3,7 +3,6 @@ package com.triza.android.Categories;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.triza.android.Adapters.GigsAdapterVertical;
-import com.triza.android.Home.TrendingGigs;
-import com.triza.android.HomeActivity;
 import com.triza.android.R;
-import com.triza.android.RecyclerItemClickListeners;
+//import com.triza.android.RecyclerItemClickListeners;
 
 
 public class GigsListingFragment extends Fragment {
@@ -55,18 +52,18 @@ public class GigsListingFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);  //I set manager for recycler here
         recyclerView.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
         recyclerView.setAdapter(gigsAdapterVertical);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-
-            }
-        }));
+//        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(getActivity(), recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onLongItemClick(View view, int position) {
+//                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
+//
+//            }
+//        }));
 
         return view;
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Categories.AddCategoryActivity">
+    tools:context=".Admin.AddCategoryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

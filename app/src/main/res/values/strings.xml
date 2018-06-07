@@ -32,5 +32,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="_5_tags_max">5 tags max, each tags can be separated with space</string>
+    <string name="seperate_by_comma"> 5 tags max, each tags can be separated with comma \",\"</string>
+    <string name="five_tags_max"> 5 tags max</string>
+    <string name="package_name">Package \nName</string>
+    <string name="package_description">Package  \nDescription</string>
+    <string name="describe_your_package_in_details">Describe your package in details</string>
+    <string name="delivery_time">Delivery Time</string>
+    <string name="price">Price</string>
+    <string name="extra_offers">Extra Offers</string>
+    <string name="extra_fast_delivery">Extra Fast Delivery</string>
+    <string name="additional_revision">Additional Reviews</string>
+    <string name="select_cat">Select category and sub category</string>
+    <string name="input_search_tags">Input search tags</string>
+    <string name="add_your_package_name">Add your package name</string>
+    <string name="service_time">Select delivery time</string>
+    <string name="enter_price">Add your minimum price</string>
+    <string name="add_custom_offer">Add Custom Offer</string>
+    <string name="hint_custom_extra">Make your custom extra brief as possible</string>
 </resources>

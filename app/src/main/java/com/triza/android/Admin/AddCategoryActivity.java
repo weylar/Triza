@@ -1,4 +1,4 @@
-package com.triza.android.Categories;
+package com.triza.android.Admin;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.triza.android.Categories.Categories;
+import com.triza.android.Categories.SubCategories;
 import com.triza.android.R;
 
 import java.text.ParseException;
@@ -264,7 +266,7 @@ public class AddCategoryActivity extends AppCompatActivity implements AddCategor
                     SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
                     f.setLenient(false);
                     try {
-                        mCategory.catDateAdded = f.parse(f.format(new Date())).getTime();
+                        mCategory.setCatDateAdded(f.parse(f.format(new Date())).getTime());
 
                     } catch (ParseException e) {
                         e.printStackTrace();

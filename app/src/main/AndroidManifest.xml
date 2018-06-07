@@ -21,7 +21,7 @@
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
         <activity android:name=".Home.FeaturedGigs" />
-        <activity android:name=".Categories.AddCategoryActivity" />
+        <activity android:name=".Admin.AddCategoryActivity" />
         <activity android:name=".Gigs.AddGigActivity" />
         <activity android:name=".Home.TrendingGigs"></activity>
 

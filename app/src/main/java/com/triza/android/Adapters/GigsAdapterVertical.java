@@ -2,6 +2,7 @@ package com.triza.android.Adapters;
 /*Created by Aminu Idris on 13/05/18*/
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,10 +75,19 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
     }
 
     @Override
-    public GigsAdapterVertical.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
+        final MyViewHolder viewHolder = new MyViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        return new GigsAdapterVertical.MyViewHolder(itemView);
+                //TODO:go to detail activity
+                Snackbar.make(view, viewHolder.getAdapterPosition() + "", Snackbar.LENGTH_SHORT).show();
+
+            }
+        });
+        return viewHolder;
     }
 
     @Override
@@ -90,12 +100,27 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
         holder.gigPrice.setText("Min Price: " + gigs.getMinPrice());
         holder.gigOption.setImageResource(R.drawable.ic_more_vert_black_25dp);
 
-        //create favourites
-        //search favourites first tgo see if the gig is already liked or not
         //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
 
+        checkFav(holder, gigs);
+        setFav(holder, gigs);
+
+        // loading image using Glide library
+        Glide.with(mContext).load(gigs.getGigImageUrl()).into(holder.gigImage);
+
+        holder.gigOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupMenu(holder.gigOption);
+            }
+        });
+
+
+    }
+
+    private void checkFav(final MyViewHolder holder, Gigs gigs) {
         //formating the favourite icon
         mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + gigs.getGigId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -117,19 +142,9 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
 
             }
         });
+    }
 
-
-
-        // loading image using Glide library
-        Glide.with(mContext).load(gigs.getGigImageUrl()).into(holder.gigImage);
-
-        holder.gigOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.gigOption);
-            }
-        });
-
+    private void setFav(final MyViewHolder holder, final Gigs gigs) {
         holder.gigFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,7 +164,7 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
                         } else {
                             //user yet to add this gig, so add to favourites
                             String favId = mFavouritesDatabaseReference.push().getKey();
-                            mFavouritesDatabaseReference.child(favId).setValue(new Favourites(user_id, gigs.getGigId(), user_id + "_" + gigs.getGigId(),favId));
+                            mFavouritesDatabaseReference.child(favId).setValue(new Favourites(user_id, gigs.getGigId(), user_id + "_" + gigs.getGigId(), favId));
                             holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
                             Toast.makeText(mContext, "Gig added to favourites", Toast.LENGTH_SHORT).show();
 
@@ -168,9 +183,6 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
         });
     }
 
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
     private void showPopupMenu(View view) {
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
@@ -208,27 +220,6 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
     @Override
     public int getItemCount() {
         return gigsList.size();
-    }
-
-    public void removeItem(int position, View view, View v){
-        gigsList.remove(position);
-        if(gigsList.size() == 0){
-            view.setVisibility(View.VISIBLE);
-            v.setVisibility(View.GONE);
-        }
-        notifyItemRemoved(position);
-
-    }
-    public void restoreItem(Gigs gigs, int position){
-        gigsList.add(position, gigs);
-        notifyItemInserted(position);
-    }
-
-    public void removeAllItem(View view, View v) {
-        gigsList.clear();
-        view.setVisibility(View.VISIBLE);
-        v.setVisibility(View.GONE);
-      notifyDataSetChanged();
     }
 
 

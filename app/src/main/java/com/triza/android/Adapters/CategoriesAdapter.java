@@ -29,17 +29,21 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
         // Gets the Categories object from the ArrayAdapter at the appropriate position
         Categories categories = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_grid_view, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_list_view, parent, false);
         }
         TextView catTitle = convertView.findViewById(R.id.cat_title);
+        TextView catDesc = convertView.findViewById(R.id.cat_desc);
         ImageView catImage = convertView.findViewById(R.id.cat_image);
+        TextView gigCount = convertView.findViewById(R.id.gig_count);
 
         catTitle.setText(categories.getCatTitle());
 
+        catDesc.setText(categories.getCatDescription());
+        gigCount.setText(categories.getGigCount() + "");
 
-            Glide.with(getContext())
-                    .load(categories.getCatImageUrl())
-                    .into(catImage);
+        Glide.with(getContext())
+                .load(R.drawable.programming_grey_50px)
+                .into(catImage);
 
 
 

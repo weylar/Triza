@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,7 +9,7 @@
         android:id="@+id/home_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tool_bar_height"
-        android:layout_gravity="top"
+        android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:elevation="@dimen/elevation">
 
@@ -20,10 +19,11 @@
 
             <ImageView
                 android:id="@+id/ic_categories"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_categories_black_35dp" />
+                android:padding="5dp"
+                android:src="@drawable/ic_dashboard_black_35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,8 +136,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:background="@drawable/round_background"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_apps_white_30dp" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_format_list_bulleted_black_24dp" />
 
                 <TextView
                     android:id="@+id/all_cat"
@@ -164,7 +164,7 @@
                     android:layout_weight="2"
                     android:background="@drawable/round_background_red"
                     android:padding="10dp"
-                    android:src="@drawable/ic_laptop_mac_black_24dp" />
+                    android:src="@drawable/programing_100px" />
 
                 <TextView
                     android:id="@+id/prog"
@@ -192,7 +192,7 @@
                     android:layout_weight="2"
                     android:background="@drawable/round_background_blue"
                     android:padding="10dp"
-                    android:src="@drawable/ic_videocam_white_50dp" />
+                    android:src="@drawable/video_100px" />
 
                 <TextView
                     android:id="@+id/video"
@@ -219,7 +219,7 @@
                     android:layout_weight="2"
                     android:background="@drawable/round_background_yellow"
                     android:padding="10dp"
-                    android:src="@drawable/ic_music_note_white_30dp" />
+                    android:src="@drawable/audio_100px" />
 
                 <TextView
                     android:id="@+id/music"
@@ -246,7 +246,7 @@
                     android:layout_weight="2"
                     android:background="@drawable/round_background_black"
                     android:padding="10dp"
-                    android:src="@drawable/ic_card_travel_black_24dp" />
+                    android:src="@drawable/business_100px" />
 
                 <TextView
                     android:id="@+id/buss"

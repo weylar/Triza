@@ -5,13 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".Categories.CategoryViewFragment">
 
-    <GridView
-        android:id="@+id/cat_grid_list"
+    <ListView
+        android:id="@+id/cat_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:numColumns="3"
-        android:verticalSpacing="2dp" />
+        android:divider="@color/grey"
+        android:dividerHeight="1dp" />
 
 </FrameLayout>

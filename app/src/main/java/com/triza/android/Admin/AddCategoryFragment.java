@@ -1,4 +1,4 @@
-package com.triza.android.Categories;
+package com.triza.android.Admin;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.triza.android.Categories.Categories;
 import com.triza.android.R;
 
 

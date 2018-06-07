@@ -1,18 +1,14 @@
 package com.triza.android.Categories;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.triza.android.Adapters.CategoriesAdapter;
 import com.triza.android.R;
 
@@ -49,11 +45,12 @@ public class CategoryViewFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_category_view, container, false);
 
-        final GridView gridView = view.findViewById(R.id.cat_grid_list);
+        final ListView listView = view.findViewById(R.id.cat_list_view);
 
-        gridView.setAdapter(categoriesAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(categoriesAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 selectedCategory = (Categories)adapterView.getItemAtPosition(position);
@@ -67,11 +64,6 @@ public class CategoryViewFragment extends Fragment {
         return view;
     }
 
-//    public void onCategorySelected(Categories category) {
-//        if (mListener != null) {
-//            mListener.onCategorySelectedInteraction(selectedCategory);
-//        }
-//    }
 
     @Override
     public void onAttach(Context context) {

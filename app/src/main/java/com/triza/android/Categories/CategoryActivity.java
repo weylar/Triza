@@ -10,12 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +22,7 @@ import com.triza.android.Adapters.CategoriesAdapter;
 import com.triza.android.Adapters.GigsAdapterVertical;
 import com.triza.android.Gigs.Gigs;
 import com.triza.android.R;
+import com.triza.android.Search.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +68,6 @@ public class CategoryActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.cat_toolbar);
         setSupportActionBar(toolbar);
 
-//        GridView gridView = findViewById(R.id.cat_grid_list);
-
 
         //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -82,6 +77,11 @@ public class CategoryActivity extends AppCompatActivity
 
         ArrayList categories = new ArrayList();
         gigList = new ArrayList<>();
+
+//          categories.add(new Categories("Programming & Tech", "Android, Web, Bots", "", 2345));
+//          categories.add(new Categories("Business & Accounting", "Account statement, bank records", "", 2345));
+//          categories.add(new Categories("Graphic & Design", "Flyers, business cards", "", 2345));
+//          categories.add(new Categories("Fun & Lifestyle", "Sing, acts, play", "", 2345));
 
         categoriesAdapter = new CategoriesAdapter(this, categories);
         gigsAdapterVertical = new GigsAdapterVertical(this, categories);
@@ -105,7 +105,6 @@ public class CategoryActivity extends AppCompatActivity
             }
         });
 
-//        gridView.setAdapter(categoriesAdapter);
 
         fragName = findViewById(R.id.frag_name);
 
@@ -193,9 +192,8 @@ public class CategoryActivity extends AppCompatActivity
 
 
     public void searchClick(View view){
-        Intent moveToSearch = new Intent(context, AddCategoryActivity.class);
-        startActivity(moveToSearch);
-
+        Intent intent = new Intent(this, Search.class);
+        startActivity(intent);
     }
 
     @Override

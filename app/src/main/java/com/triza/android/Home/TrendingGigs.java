@@ -1,9 +1,8 @@
 package com.triza.android.Home;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.view.View;
 import com.triza.android.Adapters.GigsAdapterVertical;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
-import com.triza.android.RecyclerItemClickListeners;
 import com.triza.android.Search.Search;
 
 public class TrendingGigs extends AppCompatActivity {
@@ -32,18 +30,7 @@ public class TrendingGigs extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);  //I set manager for recycler here
         recyclerView.setItemAnimator(new DefaultItemAnimator()); //Animator for recycler view
         recyclerView.setAdapter(gigsAdapterVertical);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListeners(TrendingGigs.this, recyclerView, new RecyclerItemClickListeners.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onLongItemClick(View view, int position) {
-                Snackbar.make(view, position + "", Snackbar.LENGTH_SHORT).show();
-
-            }
-        }));
     }
     public void backPressed(View view){
         finish();

@@ -1,4 +1,4 @@
-package com.triza.android.Categories;
+package com.triza.android.Admin;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.triza.android.Categories.SubCategories;
 import com.triza.android.R;
 
 import java.util.ArrayList;
