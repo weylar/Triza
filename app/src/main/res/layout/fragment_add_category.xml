@@ -9,22 +9,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/cat_image_frame"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/cat_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:contentDescription="Click to select image"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Click to select image" />
+
+        </FrameLayout>
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cat_title_edt"
             android:hint="Category title" />
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cat_desc_edt"
             android:hint="Category Description" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/image_picker"
-            android:onClick="imagePicker"
-            android:src="@android:drawable/ic_menu_camera"/>
+        <!--<ImageButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/image_picker"-->
+        <!--android:onClick="subCatmagePicker"-->
+        <!--android:src="@android:drawable/ic_menu_camera"/>-->
 
 
     </LinearLayout>
