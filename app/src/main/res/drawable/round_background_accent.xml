@@ -3,13 +3,13 @@
     <item android:state_pressed="false">
         <shape android:shape="oval">
             <solid android:color="@color/colorAccent" />
-            <size android:width="100dp" android:height="100dp"/>
+            <size android:width="100dp" android:height="100dp" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="ring">
             <solid android:color="@color/colorAccent" />
-            <size android:width="100dp" android:height="100dp"/>
+            <size android:width="100dp" android:height="100dp" />
         </shape>
     </item>
 </selector>

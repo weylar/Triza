@@ -39,7 +39,7 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
     DataSnapshot favouritesDataSnapShot;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFavouritesDatabaseReference;
-    private String user_id = "muilat";
+    private String user_id = "muib";
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -76,11 +76,13 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gig_vertical, parent, false);
         final MyViewHolder viewHolder = new MyViewHolder(view);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //TODO:go to detail activity
                 Snackbar.make(view, viewHolder.getAdapterPosition() + "", Snackbar.LENGTH_SHORT).show();
 
             }
@@ -153,11 +155,9 @@ public class GigsAdapterVertical extends RecyclerView.Adapter<GigsAdapterVertica
                         if (dataSnapshot.exists()) {
 
                             //user already add the gigs to favourites, so delete it from favourites
-                            mFavouritesDatabaseReference.removeValue(new DatabaseReference.CompletionListener() {
-                                @Override
-                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                }
-                            });
+                            for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                                favGigSnapshot.getRef().removeValue();
+                            }
                             holder.gigFavorite.setImageResource(R.drawable.ic_favorite_border_black_25dp);
                             Toast.makeText(mContext, "Gig removed from favourites", Toast.LENGTH_SHORT).show();
 

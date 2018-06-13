@@ -58,7 +58,7 @@ dependencies {
     implementation  'com.theartofdev.edmodo:android-image-cropper:2.7.+' //Cropper dependency
 
 
-    implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
+//    implementation 'com.github.sd6352051:NiftyDialogEffects:v1.0.3'
 
 }
 

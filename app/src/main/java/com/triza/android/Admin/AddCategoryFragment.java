@@ -1,7 +1,6 @@
-package com.triza.android.Categories;
+package com.triza.android.Admin;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,25 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.triza.android.Categories.Categories;
 import com.triza.android.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddCategoryFragment.OnAddCatFragmentContinueListener} interface
- * to handle interaction events.
- * Use the {@link AddCategoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AddCategoryFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class AddCategoryFragment extends Fragment {
+
 
     private Categories mCategory;
     private String mCatImageUrl;
@@ -47,32 +33,12 @@ public class AddCategoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddCategoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddCategoryFragment newInstance(String param1, String param2) {
-        AddCategoryFragment fragment = new AddCategoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
 
-        }
     }
 
     @Override
@@ -96,7 +62,7 @@ public class AddCategoryFragment extends Fragment {
         mCatDescription = cat_desc_editText.getText().toString();
         mCategory = new Categories(mCatTitle,mCatDescription);
         if (mListener != null) {
-            mListener.onFragmentInteraction(mCategory);
+            mListener.onAddCatFragmentInteraction(mCategory);
         }
     }
 
@@ -129,6 +95,6 @@ public class AddCategoryFragment extends Fragment {
      */
     public interface OnAddCatFragmentContinueListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Categories category);
+        void onAddCatFragmentInteraction(Categories category);
     }
 }

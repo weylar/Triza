@@ -1,43 +1,28 @@
 package com.triza.android.Gigs;
 
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.TooltipCompat;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.triza.android.Dialogs.TagEntryInfo;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,19 +32,17 @@ import com.triza.android.Categories.Categories;
 import com.triza.android.Categories.SubCategories;
 import com.triza.android.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class AddGigOverviewFragment extends Fragment {
 
-    private EditText searchTagEditText;
+    boolean isTwise = false;
     TextView titleTextCount;
     ImageView tagInfo;
-    boolean isTwise = false;
     boolean isEdit = true;
+    private EditText searchTagEditText;
     ArrayAdapter<Categories> categoryAdapter;
     ArrayAdapter<SubCategories> subCategoryAdapter;
     private String gig_title, gig_desc = "", category_id = "", sub_cat_id = "", search_tag = "";
@@ -95,7 +78,7 @@ public class AddGigOverviewFragment extends Fragment {
         searchTagEditText = view.findViewById(R.id.search_tag_editText);
         catSpinner = view.findViewById(R.id.category_spinner);
         subCatSpinner = view.findViewById(R.id.sub_cat_spinner);
-      //tagInfo = view.findViewById(R.id.tag_info);
+        //tagInfo = view.findViewById(R.id.tag_info);
 
 
        /* tagInfo.setOnClickListener(new View.OnClickListener() {

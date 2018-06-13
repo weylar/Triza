@@ -18,9 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.triza.android.Categories.AddCategoryActivity;
+import com.triza.android.Admin.AddCategoryActivity;
 import com.triza.android.Categories.CategoryActivity;
 import com.triza.android.Favorites.FavoritesFragment;
+import com.triza.android.Favorites.Favourites;
 import com.triza.android.Gigs.AddGigActivity;
 import com.triza.android.Gigs.Gigs;
 import com.triza.android.Home.HomeFragment;
@@ -41,8 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     Fragment fragmentReference;
 
 
-    public static ArrayList<Gigs> gigList, favouriteGigs;
-    private String user_id = "muilat";
+    public static ArrayList<Gigs> gigList;
+    public static ArrayList<Favourites> favouriteGigs;
+    private String user_id = "muib";
 
 
 
@@ -103,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
         gigList = new ArrayList<>(); //Ths is where i instanciated my custom class and recycler adapter
         favouriteGigs = new ArrayList<>();
 
+
         //fetch gigs from firebase
         mGigsDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -122,23 +125,49 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //get favourite gigs mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
         mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id)
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                favouritesDataSnapshots = dataSnapshot;
-                for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-                    Gigs gig = favGigSnapshot.getValue(Gigs.class);
-                    favouriteGigs.add(gig);
-                }
-            }
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        favouriteGigs.clear();//clear the list before adding all the new data
+                        for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                            final Favourites favGig = favGigSnapshot.getValue(Favourites.class);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                            //get the gig of the fav
+                            mGigsDatabaseReference.orderByChild("gigId").equalTo(favGig.getGigId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot1) {
 
-            }
-        });
+                                    if (dataSnapshot1.exists()) {
+                                        for (DataSnapshot gigSnapshot : dataSnapshot1.getChildren()) {
+
+                                            Gigs gig = gigSnapshot.getValue(Gigs.class);
+                                            favGig.setGig(gig);
+
+                                            //add favGig to the list of favouriteGigs
+                                            favouriteGigs.add(favGig);
+                                        }
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
 
 
 

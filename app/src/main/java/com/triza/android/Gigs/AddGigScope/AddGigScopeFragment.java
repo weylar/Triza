@@ -129,7 +129,6 @@ public class AddGigScopeFragment extends Fragment {
                 edAddCustomOffer.getText().clear();
 
 
-
             }
         });
 

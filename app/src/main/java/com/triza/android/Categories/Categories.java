@@ -25,22 +25,6 @@ public class Categories {
         this.catDescription = catDesc;
     }
 
-    public void setCatImageUrl(String catImageUrl) {
-        this.catImageUrl = catImageUrl;
-    }
-
-    public void setCatId(String catId) {
-        this.catId = catId;
-    }
-
-    public void setCatDateAdded(long catDateAdded) {
-        this.catDateAdded = catDateAdded;
-    }
-
-    public void setNoOfSubCategories(int noOfSubCategories) {
-        this.noOfSubCategories = noOfSubCategories;
-    }
-
     public String getCatTitle() {
         return catTitle;
     }
@@ -49,23 +33,40 @@ public class Categories {
         return catDateAdded;
     }
 
+    public void setCatDateAdded(long catDateAdded) {
+        this.catDateAdded = catDateAdded;
+    }
+
     public String getCatId() {
         return catId;
+    }
+
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 
     public int getNoOfSubCategories() {
         return noOfSubCategories;
     }
 
+    public void setNoOfSubCategories(int noOfSubCategories) {
+        this.noOfSubCategories = noOfSubCategories;
+    }
+
     public String getCatImageUrl() {
         return catImageUrl;
+    }
+
+    public void setCatImageUrl(String catImageUrl) {
+        this.catImageUrl = catImageUrl;
     }
 
     public String getCatDescription() {
         return catDescription;
     }
+
     public int getGigCount() {
-        return gigCount ;
+        return gigCount;
     }
 
     @Override

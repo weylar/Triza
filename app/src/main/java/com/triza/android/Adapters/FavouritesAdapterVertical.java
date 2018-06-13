@@ -33,13 +33,13 @@ import java.util.List;
 public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAdapterVertical.MyViewHolder> {
 
     private Context mContext;
-    public static List<Gigs> gigsList;
+    public static List<Favourites> favList;
 
 
     DataSnapshot favouritesDataSnapShot;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFavouritesDatabaseReference;
-    private String user_id = "muilat";
+    private String user_id = "muib";
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -69,9 +69,9 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
     }
 
 
-    public FavouritesAdapterVertical(Context mContext, List<Gigs> gigsList) {
+    public FavouritesAdapterVertical(Context mContext, List<Favourites> favList) {
         this.mContext = mContext;
-        this.gigsList = gigsList;
+        this.favList = favList;
     }
 
     @Override
@@ -92,11 +92,12 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
     @Override
     public void onBindViewHolder(final FavouritesAdapterVertical.MyViewHolder holder, final int position) {
 
-        final Gigs gigs = gigsList.get(position);// Gets the item position
-        holder.gigTitle.setText(gigs.getGigTitle());
-        holder.gigRating.setText(gigs.getGigRating() + "");
-        holder.gigNoReview.setText("(" + gigs.getGigNoReview() + " reviews)");
-        holder.gigPrice.setText("Min Price: " + gigs.getMinPrice());
+        final Favourites favourite = favList.get(position);// Gets the item position
+        final Gigs gig = favourite.getGig();
+        holder.gigTitle.setText(gig.getGigTitle());
+        holder.gigRating.setText(gig.getGigRating() + "");
+        holder.gigNoReview.setText("(" + gig.getGigNoReview() + " reviews)");
+        holder.gigPrice.setText("Min Price: " + gig.getMinPrice());
         holder.gigOption.setImageResource(R.drawable.ic_more_vert_black_25dp);
         holder.gigFavorite.setImageResource(R.drawable.ic_favorite_accent_25dp);
 
@@ -106,7 +107,7 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
 
 
         // loading image using Glide library
-        Glide.with(mContext).load(gigs.getGigImageUrl()).into(holder.gigImage);
+        Glide.with(mContext).load(gig.getGigImageUrl()).into(holder.gigImage);
 
         holder.gigOption.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +116,7 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
             }
         });
 
-        setFav(holder, position, gigs);
+        setFav(holder, position, gig);
     }
 
     private void setFav(MyViewHolder holder, final int position, final Gigs gigs) {
@@ -129,13 +130,17 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
 
-                                    //user already add the gigs to favourites, so delete it from favourites
-                                    mFavouritesDatabaseReference.removeValue();
+                                    for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+//                                Gigs gig = favGigSnapshot.getValue(Gigs.class);
+                                        favGigSnapshot.getRef().removeValue();
 
-                                    //remove from adapter
-                                    removeItem(position, FavoritesFragment.emptyFavorites, FavoritesFragment.deleteAll);
+                                        //remove from adapter
+                                        removeItem(position, FavoritesFragment.emptyFavorites, FavoritesFragment.deleteAll);
 
-                                    Toast.makeText(mContext, "Gig removed from favourites", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, gigs.getGigTitle() + " removed from favourites", Toast.LENGTH_SHORT).show();
+
+                                    }
+
 
                                 }
 
@@ -162,6 +167,28 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
         popup.show();
     }
 
+    public void removeItem(int position, View view, View v) {
+        favList.remove(position);
+        if (favList.size() == 0) {
+
+            view.setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        }
+        notifyItemRemoved(position);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return favList.size();
+    }
+
+    public void restoreItem(Favourites fav, int position, View emptyView, View deleteAll) {
+        favList.add(position, fav);
+        emptyView.setVisibility(View.INVISIBLE);
+        deleteAll.setVisibility(View.VISIBLE);
+
+    }
 
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
@@ -172,7 +199,7 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.seller_profile:
-                    Toast.makeText(mContext, "Seller's profle", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Seller's profile", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.share_gig:
                     Toast.makeText(mContext, "Share gig", Toast.LENGTH_SHORT).show();
@@ -187,30 +214,8 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
 
     }
 
-    @Override
-    public int getItemCount() {
-        return gigsList.size();
-    }
-
-    public void removeItem(int position, View view, View v) {
-        gigsList.remove(position);
-        if (gigsList.size() == 0) {
-            view.setVisibility(View.VISIBLE);
-            v.setVisibility(View.GONE);
-        }
-        notifyItemRemoved(position);
-
-    }
-
-    public void restoreItem(Gigs gigs, int position, View emptyView, View deleteAll) {
-        gigsList.add(position, gigs);
-        emptyView.setVisibility(View.INVISIBLE);
-        deleteAll.setVisibility(View.VISIBLE);
-        notifyItemInserted(position);
-    }
-
     public void removeAllItem(View view, View v) {
-        gigsList.clear();
+        favList.clear();
         view.setVisibility(View.VISIBLE);
         v.setVisibility(View.GONE);
         notifyDataSetChanged();

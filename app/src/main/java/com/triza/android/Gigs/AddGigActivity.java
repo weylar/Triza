@@ -15,8 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.triza.android.Gigs.AddDescriptionFragment.AddGigDescriptionFragment;
-import com.triza.android.Gigs.AddGalleryGig.AddGigGalleryFragment;
 import com.triza.android.Gigs.AddGigScope.AddGigScopeFragment;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
@@ -26,9 +24,7 @@ import java.util.List;
 
 public class AddGigActivity extends AppCompatActivity {
 
-    private Gigs mGig;
-    private AddGigOverviewFragment addGigOverviewFragment;
-    private AddGigScopeFragment addGigScopeFragment;
+
     private FrameLayout one, two, three, four;
     private View oneFocus, twoFocus, threeFocus, fourFocus, oneFocusee, twoFocusee, threeFocusee, fourFocusee;
     private FragmentTransaction fragmentTransaction;

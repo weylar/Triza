@@ -1,10 +1,12 @@
 package com.triza.android.Favorites;
 
+import com.triza.android.Gigs.Gigs;
+
 public class Favourites {
     private String userId;
     private String gigId, favouriteId;
-    private String gigTitle;
 
+    private Gigs gig;
     //this is to ease query due to database realtime deficieny
     private String filter_index;
 
@@ -50,6 +52,16 @@ public class Favourites {
         return favouriteId;
     }
 
+    public Gigs getGig() {
+        return gig;
+    }
+
+
+    public void setGig(Gigs gig) {
+        this.gig = gig;
+    }
+
+
     public void setFavouriteId(String favouriteId) {
         this.favouriteId = favouriteId;
     }
@@ -57,11 +69,5 @@ public class Favourites {
         this.filter_index = filter_index;
     }
 
-    public String getGigTitle() {
-        return gigTitle;
-    }
 
-    public void setGigTitle(String gigTitle) {
-        this.gigTitle = gigTitle;
-    }
 }

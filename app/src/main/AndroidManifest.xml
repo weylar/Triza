@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.triza.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +22,7 @@
         <activity android:name=".Categories.CategoryActivity" />
         <activity android:name=".Search.Search" />
         <activity android:name=".Home.FeaturedGigs" />
-        <activity android:name=".Categories.AddCategoryActivity" />
+        <activity android:name=".Admin.AddCategoryActivity" />
         <activity android:name=".Gigs.AddGigActivity" />
         <activity android:name=".Home.TrendingGigs"/>
         <activity android:name=".Gigs.AddGalleryGig.CropImageActivity"/>

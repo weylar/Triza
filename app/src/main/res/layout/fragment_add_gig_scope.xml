@@ -260,8 +260,8 @@
             android:id="@+id/ed_add_extra_offer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="@string/hint_custom_extra"
             android:background="@drawable/rectangle_bg"
+            android:hint="@string/hint_custom_extra"
             android:inputType="text|textCapSentences|textMultiLine"
             android:padding="5dp" />
 

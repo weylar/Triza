@@ -3,7 +3,7 @@ package com.triza.android.Categories;
 public class SubCategories {
     String subCatTitle ;
     String catId;
-    String subSubCatUid;
+    String subCatId;
     int noOfServices;
 
     public SubCategories(){}
@@ -25,11 +25,17 @@ public class SubCategories {
     public String getCatId(){
         return catId;
     }
+    public String getSubCatId(){
+        return subCatId;
+    }
     public void setNoOfServices(int noOfServices){
         this.noOfServices = noOfServices;
     }
     public void setCatId(String catUid){
         this.catId = catUid;
+    }
+    public void setSubCatId(String subCatId){
+        this.subCatId = subCatId;
     }
 
     @Override
