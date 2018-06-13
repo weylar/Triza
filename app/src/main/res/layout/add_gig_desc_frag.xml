@@ -1,6 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Gigs.AddDescriptionFragment.AddGigDescriptionFragment">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="@string/briefly_describe_your_gig"
+        android:textSize="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:padding="5dp">
+
+
+        <EditText
+            android:id="@+id/gig_desc_editText"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="2dp"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:inputType="none|textCapSentences|textMultiLine"
+            android:padding="5dp" />
+
+
+        <TextView
+            android:id="@+id/desc_text_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/gig_desc_editText"
+            android:layout_marginRight="15dp"
+            tools:text="0/120 max" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_help_outline_grey_24dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@drawable/ic_info_black_24dp"
+        android:text="Frequently Asked Questions"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_faq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/tv_add_faq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/ic_add_box_grey_24dp"
+            android:drawablePadding="5dp"
+            android:text="@string/add_faq"
+
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_add_faq"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/ed_add_faq_question"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rectangle_bg"
+            android:hint="Add FAQ Question"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/ed_add_faq_answer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/rectangle_bg"
+            android:layout_below="@+id/ed_add_faq_question"
+            android:hint="Add FAQ Answer"
+            android:inputType="text|textCapSentences|textMultiLine"
+            android:gravity="top"
+            android:padding="5dp" />
+
+        <LinearLayout
+            android:id="@+id/control_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_cancel_faq"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/rectangle_button_bg"
+                android:text="cancel"
+                android:textColor="@color/white" />
+
+
+            <Button
+                android:id="@+id/bt_add_faq"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/rectangle_button_bg"
+                android:text="add"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

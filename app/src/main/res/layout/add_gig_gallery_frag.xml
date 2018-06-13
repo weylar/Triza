@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_bookmark_border_black_24dp"
+        android:drawablePadding="5dp"
+        android:text="@string/add_pictures_to_gallery"
+        android:textSize="15dp" />
+
+    <GridView
+        android:id="@+id/grid_pictures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numColumns="3" />
+
+    <ImageButton
+        android:id="@+id/picture_picker"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/rectangle_bg"
+        android:layout_marginLeft="10dp"
+        android:padding="30dp"
+        android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+
+</LinearLayout>

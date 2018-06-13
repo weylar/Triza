@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".Gigs.AddGigScopeFragment">
+    tools:context=".Gigs.AddGigScope.AddGigScopeFragment">
 
     <TextView
         android:id="@+id/tv_package_name"
@@ -194,7 +194,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/rectangle_bg"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -238,7 +238,6 @@
                 android:drawableLeft="@drawable/ic_add_box_grey_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/add_custom_offer"
-                android:textColor="@color/black"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 

@@ -1,9 +1,7 @@
 package com.triza.android.Gigs;
 
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,13 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.triza.android.Gigs.data.GigsContract;
+import com.triza.android.Gigs.AddDescriptionFragment.AddGigDescriptionFragment;
+import com.triza.android.Gigs.AddGalleryGig.AddGigGalleryFragment;
+import com.triza.android.Gigs.AddGigScope.AddGigScopeFragment;
 import com.triza.android.HomeActivity;
 import com.triza.android.R;
 
@@ -84,7 +83,7 @@ public class AddGigActivity extends AppCompatActivity {
 
 
             /*This method sets my overview fragment by activity launch*/
-            setUpFragment(savedInstanceState, fragmentOverview, oneFocus,oneFocusee, fragName, "Overview");
+            setUpFragment(savedInstanceState, fragmentOverview, oneFocus, oneFocusee, fragName, "Overview");
 
         }
     }
@@ -97,9 +96,9 @@ public class AddGigActivity extends AppCompatActivity {
             fragCount += 1; //This increments by 1
         }
         if (fragCount == 1) {
-            setUpFragment(fragmentScope, twoFocus,twoFocusee, fragName, "Scope & Pricing");
+            setUpFragment(fragmentScope, twoFocus, twoFocusee, fragName, "Scope & Pricing");
         } else if (fragCount == 2) {
-            setUpFragment(fragmentDescription, threeFocus,threeFocusee, fragName, "Description");
+            setUpFragment(fragmentDescription, threeFocus, threeFocusee, fragName, "Description");
         } else if (fragCount == 3) {
             setUpFragment(fragmentGallery, fourFocus, fourFocusee, fragName, "Gallery");
         }

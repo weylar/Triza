@@ -72,7 +72,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_dashboard_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio1/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_flip_to_front_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -82,11 +82,11 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="35" />
-                            <entry key="outputName" value="ic_dashboard_black_35dp" />
+                            <entry key="height" value="30" />
+                            <entry key="outputName" value="ic_flip_to_front_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\Softacles" />
-                            <entry key="width" value="35" />
+                            <entry key="width" value="30" />
                           </map>
                         </option>
                       </PersistentState>

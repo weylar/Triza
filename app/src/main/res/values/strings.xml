@@ -49,4 +49,22 @@
     <string name="enter_price">Add your minimum price</string>
     <string name="add_custom_offer">Add Custom Offer</string>
     <string name="hint_custom_extra">Make your custom extra brief as possible</string>
+    <string name="gig_description">Enter your Gig description</string>
+    <string name="briefly_describe_your_gig">Briefly describe your gig</string>
+    <string name="add_faq">Add FAQ</string>
+    <string name="update">UPDATE</string>
+    <string name="add">ADD</string>
+    <string name="delete">DELETE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="add_pictures_to_gallery">Add pictures to your to your gallery to improve your gig quality</string>
+    <string name="crop_image">Crop Image</string>
+    <string name="save_changes">Save changes</string>
+    <string name="delete_photo">Delete photo</string>
+    <string name="set_photo_as_main">Set photo as main</string>
+
+    <string-array name="show_guidelines">
+        <item>On Touch</item>
+        <item>On</item>
+        <item>Off</item>
+    </string-array>
 </resources>
