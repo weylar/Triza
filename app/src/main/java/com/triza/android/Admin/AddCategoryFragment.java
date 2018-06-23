@@ -51,7 +51,7 @@ public class AddCategoryFragment extends Fragment {
         cat_desc_editText = view.findViewById(R.id.cat_desc_edt);
         cat_title_editText = view.findViewById(R.id.cat_title_edt);
         sendButton = view.findViewById(R.id.sendBtn);
-        imagePicker = view.findViewById(R.id.image_picker);
+       // imagePicker = view.findViewById(R.id.image_picker);
 
 
         return  view;

@@ -87,8 +87,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:drawablePadding="2dp"
-        android:drawableRight="@drawable/ic_info_black_24dp"
         android:text="@string/service_time"
         android:textSize="15dp" />
 
@@ -130,8 +128,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:drawablePadding="2dp"
-        android:drawableRight="@drawable/ic_info_black_24dp"
         android:text="@string/enter_price"
         android:textSize="15dp" />
 

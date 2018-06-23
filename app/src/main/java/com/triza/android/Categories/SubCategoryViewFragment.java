@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.triza.android.Adapters.SubCatAdapter;
 import com.triza.android.R;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class SubCategoryViewFragment extends Fragment {
 
     private OnSubCategorySelectedInteractionListener mListener;
 
-//    List<SubCategories> subCategories =new ArrayList<>();
-    ArrayAdapter<SubCategories> subCategoryAdapter;
+    //    List<SubCategories> subCategories =new ArrayList<>();
+    SubCatAdapter subCategoryAdapter;
 
     public SubCategoryViewFragment() {
         // Required empty public constructor
@@ -41,15 +42,14 @@ public class SubCategoryViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sub_category_view, container, false);
 
-                        ListView subCategoryListView = view.findViewById(R.id.sub_categories_listView);
-                subCategoryAdapter = CategoryActivity.subCategoriesAdapter;
+        ListView subCategoryListView = view.findViewById(R.id.sub_categories_listView);
+        //subCategoryAdapter = CategoryActivity.subCategoriesAdapter;
+        subCategoryAdapter = new SubCatAdapter(getActivity(), new ArrayList<SubCategories>());
         subCategoryListView.setAdapter(subCategoryAdapter);
-
 
 
 //        subCategoryListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,7 +85,7 @@ public class SubCategoryViewFragment extends Fragment {
         });
 
 
-        return  view;
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

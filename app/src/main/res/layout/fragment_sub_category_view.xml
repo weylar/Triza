@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Categories.SubCategoryViewFragment">
 
-    <ListView
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:cardCornerRadius="5dp">
+
+        <ImageView
+            android:id="@+id/sub_cat_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rectangle_bg"
+            android:scaleType="centerCrop"
+            android:src="@drawable/c" />
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/select_subcategory" />
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/sub_categories_listView">
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:cardCornerRadius="5dp"
+        app:contentPadding="@dimen/card_content_padding">
 
-    </ListView>
-</FrameLayout>
+        <ListView
+            android:id="@+id/sub_categories_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </ListView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

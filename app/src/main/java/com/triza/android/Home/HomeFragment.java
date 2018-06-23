@@ -25,7 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.triza.android.Adapters.GigsAdapterHorizontal;
 import com.triza.android.Categories.CategoryActivity;
-import com.triza.android.HomeActivity;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 

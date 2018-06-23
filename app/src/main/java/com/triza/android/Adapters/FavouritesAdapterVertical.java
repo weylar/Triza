@@ -34,7 +34,7 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
 
     private Context mContext;
     public static List<Favourites> favList;
-
+    FavoritesFragment favoritesFragment;
 
     DataSnapshot favouritesDataSnapShot;
     private FirebaseDatabase mFirebaseDatabase;
@@ -131,17 +131,11 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
                                 if (dataSnapshot.exists()) {
 
                                     for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-//                                Gigs gig = favGigSnapshot.getValue(Gigs.class);
                                         favGigSnapshot.getRef().removeValue();
-
-                                        //remove from adapter
-                                        removeItem(position, FavoritesFragment.emptyFavorites, FavoritesFragment.deleteAll);
-
+                                        favoritesFragment = new FavoritesFragment();
+                                        removeItem(position, favoritesFragment.emptyFavorites, favoritesFragment.deleteAll);
                                         Toast.makeText(mContext, gigs.getGigTitle() + " removed from favourites", Toast.LENGTH_SHORT).show();
-
                                     }
-
-
                                 }
 
                             }
@@ -167,12 +161,11 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
         popup.show();
     }
 
-    public void removeItem(int position, View view, View v) {
+    public void removeItem(int position, View view, View deleteButton) {
         favList.remove(position);
         if (favList.size() == 0) {
-
             view.setVisibility(View.VISIBLE);
-            v.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
         }
         notifyItemRemoved(position);
 
@@ -185,7 +178,7 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
 
     public void restoreItem(Favourites fav, int position, View emptyView, View deleteAll) {
         favList.add(position, fav);
-        emptyView.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(View.GONE);
         deleteAll.setVisibility(View.VISIBLE);
 
     }
@@ -214,10 +207,10 @@ public class FavouritesAdapterVertical extends RecyclerView.Adapter<FavouritesAd
 
     }
 
-    public void removeAllItem(View view, View v) {
+    public void removeAllItem(View emptyView, View deleteIcon) {
         favList.clear();
-        view.setVisibility(View.VISIBLE);
-        v.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        deleteIcon.setVisibility(View.GONE);
         notifyDataSetChanged();
     }
 

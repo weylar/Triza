@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,10 +16,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.triza.android.Adapters.CustomOfferAdapter;
+import com.triza.android.AddGigInfoDialogs;
 import com.triza.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.triza.android.AddGigInfoDialogs.ADD_PACKAGE_DESCRIPTION;
+import static com.triza.android.AddGigInfoDialogs.ADD_PACKAGE_NAME;
+import static com.triza.android.AddGigInfoDialogs.EXTRA_OFFERS;
+import static com.triza.android.AddGigInfoDialogs.NAME;
 
 
 public class AddGigScopeFragment extends Fragment {
@@ -30,16 +37,9 @@ public class AddGigScopeFragment extends Fragment {
     int trackButtonState = 1;
     LinearLayout linearCustom;
 
-    public AddGigScopeFragment() {
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -140,6 +140,77 @@ public class AddGigScopeFragment extends Fragment {
                 tvAddCustomOffer.setVisibility(View.VISIBLE);
             }
         });
+
+        tvPackageName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (tvPackageName.getRight() - tvPackageName.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, ADD_PACKAGE_NAME);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigScopeFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+        tvPackageDesc.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (tvPackageDesc.getRight() - tvPackageDesc.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, ADD_PACKAGE_DESCRIPTION);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigScopeFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+        tvExtraOffer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (tvExtraOffer.getRight() - tvExtraOffer.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, EXTRA_OFFERS);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigScopeFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+
         return view;
     }
 

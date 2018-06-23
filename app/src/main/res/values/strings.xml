@@ -11,15 +11,10 @@
     <string name="featured_gigs">Featured Gigs</string>
     <string name="create_gig">Create a new gig</string>
     <string name="trending_gigs">Trending Gigs</string>
-    <string name="action_delete_all">Delete All</string>
     <string name="action_delete">Delete</string>
     <string name="continue_button">Continue</string>
-    <string name="gig_tag_hint">Separate each tags with \",\"</string>
-    <string name="gig_title">Gig Title</string>
-    <string name="search_tags">Search \nTags</string>
     <string name="gig_title_hint">Try making your title short, descriptive and catchy</string>
 
-    <string name="overview">Overview</string>
     <string name="empty_favorites_short">Your Favorites are empty</string>
     <string name="empty_favorites_long">Favorite Gigs help you keep track of the Gigs that you find interesting so that you can
     access them again at a later time.</string>
@@ -31,12 +26,7 @@
     <string name="search_description">Search through database of freelance services on Triza.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="seperate_by_comma"> 5 tags max, each tags can be separated with comma \",\"</string>
-    <string name="five_tags_max"> 5 tags max</string>
-    <string name="package_name">Package \nName</string>
-    <string name="package_description">Package  \nDescription</string>
-    <string name="describe_your_package_in_details">Describe your package in details</string>
     <string name="delivery_time">Delivery Time</string>
     <string name="price">Price</string>
     <string name="extra_offers">Extra Offers</string>
@@ -49,7 +39,6 @@
     <string name="enter_price">Add your minimum price</string>
     <string name="add_custom_offer">Add Custom Offer</string>
     <string name="hint_custom_extra">Make your custom extra brief as possible</string>
-    <string name="gig_description">Enter your Gig description</string>
     <string name="briefly_describe_your_gig">Briefly describe your gig</string>
     <string name="add_faq">Add FAQ</string>
     <string name="update">UPDATE</string>
@@ -58,13 +47,16 @@
     <string name="cancel">CANCEL</string>
     <string name="add_pictures_to_gallery">Add pictures to your to your gallery to improve your gig quality</string>
     <string name="crop_image">Crop Image</string>
-    <string name="save_changes">Save changes</string>
     <string name="delete_photo">Delete photo</string>
     <string name="set_photo_as_main">Set photo as main</string>
+    <string name="picture_format">Supported formats are .jpg and .png \nEach picture must not exceed 5mb</string>
+    <string name="image_removed">Image Removed!</string>
+    <string name="undo">Undo</string>
+    <string name="overview">Overview</string>
+    <string name="scope_pricing"><![CDATA[Scope & Pricing]]></string>
+    <string name="description">Description</string>
+    <string name="gallery">Gallery</string>
+    <string name="post_gig">Post Gig</string>
+    <string name="select_subcategory">Select Subcategory</string>
 
-    <string-array name="show_guidelines">
-        <item>On Touch</item>
-        <item>On</item>
-        <item>Off</item>
-    </string-array>
 </resources>

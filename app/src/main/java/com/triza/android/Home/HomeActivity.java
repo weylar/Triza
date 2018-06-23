@@ -1,4 +1,4 @@
-package com.triza.android;
+package com.triza.android.Home;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -24,8 +24,8 @@ import com.triza.android.Favorites.FavoritesFragment;
 import com.triza.android.Favorites.Favourites;
 import com.triza.android.Gigs.AddGigActivity;
 import com.triza.android.Gigs.Gigs;
-import com.triza.android.Home.HomeFragment;
 import com.triza.android.Profile.ProfileFragment;
+import com.triza.android.R;
 import com.triza.android.Search.Search;
 
 import java.util.ArrayList;
@@ -184,12 +184,6 @@ public class HomeActivity extends AppCompatActivity {
     private void displaySelectedFragment(String fragmentKind) {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentReference = fragmentManager.findFragmentById(R.id.fragmentHolder);
-//        Check if layout is emty or not
-        if (fragmentReference != null) {
-            fragmentTransaction.remove(fragmentReference);
-        }
-
-
         switch (fragmentKind) {
             case HOME_FRAGMENT:
                 fragmentNew = new HomeFragment();
@@ -204,7 +198,8 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentNew = new Fragment();
                 break;
         }
-        fragmentTransaction.add(R.id.fragmentHolder, fragmentNew).commit();
+        fragmentTransaction.replace(R.id.fragmentHolder, fragmentNew);
+        fragmentTransaction.commit();
 
 
     }

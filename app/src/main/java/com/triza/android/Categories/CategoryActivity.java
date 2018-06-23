@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,73 +21,54 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.CategoriesAdapter;
 import com.triza.android.Adapters.GigsAdapterVertical;
+import com.triza.android.Adapters.SubCatAdapter;
 import com.triza.android.Gigs.Gigs;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
-public class CategoryActivity extends AppCompatActivity
-        implements  CategoryViewFragment.OnCategorySelectedInteractionListener,
-        SubCategoryViewFragment.OnSubCategorySelectedInteractionListener,
-        GigsListingFragment.OnFragmentInteractionListener{
-    Context context = CategoryActivity.this;
-
+public class CategoryActivity extends AppCompatActivity implements CategoryViewFragment.OnCategorySelectedInteractionListener, SubCategoryViewFragment.OnSubCategorySelectedInteractionListener, GigsListingFragment.OnFragmentInteractionListener {
+    public static final String CAT_ID = "catId";
+    public static final String SUB_CAT_ID = "subCatId";
+    public static final String CATEGORIES = "categories";
+    public static final String SUB_CATEGORIES = "sub_categories";
+    public static final String GIGS = "gigs";
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mCategoriesDatabaseReference;
     private DatabaseReference mSubCategoriesDatabaseReference;
     private DatabaseReference mGigsDatabaseReference;
-
-
-    CategoryViewFragment categoryViewFragment;
-    SubCategoryViewFragment subCategoryViewFragment;
-    GigsListingFragment gigsListingFragment;
-
+    private CategoryViewFragment categoryViewFragment;
+    private SubCategoryViewFragment subCategoryViewFragment;
+    private GigsListingFragment gigsListingFragment;
     public static ArrayList<Gigs> gigList;
-
-    FragmentTransaction fragmentTransaction;
-    FragmentManager fragmentManager;
-    Fragment fragmentOld;
-    int fragCount = 0;
-    String[] frags = {"","Categories","",""};
-    TextView fragName;
-
-
+    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
+    private Fragment fragmentOld;
+    private Categories category;
+    private int fragCount = 0;
+    private String[] frags = {"", "Categories", "", ""};
+    private TextView fragName;
     public static CategoriesAdapter categoriesAdapter;
-    public static ArrayAdapter<SubCategories> subCategoriesAdapter;
-    public static GigsAdapterVertical gigsAdapterVertical;
-
-//    public static List<SubCategories> subCategories = new ArrayList<>();
+    public static SubCatAdapter subCategoriesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-
-//        Set toolbar as actionbar
         Toolbar toolbar = findViewById(R.id.cat_toolbar);
         setSupportActionBar(toolbar);
-
-
-        //Instanciate firebase variables
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");
-        mSubCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("sub_categories");
-        mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
-
-        ArrayList categories = new ArrayList();
+        mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child(CATEGORIES);
+        mSubCategoriesDatabaseReference = mFirebaseDatabase.getReference().child(SUB_CATEGORIES);
+        mGigsDatabaseReference = mFirebaseDatabase.getReference().child(GIGS);
         gigList = new ArrayList<>();
-
-//          categories.add(new Categories("Programming & Tech", "Android, Web, Bots", "", 2345));
-//          categories.add(new Categories("Business & Accounting", "Account statement, bank records", "", 2345));
-//          categories.add(new Categories("Graphic & Design", "Flyers, business cards", "", 2345));
-//          categories.add(new Categories("Fun & Lifestyle", "Sing, acts, play", "", 2345));
-
-        categoriesAdapter = new CategoriesAdapter(this, categories);
-        gigsAdapterVertical = new GigsAdapterVertical(this, categories);
-        subCategoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-
+        categoriesAdapter = new CategoriesAdapter(CategoryActivity.this, new ArrayList<Categories>());
+        subCategoriesAdapter = new SubCatAdapter(this, new ArrayList<SubCategories>());
         mCategoriesDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -104,68 +86,15 @@ public class CategoryActivity extends AppCompatActivity
 
             }
         });
-
-
         fragName = findViewById(R.id.frag_name);
-
-
-        // Check whether the activity is using the layout version with
-        // the catFragmentHolder FrameLayout. If so, we must add the first fragment
         if (findViewById(R.id.catFragmentHolder) != null) {
-
             fragmentManager = getSupportFragmentManager();
             categoryViewFragment = new CategoryViewFragment();
             subCategoryViewFragment = new SubCategoryViewFragment();
             gigsListingFragment = new GigsListingFragment();
-
             /*This method sets the categoryViewFragment by activity launch*/
             setUpFragment(savedInstanceState, categoryViewFragment, fragName, "Categories");
-
         }
-    }
-
-    public void setUpFragment(Fragment fragmentNew, TextView fragName, String fragNameVal) {
-        fragCount++;
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentNew.setArguments(getIntent().getExtras());
-        fragmentTransaction.replace(R.id.catFragmentHolder, fragmentNew);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        fragName.setText(fragNameVal);
-
-
-    }//without bundle
-
-    //with bundle
-    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, TextView fragName, String fragNameVal) {
-        fragCount++;
-
-        // However, if we're being restored from a previous state,
-        // then we don't need to do anything and should return or else
-        // we could end up with overlapping fragments.
-        if (savedInstanceState != null) {
-            return;
-        }
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentOld = fragmentManager.findFragmentById(R.id.catFragmentHolder);
-
-
-        fragmentNew.setArguments(getIntent().getExtras());
-
-        if (fragmentOld != null) {
-            fragmentTransaction.remove(fragmentOld);
-        }
-        fragmentTransaction.add(R.id.catFragmentHolder, fragmentNew).commit();
-
-        fragName.setText(fragNameVal);
-
-
-    } //with bundle
-
-    //    On back pressed method
-     public void BackPressed(View view){
-        finish();
     }
 
     @Override
@@ -183,34 +112,37 @@ public class CategoryActivity extends AppCompatActivity
 
             fragName.setText(frags[2]);
         }
-//        if (fragCount == 3) {
-//
-//            fragName.setText(frags[2]);
-//        }
 
     }
 
-
-    public void searchClick(View view){
+    public void searchClick(View view) {
         Intent intent = new Intent(this, Search.class);
         startActivity(intent);
     }
 
     @Override
     public void onCategorySelectedInteraction(Categories category) {
-
         getSubCategories(category.getCatId());
-
-        //start SubCategoryViewFragment
-        setUpFragment(subCategoryViewFragment,fragName,category.getCatTitle());
-        frags[2]= category.getCatTitle();
+        setUpFragment(subCategoryViewFragment, fragName, category.getCatTitle());
+        frags[2] = category.getCatTitle();
 
 
     }
 
-    public void getSubCategories(String category_id) {
-        final List<SubCategories> subCategoriesList = new ArrayList<>();
-        mSubCategoriesDatabaseReference.orderByChild("catId").equalTo(category_id).addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onSubCategorySelectedInteraction(SubCategories subCategory) {
+        getGigs(subCategory.getSubCatId());
+        setUpFragment(gigsListingFragment, fragName, subCategory.getSubCatTitle());
+
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+    }
+
+    private void getSubCategories(String category_id) {
+        mSubCategoriesDatabaseReference.orderByChild(CAT_ID).equalTo(category_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 subCategoriesAdapter.clear();
@@ -230,9 +162,8 @@ public class CategoryActivity extends AppCompatActivity
 
     }
 
-    public void getGigs(String sub_category_id){
-        //fetch gigs from firebase
-        mGigsDatabaseReference.orderByChild("subCatId").equalTo(sub_category_id).addValueEventListener(new ValueEventListener() {
+    public void getGigs(String sub_category_id) {
+        mGigsDatabaseReference.orderByChild(SUB_CAT_ID).equalTo(sub_category_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 gigList.clear();
@@ -251,19 +182,43 @@ public class CategoryActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public void onSubCategorySelectedInteraction(SubCategories subCategory) {
-        //get Gigs
-        getGigs(subCategory.getSubCatId());
+    public void setUpFragment(Fragment fragmentNew, TextView fragName, String fragNameVal) {
+        fragCount++;
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.catFragmentHolder, fragmentNew);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        fragName.setText(fragNameVal);
 
-        //start GigsListingFragment
-        setUpFragment(gigsListingFragment,fragName,subCategory.getSubCatTitle());
+
+    }//without bundle
+
+    //with bundle
+    public void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, TextView fragName, String fragNameVal) {
+        fragCount++;
+        if (savedInstanceState != null) {
+            return;
+        }
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentNew.setArguments(getIntent().getExtras());
+        fragmentTransaction.replace(R.id.catFragmentHolder, fragmentNew).commit();
+        fragName.setText(fragNameVal);
+
+
+    } //with bundle
+
+    public void BackPressed(View view) {
+        /*I wrote this to check for the instance of current inflated frag and decide the action on back pressed*/
+        Fragment f = fragmentManager.findFragmentById(R.id.catFragmentHolder);
+        if (f instanceof SubCategoryViewFragment) {
+            fragmentManager.popBackStack();
+        } else {
+            finish();
+        }
 
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
 }

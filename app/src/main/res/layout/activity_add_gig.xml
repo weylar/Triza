@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/full_fragment_holder"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
-                    android:onClick="backPressed"
+                    android:onClick="onCancel"
                     android:src="@drawable/ic_close_black_24dp" />
 
                 <LinearLayout
@@ -53,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/h1"
+                        android:textSize="13dp"
                         tools:text="Overview" />
 
                 </LinearLayout>
@@ -64,6 +65,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_margin="10dp"
+                    android:onClick="help"
                     android:src="@drawable/ic_help_outline_black_24dp" />
 
             </RelativeLayout>
@@ -244,7 +246,6 @@
 
 
     </LinearLayout>
-
 
     <ScrollView
         android:layout_width="match_parent"

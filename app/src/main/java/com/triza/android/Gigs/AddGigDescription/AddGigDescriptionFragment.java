@@ -1,4 +1,4 @@
-package com.triza.android.Gigs.AddDescriptionFragment;
+package com.triza.android.Gigs.AddGigDescription;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,26 +16,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.triza.android.Adapters.AddFaqAdapter;
-import com.triza.android.Gigs.AddDescriptionFragment.AddFaqClass;
+import com.triza.android.AddGigInfoDialogs;
 import com.triza.android.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.triza.android.AddGigInfoDialogs.DESCRIBE_GIG;
+import static com.triza.android.AddGigInfoDialogs.FREQUENTLY_ASKED_QUESTIONS;
+import static com.triza.android.AddGigInfoDialogs.NAME;
+
 /*Created by weylar on 23/05/18*/
 
 public class AddGigDescriptionFragment extends Fragment {
     EditText gigDesc, addQuestion, addAnswer;
-    TextView charCount, addFaq;
+    TextView charCount, addFaq, tvDescGig, tvFaq;
     Button cancelFaqButton, addFaqButton;
     RelativeLayout relAddFaq;
     LinearLayout linearLayout;
     int trackButtonState = 1;
 
-
-    public AddGigDescriptionFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -56,6 +57,8 @@ public class AddGigDescriptionFragment extends Fragment {
         cancelFaqButton = view.findViewById(R.id.bt_cancel_faq);
         relAddFaq = view.findViewById(R.id.rel_add_faq);
         linearLayout = view.findViewById(R.id.linear_faq);
+        tvDescGig = view.findViewById(R.id.tv_descrbe_gig);
+        tvFaq = view.findViewById(R.id.tv_faq);
 
         charCount.setText(0 + "/120 max");
         charCount.setTextColor(Color.rgb(0, 0, 0));
@@ -189,6 +192,54 @@ public class AddGigDescriptionFragment extends Fragment {
         };
         addQuestion.addTextChangedListener(textWatcher2);
         addAnswer.addTextChangedListener(textWatcher2);
+
+        tvDescGig.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (tvDescGig.getRight() - tvDescGig.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, DESCRIBE_GIG);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigDescriptionFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+        tvFaq.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (tvFaq.getRight() - tvFaq.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, FREQUENTLY_ASKED_QUESTIONS);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigDescriptionFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+
+        });
+
 
         return view;
     }

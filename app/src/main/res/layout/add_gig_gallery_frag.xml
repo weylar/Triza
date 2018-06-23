@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -16,20 +17,84 @@
         android:text="@string/add_pictures_to_gallery"
         android:textSize="15dp" />
 
-    <GridView
-        android:id="@+id/grid_pictures"
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/rectangle_bg"
+        android:padding="3dp">
+
+        <LinearLayout
+            android:id="@+id/empty_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bubble_chart_black_35dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Image To Preview" />
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/grid_pictures"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:verticalSpacing="2dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/picture_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_add_a_photo_black_24dp"
+            app:backgroundTint="#ffe945"
+            app:elevation="@dimen/elevation"
+            app:fabSize="normal"
+            app:rippleColor="@color/colorAccentDark" />
+    </RelativeLayout>
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numColumns="3" />
-
-    <ImageButton
-        android:id="@+id/picture_picker"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/rectangle_bg"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="10dp"
-        android:padding="30dp"
-        android:src="@drawable/ic_add_a_photo_black_24dp" />
+        android:layout_marginRight="10dp"
+        android:text="@string/picture_format"
+        android:textSize="10dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/cb_term_of_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:id="@+id/tv_term_of_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
 </LinearLayout>

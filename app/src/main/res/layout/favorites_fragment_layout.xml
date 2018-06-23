@@ -17,11 +17,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/ic_fav_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_favorite_black_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
+                android:layout_toRightOf="@+id/ic_fav_icon"
                 android:gravity="center"
                 android:text="@string/title_favorite"
                 android:textColor="@color/black"
@@ -29,27 +36,27 @@
                 android:textStyle="bold" />
 
 
-            <TextView
+            <ImageView
                 android:id="@+id/delete_all"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_toLeftOf="@+id/ic_search_fav"
-                android:gravity="center"
-                android:textAllCaps="true"
-                android:text="@string/action_delete_all"
-                android:textColor="@color/colorAccent"
-                android:textSize="15dp" />
+                android:src="@drawable/ic_delete_accent_24dp"
+                android:visibility="gone"/>
 
 
             <ImageView
                 android:id="@+id/ic_search_fav"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:gravity="center"
-
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_search_black_35dp" />
 
         </RelativeLayout>
@@ -72,7 +79,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_bubble_chart_black_24dp" />
+                android:src="@drawable/ic_bubble_chart_black_80dp" />
 
             <TextView
                 android:layout_width="wrap_content"

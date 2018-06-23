@@ -20,7 +20,6 @@ public class CategoryViewFragment extends Fragment {
     Categories selectedCategory;
 
 
-
     private OnCategorySelectedInteractionListener mListener;
 
     public CategoryViewFragment() {
@@ -40,8 +39,7 @@ public class CategoryViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_category_view, container, false);
 
@@ -53,7 +51,7 @@ public class CategoryViewFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                selectedCategory = (Categories)adapterView.getItemAtPosition(position);
+                selectedCategory = (Categories) adapterView.getItemAtPosition(position);
 
                 if (mListener != null) {
                     //call the overriden method in the implemented interface(in CategoryActivity)

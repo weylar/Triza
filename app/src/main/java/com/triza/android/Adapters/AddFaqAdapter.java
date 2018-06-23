@@ -9,7 +9,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.triza.android.Gigs.AddDescriptionFragment.AddFaqClass;
+import com.triza.android.Gigs.AddGigDescription.AddFaqClass;
 import com.triza.android.R;
 
 import java.util.List;

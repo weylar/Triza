@@ -1,7 +1,5 @@
-package com.triza.android.Gigs.AddDescriptionFragment;
+package com.triza.android.Gigs.AddGigDescription;
 
-
-import android.widget.TextView;
 
 public class AddFaqClass {
     private String question;

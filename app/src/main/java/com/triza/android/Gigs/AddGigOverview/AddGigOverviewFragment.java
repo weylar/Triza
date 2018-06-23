@@ -1,4 +1,4 @@
-package com.triza.android.Gigs;
+package com.triza.android.Gigs.AddGigOverview;
 
 
 import android.graphics.Bitmap;
@@ -13,6 +13,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.triza.android.AddGigInfoDialogs;
 import com.triza.android.Categories.Categories;
 import com.triza.android.Categories.SubCategories;
 import com.triza.android.R;
@@ -35,11 +37,15 @@ import com.triza.android.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.triza.android.AddGigInfoDialogs.ENTER_GIG_TITLE;
+import static com.triza.android.AddGigInfoDialogs.INPUT_SEARCH_TAG;
+import static com.triza.android.AddGigInfoDialogs.NAME;
+
 
 public class AddGigOverviewFragment extends Fragment {
 
     boolean isTwise = false;
-    TextView titleTextCount;
+    TextView titleTextCount, enterGigTitle, inputSearchTag;
     ImageView tagInfo;
     boolean isEdit = true;
     private EditText searchTagEditText;
@@ -64,33 +70,65 @@ public class AddGigOverviewFragment extends Fragment {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("categories");
         mSubCategoriesDatabaseReference = mFirebaseDatabase.getReference().child("sub_categories");
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_add_gig_overview_fragment, container, false);
         titleTextCount = view.findViewById(R.id.title_text_count);
         gigTitle_editText = view.findViewById(R.id.gig_title_editText);
         searchTagEditText = view.findViewById(R.id.search_tag_editText);
         catSpinner = view.findViewById(R.id.category_spinner);
         subCatSpinner = view.findViewById(R.id.sub_cat_spinner);
-        //tagInfo = view.findViewById(R.id.tag_info);
-
-
-       /* tagInfo.setOnClickListener(new View.OnClickListener() {
+        enterGigTitle = view.findViewById(R.id.enter_gig_title);
+        enterGigTitle.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                TagEntryInfo dialog = new TagEntryInfo();
-
-                /*this help to target this particular fragment in  the main activity*/
-               /* dialog.setTargetFragment(AddGigOverviewFragment.this, 0);
-                dialog.show(getFragmentManager(), "123");
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (enterGigTitle.getRight() - enterGigTitle.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, ENTER_GIG_TITLE);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigOverviewFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
             }
-        }); */
+
+        });
+
+        inputSearchTag = view.findViewById(R.id.input_search_tag);
+        inputSearchTag.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (motionEvent.getRawX() >= (inputSearchTag.getRight() - inputSearchTag.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        AddGigInfoDialogs addGigInfoDialogs = new AddGigInfoDialogs();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(NAME, INPUT_SEARCH_TAG);
+                        addGigInfoDialogs.setArguments(bundle);
+                        addGigInfoDialogs.setTargetFragment(AddGigOverviewFragment.this, 1);
+                        addGigInfoDialogs.show(getFragmentManager(), "123");
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+        });
+
+
 
 
         //programatically i set the text counter by using text watcher and attached to editetxt

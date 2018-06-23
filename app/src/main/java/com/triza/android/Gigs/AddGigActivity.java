@@ -2,52 +2,50 @@ package com.triza.android.Gigs;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.triza.android.Gigs.AddGigDescription.AddGigDescriptionFragment;
+import com.triza.android.Gigs.AddGigGallery.AddGigGalleryFragment;
+import com.triza.android.Gigs.AddGigOverview.AddGigOverviewFragment;
 import com.triza.android.Gigs.AddGigScope.AddGigScopeFragment;
-import com.triza.android.HomeActivity;
+import com.triza.android.Home.HomeActivity;
 import com.triza.android.R;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class AddGigActivity extends AppCompatActivity {
+public class AddGigActivity extends AppCompatActivity /*implements OnDataSentListener*/ {
 
 
     private FrameLayout one, two, three, four;
+    private Button buttonSend;
     private View oneFocus, twoFocus, threeFocus, fourFocus, oneFocusee, twoFocusee, threeFocusee, fourFocusee;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager fragmentManager;
-    private Fragment fragmentOld;
     private Fragment fragmentOverview;
     private Fragment fragmentScope;
     private Fragment fragmentDescription;
-    Fragment fragmentGallery;
-    private int fragCount = 0;
+    private Fragment fragmentGallery;
+    private int fragCount;
     private TextView fragName;
-
-    //firebase variable
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mGigsDatabaseReference;
-    private FirebaseStorage mFirebaseStorage;
-    private StorageReference mGigsImageStorageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_gig);
-
         one = findViewById(R.id.one);
         two = findViewById(R.id.two);
         three = findViewById(R.id.three);
@@ -61,135 +59,128 @@ public class AddGigActivity extends AppCompatActivity {
         twoFocusee = findViewById(R.id.two_focusee);
         threeFocusee = findViewById(R.id.three_focusee);
         fourFocusee = findViewById(R.id.four_focusee);
-
-        List<Gigs> gigs = new ArrayList<>();
+        buttonSend = findViewById(R.id.sendBtn);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
 
-
-        // Check whether the activity is using the layout version with
-        // the fragment_container FrameLayout. If so, we must add the first fragment
+        // Check whether the activity is using the layout version with the fragment_container FrameLayout. If so, we must add the first fragment
         if (findViewById(R.id.newGigFragmentHolder) != null) {
-
             fragmentManager = getSupportFragmentManager();
             fragmentOverview = new AddGigOverviewFragment();
             fragmentScope = new AddGigScopeFragment();
             fragmentDescription = new AddGigDescriptionFragment();
             fragmentGallery = new AddGigGalleryFragment();
 
-
-            /*This method sets my overview fragment by activity launch*/
-            setUpFragment(savedInstanceState, fragmentOverview, oneFocus, oneFocusee, fragName, "Overview");
+            /*This populates the overview fragment by default in oncreate*/
+            fragCount = 1;
+            setUpFragment(fragmentOverview, oneFocus, oneFocusee, fragName, getString(R.string.overview));
 
         }
     }
-
 
     public void onSaveAndContinueButton(View view) {
-        if (fragCount == 3) {
-            return;
-        } else {
-            fragCount += 1; //This increments by 1
-        }
-        if (fragCount == 1) {
-            setUpFragment(fragmentScope, twoFocus, twoFocusee, fragName, "Scope & Pricing");
-        } else if (fragCount == 2) {
-            setUpFragment(fragmentDescription, threeFocus, threeFocusee, fragName, "Description");
+        fragCount += 1;
+        if (fragCount == 2) {
+            setUpFragment(fragmentScope, twoFocus, twoFocusee, fragName, getString(R.string.scope_pricing));
         } else if (fragCount == 3) {
-            setUpFragment(fragmentGallery, fourFocus, fourFocusee, fragName, "Gallery");
+            setUpFragment(fragmentDescription, threeFocus, threeFocusee, fragName, getString(R.string.description));
+        } else if (fragCount == 4) {
+            setUpFragment(fragmentGallery, fourFocus, fourFocusee, fragName, getString(R.string.gallery));
+            buttonSend.setText(R.string.post_gig);
+            buttonSend.setEnabled(false);
+
         }
 
-        //addGigOverviewFragment.onSaveOverviewButtonPressed();
+
     }
 
 
-    public void backPressed(View v) {
+    public void onCancel(View v) {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
-    private void setUpFragment(Bundle savedInstanceState, Fragment fragmentNew, View viewYellow, View viewBlue, TextView fragName, String fragNameVal) {
-        // However, if we're being restored from a previous state,
-        // then we don't need to do anything and should return or else
-        // we could end up with overlapping fragments.
-        if (savedInstanceState != null) {
-            return;
-        }
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentOld = fragmentManager.findFragmentById(R.id.newGigFragmentHolder);
-        fragmentNew.setArguments(getIntent().getExtras());
+    public void help(View v){
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.addDefaultShareMenuItem();
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse("https://triza.com/help"));
 
-        if (fragmentOld != null) {
-            fragmentTransaction.remove(fragmentOld);
-        }
-        fragmentTransaction.add(R.id.newGigFragmentHolder, fragmentNew).commit();
+    }
 
-        viewYellow.setVisibility(View.VISIBLE);
-        viewBlue.setVisibility(View.VISIBLE);
-        fragName.setText(fragNameVal);
-
-
-    } //with bundle
-
-    /*Lol, my first trial of method overridden. Calling the same method name with diff parameters*/
-    private void setUpFragment(Fragment fragmentNew, View viewYellow, View viewBlue, TextView fragName, String fragNameVal) {
-
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentNew.setArguments(getIntent().getExtras());
-        fragmentTransaction.replace(R.id.newGigFragmentHolder, fragmentNew).commit();
-        fragmentTransaction.addToBackStack(null);
-        viewYellow.setVisibility(View.VISIBLE);
-        viewBlue.setVisibility(View.VISIBLE);
-        fragName.setText(fragNameVal);
-
-
-    }//without bundle
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        fragCount -= 1;
-        if (fragCount < 0) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-            finish();
+        if (fragCount > 0) {
+            fragCount -= 1;
         }
         if (fragCount == 0) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else if (fragCount == 1) {
             oneFocus.setVisibility(View.VISIBLE);
+            oneFocusee.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.GONE);
             twoFocusee.setVisibility(View.GONE);
             threeFocus.setVisibility(View.GONE);
             threeFocusee.setVisibility(View.GONE);
             fourFocus.setVisibility(View.GONE);
             fourFocusee.setVisibility(View.GONE);
-            fragName.setText("Overview");
-        }
-        if (fragCount == 1) {
+            fragName.setText(getString(R.string.overview));
+            buttonSend.setText(R.string.continue_button);
+            buttonSend.setEnabled(true);
+        } else if (fragCount == 2) {
             oneFocus.setVisibility(View.VISIBLE);
+            oneFocusee.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.VISIBLE);
+            twoFocusee.setVisibility(View.VISIBLE);
             threeFocus.setVisibility(View.GONE);
             threeFocusee.setVisibility(View.GONE);
             fourFocus.setVisibility(View.GONE);
             fourFocusee.setVisibility(View.GONE);
-            fragName.setText("Scope & Pricing");
-        }
-        if (fragCount == 2) {
+            fragName.setText(R.string.scope_pricing);
+            buttonSend.setText(R.string.continue_button);
+            buttonSend.setEnabled(true);
+        } else if (fragCount == 3) {
             oneFocus.setVisibility(View.VISIBLE);
+            oneFocusee.setVisibility(View.VISIBLE);
             twoFocus.setVisibility(View.VISIBLE);
+            twoFocusee.setVisibility(View.VISIBLE);
             threeFocus.setVisibility(View.VISIBLE);
+            threeFocusee.setVisibility(View.VISIBLE);
             fourFocus.setVisibility(View.GONE);
             fourFocusee.setVisibility(View.GONE);
-            fragName.setText("Description");
+            fragName.setText(R.string.description);
+            buttonSend.setText(R.string.continue_button);
+            buttonSend.setEnabled(true);
 
         }
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+
+    private void setUpFragment(Fragment fragmentNew, View viewYellow, View viewGreen, TextView fragName, String fragNameVal) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.newGigFragmentHolder, fragmentNew);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        viewYellow.setVisibility(View.VISIBLE);
+        viewGreen.setVisibility(View.VISIBLE);
+        fragName.setText(fragNameVal);
+
+
     }
 
 
+    /** @Override public void onDataSent(byte[] data) {
+    Bundle bundle = new Bundle();
+    bundle.putByteArray(BITMAP, data);
+    new AddGigGalleryFragment().setArguments(bundle);
+    }**/
 }

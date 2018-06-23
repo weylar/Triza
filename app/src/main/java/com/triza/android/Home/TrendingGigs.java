@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.triza.android.Adapters.GigsAdapterVertical;
-import com.triza.android.HomeActivity;
 import com.triza.android.R;
 import com.triza.android.Search.Search;
 

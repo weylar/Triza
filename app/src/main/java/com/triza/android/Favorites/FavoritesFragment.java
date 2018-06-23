@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.triza.android.Adapters.FavouritesAdapterVertical;
-import com.triza.android.HomeActivity;
+import com.triza.android.Home.HomeActivity;
 import com.triza.android.R;
 import com.triza.android.RecyclerItemTouchHelper;
 import com.triza.android.Search.Search;
@@ -32,18 +31,12 @@ import com.triza.android.Search.Search;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
-//import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
-
-
-public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
-    public static TextView deleteAll;
+public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, ConfirmDeleteAllFav.DeleteAll {
+    public  ImageView deleteAll, search;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     FavouritesAdapterVertical favouritesAdapterVertical;
-    public static LinearLayout favoriteLayout, emptyFavorites;
-    ImageView search;
-
+    public LinearLayout favoriteLayout, emptyFavorites;
     public List<Favourites> favouriteGigs = new ArrayList<>();
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mFavouritesDatabaseReference;
@@ -64,68 +57,29 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorites_fragment_layout, container, false);
-
-        //Instanciate firebase variables
+        favoriteLayout = view.findViewById(R.id.favorite_layout);
+        search = view.findViewById(R.id.ic_search_fav);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFavouritesDatabaseReference = mFirebaseDatabase.getReference().child("favourites");
         mGigsDatabaseReference = mFirebaseDatabase.getReference().child("gigs");
-
-
         emptyFavorites = view.findViewById(R.id.empty_favorites);
-
         deleteAll = view.findViewById(R.id.delete_all);
-
-//        deleteAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                final NiftyDialogBuilder niftyDialogBuilder = new NiftyDialogBuilder(getActivity());
-//                niftyDialogBuilder.withTitle("Action Confirmation!")
-//                        .withTitleColor("#000000")
-//                        .withMessage("Are you sure you want to delete?\nThis action can't be undone")
-//                        .withMessageColor("#000000")
-//                        .withDividerColor("#000000")
-//                        .withIcon(getResources().getDrawable(R.drawable.ic_warning_24dp))
-//                        .withEffect(Effectstype.SlideBottom)
-//                        .withDialogColor("#009688")
-//                        .withButton1Text("Cancel")
-//                        .withButton2Text("Yes, delete all!")
-//                        .isCancelableOnTouchOutside(true)
-//                        .setButton1Click(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                niftyDialogBuilder.cancel();
-//                            }
-//                        })
-//                        .setButton2Click(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                favouritesAdapterVertical.removeAllItem(emptyFavorites, deleteAll);
-//
-//                                mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-//                                            favGigSnapshot.getRef().removeValue();
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-//                                niftyDialogBuilder.cancel();
-//
-//                            }
-//                        })
-//                        .show();
-//            }
-//        });
-
-        favoriteLayout = view.findViewById(R.id.favorite_layout);
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConfirmDeleteAllFav confirmDeleteAllFav = new ConfirmDeleteAllFav();
+                confirmDeleteAllFav.setTargetFragment(FavoritesFragment.this, 1);
+                confirmDeleteAllFav.show(getFragmentManager(), "123");
 
 
-        search = view.findViewById(R.id.ic_search_fav);
+            }
+        });
+
+        if (favouriteGigs.size() > 0) {
+            deleteAll.setVisibility(View.VISIBLE);
+        }else{
+            emptyFavorites.setVisibility(View.VISIBLE);
+        }
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,59 +97,43 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
 
 
         /*This implement the swipe fuction of recycler viewer*/
-//<<<<<<< HEAD
         ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+        new ItemTouchHelper(simpleCallback)
+                .attachToRecyclerView(recyclerView);
 
-        /*Condition to check if to display empty fav or recycler fav*/
-        //hide delete_all if there is no favouriteGigs
-        if (favouriteGigs == null){
-            deleteAll.setVisibility(View.GONE);
-            emptyFavorites.setVisibility(View.VISIBLE);
-        }
 
         return view;
     }
 
     @Override
-    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof FavouritesAdapterVertical.MyViewHolder){
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction,
+                         int position) {
+        if (viewHolder instanceof FavouritesAdapterVertical.MyViewHolder) {
             String itemName = FavouritesAdapterVertical.favList.get(viewHolder.getAdapterPosition()).getGig().getGigTitle();// a dummy way of getting the gig title to display on snackbar whenm swipped
 
-        /*Backup of removed item for undo purpose*/
+            /*Backup of removed item for undo purpose*/
             final Favourites deletedFav = FavouritesAdapterVertical.favList.get(viewHolder.getAdapterPosition());
-        final int deletedIndex = viewHolder.getAdapterPosition();
+            final int deletedIndex = viewHolder.getAdapterPosition();
 
-        //ref where filter_index = muilat_123-kbdhd-61yddn-
+            //ref where filter_index = muilat_123-kbdhd-61yddn-
             mFavouritesDatabaseReference.orderByChild("filter_index").equalTo(user_id + "_" + deletedFav.getGigId())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-                                favGigSnapshot.getRef().removeValue();
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                                    favGigSnapshot.getRef().removeValue();
+                                }
+
                             }
 
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-//                /*undo by restoring gig*/
-//                favouritesAdapterVertical.restoreItem(deletedFav, deletedIndex);
-//                emptyFavorites.setVisibility(View.GONE);
-//            }
-//        });
-//        snackbar.setActionTextColor(Color.YELLOW);
-//        snackbar.show();
-//        }
-//    }
+                        }
+                    });
 
             /*This removes the item from the recycler view*/
             favouritesAdapterVertical.removeItem(viewHolder.getAdapterPosition(), emptyFavorites, deleteAll);
@@ -221,20 +159,25 @@ public class FavoritesFragment extends Fragment implements RecyclerItemTouchHelp
     }
 
 
+    @Override
+    public void deleteAll() {
+        favouritesAdapterVertical.removeAllItem(emptyFavorites, deleteAll);
+
+        mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
+                    favGigSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }
 
-
-//     mFavouritesDatabaseReference.orderByChild("userId").equalTo(user_id).addValueEventListener(new ValueEventListener() {
-//@Override
-//public void onDataChange(DataSnapshot dataSnapshot) {
-//        for (DataSnapshot favGigSnapshot : dataSnapshot.getChildren()) {
-//        favGigSnapshot.getRef().removeValue();
-//        }
-//        }
-//
-//@Override
-//public void onCancelled(DatabaseError databaseError) {
-//        Toast.makeText(getActivity(), databaseError.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//        }
-//        });
-//        =======

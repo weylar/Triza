@@ -1,5 +1,6 @@
 package com.triza.android.Adapters;
 
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class CategoriesAdapter extends ArrayAdapter<Categories> {
         Glide.with(getContext())
                 .load(R.drawable.programming_grey_50px)
                 .into(catImage);
+
 
 
 

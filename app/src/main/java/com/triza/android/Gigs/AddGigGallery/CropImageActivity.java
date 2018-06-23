@@ -1,67 +1,74 @@
-package com.triza.android.Gigs.AddGalleryGig;
+package com.triza.android.Gigs.AddGigGallery;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.triza.android.Adapters.GridPictureAdapter;
-import com.triza.android.Categories.AddCategoryActivity;
+
 import com.triza.android.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
+import java.io.ByteArrayOutputStream;
 
 /*Created by weylar on 23/05/18*/
 
-public class CropImageActivity extends AppCompatActivity {
+public class CropImageActivity extends Fragment {
     CropImageView cropImageView;
     TextView rotateLeft, reset, flipHorizontal, flipVertical, cropImage;
     ImageView cancelButton, saveButton;
-    static Bitmap croppedImage;
+    Bitmap croppedImage;
+    public static final String BITMAP = "BitmapImage";
+    OnDataSentListener mCallback;
+    AddGigGalleryFragment addGigGalleryFragment;
 
 
     public CropImageActivity() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        addGigGalleryFragment = new AddGigGalleryFragment();
+        try {
+            mCallback = (OnDataSentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement On ");
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_croper_layout);
 
-        cropImageView = findViewById(R.id.crop_image_view);
-        cancelButton = findViewById(R.id.cancel_button);
-        saveButton = findViewById(R.id.save_button);
-        rotateLeft = findViewById(R.id.rotate_left);
-        reset = findViewById(R.id.reset);
-        flipHorizontal = findViewById(R.id.flip_horizontal);
-        flipVertical = findViewById(R.id.flip_vertical);
-        cropImage = findViewById(R.id.tv_crop_image);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.image_croper_layout, container, false);
+
+        cropImageView = view.findViewById(R.id.crop_image_view);
+        cancelButton = view.findViewById(R.id.cancel_button);
+        saveButton = view.findViewById(R.id.save_button);
+        rotateLeft = view.findViewById(R.id.rotate_left);
+        reset = view.findViewById(R.id.reset);
+        flipHorizontal = view.findViewById(R.id.flip_horizontal);
+        flipVertical = view.findViewById(R.id.flip_vertical);
+        cropImage = view.findViewById(R.id.tv_crop_image);
 
         /*Sets image from uri passed through intent*/
-        cropImageView.setImageUriAsync(getIntent().getData());
+        cropImageView.setImageBitmap(addGigGalleryFragment.addPictureClass.getBitmap());
 
 
 
@@ -129,7 +136,7 @@ public class CropImageActivity extends AppCompatActivity {
                 if (cropImageView.getRotation() != 0) {
                     cropImageView.setRotation(0);
                 }
-                cropImageView.setImageUriAsync(getIntent().getData());
+                //  cropImageView.setImageUriAsync(getIntent().getData());
 
             }
         });
@@ -138,18 +145,25 @@ public class CropImageActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                getFragmentManager().popBackStack();
             }
         });
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                convertBitmapToByteArray();
             }
         });
+        return view;
+    }
 
-
+    void convertBitmapToByteArray() {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        croppedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        mCallback.onDataSent(bytes);
+        getFragmentManager().popBackStack();
     }
 
 
