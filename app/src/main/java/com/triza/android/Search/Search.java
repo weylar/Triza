@@ -2,6 +2,7 @@ package com.triza.android.Search;
 
 import android.app.SearchManager;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.triza.android.Home.HomeActivity;
 import com.triza.android.R;
 import com.triza.android.Search.data.SearchContract.SearchEntry;
 import com.triza.android.Search.data.SearchDbHelper;
@@ -215,7 +217,10 @@ public class Search extends AppCompatActivity {
     }
 
     public void onBackClick(View view) {
-        finish();
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
     }
 
     public void searchClick(View view) {
